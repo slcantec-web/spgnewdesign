@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Clock, MapPin, Phone, MessageCircle, ExternalLink, Compass } from 'lucide-react';
+import { Clock, MapPin, Phone, MessageCircle, ExternalLink, Smartphone } from 'lucide-react';
 import { STUDIO_INFO } from '../data/tailoringData';
 
 export const HoursAndLocation: React.FC = () => {
@@ -12,11 +12,19 @@ export const HoursAndLocation: React.FC = () => {
     const day = slDate.getDay(); // 0 is Sunday, 1 is Monday...
     const hour = slDate.getHours() + slDate.getMinutes() / 60;
 
-    const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const currentDayName = daysMap[day];
-
     let isOpen = false;
-    let closesAt = '17:30';
+    let daySinhala = 'සඳුදා (Monday)';
+
+    const daysSinhala = [
+      'ඉරිදා (Sunday)',
+      'සඳුදා (Monday)',
+      'අඟහරුවාදා (Tuesday)',
+      'බදාදා (Wednesday)',
+      'බ්‍රහස්පතින්දා (Thursday)',
+      'සිකුරාදා (Friday)',
+      'සෙනසුරාදා (Saturday)'
+    ];
+    daySinhala = daysSinhala[day];
 
     if (day >= 1 && day <= 6) {
       // Mon to Sat: 8:30 to 17:30
@@ -28,23 +36,22 @@ export const HoursAndLocation: React.FC = () => {
 
     return {
       isOpen,
-      currentDayName,
-      closesAt,
+      currentDayName: daySinhala,
     };
   }, []);
 
   return (
-    <section id="hours" className="py-20 md:py-28 bg-[#FAF8F5] border-t border-[#E6DDD0] relative">
+    <section id="hours" className="py-16 md:py-24 bg-[#FAF8F5] border-t border-[#E6DDD0] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Label */}
-        <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-3">
+        <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
           <span className="w-6 h-px bg-[#181614]" />
-          <span>Studio & Location</span>
+          <span>ලිපිනය සහ වේලාවන් (Location & Hours)</span>
         </div>
 
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.12] mb-12">
-          Visit our studio in <em className="italic text-[#C28E46]">Horampalla, Minuwangoda.</em>
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15] mb-10">
+          Visit our shop in <em className="italic text-[#C28E46]">Horampalla, Minuwangoda.</em>
         </h2>
 
         {/* 2-Column Responsive Layout */}
@@ -54,12 +61,12 @@ export const HoursAndLocation: React.FC = () => {
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             
             {/* Opening Hours Box */}
-            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] p-6 sm:p-7 shadow-xs">
-              <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-[#F0EAE1]">
-                <div className="flex items-center gap-2.5">
+            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] p-5 sm:p-6 shadow-xs">
+              <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-[#F0EAE1]">
+                <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-[#C28E46]" />
                   <h3 className="font-serif text-xl font-bold text-[#181614]">
-                    Studio Opening Hours
+                    විවෘත වේලාවන්
                   </h3>
                 </div>
 
@@ -76,12 +83,12 @@ export const HoursAndLocation: React.FC = () => {
                       status.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
                     }`}
                   />
-                  <span>{status.isOpen ? 'Open Now' : 'Closed Now'}</span>
+                  <span>{status.isOpen ? 'දැන් විවෘතයි' : 'දැනට වසා ඇත'}</span>
                 </span>
               </div>
 
               {/* Day-by-Day Schedule */}
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {STUDIO_INFO.hours.map((h) => {
                   const isToday = h.day === status.currentDayName;
                   return (
@@ -97,7 +104,7 @@ export const HoursAndLocation: React.FC = () => {
                         <span>{h.day}</span>
                         {isToday && (
                           <span className="text-[10px] font-mono text-[#C28E46] uppercase tracking-wider font-normal">
-                            · Today
+                            · අද දින
                           </span>
                         )}
                       </div>
@@ -109,33 +116,48 @@ export const HoursAndLocation: React.FC = () => {
                 })}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#F0EAE1] flex items-center justify-between">
+              <div className="mt-5 pt-3.5 border-t border-[#F0EAE1] flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs text-[#70665A]">
-                  Walk-in fittings welcomed during open hours.
+                  විවෘත වේලාවන් තුළ ඕනෑම වේලාවක පැමිණ මිනුම් ලබාදිය හැක.
                 </span>
-                <a
-                  href={`tel:${STUDIO_INFO.phoneClean}`}
-                  className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#C28E46]" />
-                  <span>Call Ahead</span>
-                </a>
+                <div className="flex items-center gap-3">
+                  <a
+                    href={`tel:${STUDIO_INFO.mobileClean}`}
+                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1"
+                  >
+                    <Smartphone className="w-3.5 h-3.5 text-[#C28E46]" />
+                    <span>077-8778317</span>
+                  </a>
+                  <a
+                    href={`tel:${STUDIO_INFO.phoneClean}`}
+                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#C28E46]" />
+                    <span>011-2283254</span>
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Quick Contact & Address Card */}
-            <div className="bg-[#181614] text-[#FAF8F5] rounded-2xl p-6 border border-white/10 shadow-md">
-              <span className="font-mono text-xs uppercase tracking-widest text-[#C28E46] block mb-2">
-                Studio Address
+            {/* Address & Direct Contact Card */}
+            <div className="bg-[#181614] text-[#FAF8F5] rounded-2xl p-5 sm:p-6 border border-white/10 shadow-md">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#C28E46] block mb-1.5">
+                Shop Address (ලිපිනය)
               </span>
               <p className="text-sm font-medium leading-relaxed text-[#EAE3D6] mb-4">
                 {STUDIO_INFO.address}
               </p>
 
-              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3.5 border-t border-white/10 text-xs">
                 <div>
-                  <span className="text-[#8C8275] block font-mono text-[10px] uppercase">Telephone</span>
-                  <a href={`tel:${STUDIO_INFO.phoneClean}`} className="text-white hover:text-[#C28E46] font-medium">
+                  <span className="text-[#8C8275] block font-mono text-[10px] uppercase">Mobile Number</span>
+                  <a href={`tel:${STUDIO_INFO.mobileClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm">
+                    {STUDIO_INFO.mobile}
+                  </a>
+                </div>
+                <div>
+                  <span className="text-[#8C8275] block font-mono text-[10px] uppercase">Landline</span>
+                  <a href={`tel:${STUDIO_INFO.phoneClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm">
                     {STUDIO_INFO.phone}
                   </a>
                 </div>
@@ -145,7 +167,7 @@ export const HoursAndLocation: React.FC = () => {
                     href={`https://wa.me/${STUDIO_INFO.whatsappRaw}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-[#C28E46] font-medium"
+                    className="text-[#25D366] hover:underline font-medium text-xs sm:text-sm"
                   >
                     {STUDIO_INFO.whatsapp}
                   </a>
@@ -155,7 +177,7 @@ export const HoursAndLocation: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Google Maps & Directions */}
+          {/* Right Column: Google Maps & Direct Link */}
           <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-[#E0D5C5] shadow-sm relative min-h-[380px] bg-[#E8DFD1] flex flex-col">
             <iframe
               src={STUDIO_INFO.mapEmbedUrl}
@@ -163,26 +185,26 @@ export const HoursAndLocation: React.FC = () => {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="S.P. Garment Minuwangoda Studio Location Map"
+              title="S.P. Garment Minuwangoda Location Map"
             />
 
-            {/* Bottom Bar on Map */}
+            {/* Bottom Bar on Map with Direct Google Maps shortlink */}
             <div className="p-4 bg-[#FFFFFF] border-t border-[#E0D5C5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#C28E46] shrink-0" />
                 <span className="text-xs text-[#524B43] font-medium">
-                  Located conveniently in Horampalla, Minuwangoda.
+                  S.P Garment # 28, Horampalla, Minuwangoda
                 </span>
               </div>
 
               <a
-                href="https://maps.google.com/?q=Horampalla,Minuwangoda"
+                href={STUDIO_INFO.mapsDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] text-xs font-semibold transition-colors shrink-0"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] text-xs font-semibold transition-colors shrink-0 shadow-xs"
               >
-                <span>Get Directions</span>
-                <ExternalLink className="w-3 h-3" />
+                <span>Google Maps ඔස්සේ මාර්ගය බලන්න</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>

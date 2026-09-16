@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, X, MessageCircle, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Eye, X, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_PHOTOS, STUDIO_INFO } from '../data/tailoringData';
 import { GalleryPhoto } from '../types';
 
@@ -8,10 +8,10 @@ export const GallerySection: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
 
   const categories = [
-    { key: 'all', label: 'All Creations' },
-    { key: 'ladies', label: 'Ladies Wear' },
-    { key: 'kids', label: 'Kids Frocks' },
-    { key: 'custom', label: 'Custom Atelier' },
+    { key: 'all', label: 'සියල්ල (All)' },
+    { key: 'ladies', label: 'කාන්තා ඇඳුම්' },
+    { key: 'kids', label: 'ළමා ඇඳුම්' },
+    { key: 'custom', label: 'Custom Designs' },
     { key: 'details', label: 'Finishing Details' },
   ];
 
@@ -42,32 +42,32 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="py-20 md:py-28 bg-[#F5EFE6] border-t border-[#E6DDD0] relative">
+    <section id="gallery" className="py-16 md:py-24 bg-[#F5EFE6] border-t border-[#E6DDD0] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-3">
+            <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
               <span className="w-6 h-px bg-[#181614]" />
-              <span>Studio Portfolio</span>
+              <span>විලාසිතා හා නිර්මාණ අදහස් (Design Inspirations)</span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.12]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15]">
               A glimpse of <em className="italic text-[#C28E46]">our craft.</em>
             </h2>
-            <p className="text-sm sm:text-base text-[#665D52] mt-3 max-w-xl font-light">
-              Explore bespoke pieces, intricate finishes, and children's party frocks tailored right here in Minuwangoda.
+            <p className="text-sm sm:text-base text-[#665D52] mt-2 max-w-xl font-normal">
+              අප විසින් මසන ලද කාන්තා සහ ළමා ඇඳුම් විලාසිතා කිහිපයක් මෙතැනින් බලන්න.
             </p>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat.key}
                 type="button"
                 onClick={() => setActiveCategory(cat.key)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                   activeCategory === cat.key
                     ? 'bg-[#181614] text-[#FAF8F5]'
                     : 'bg-[#EAE2D5] text-[#5C5449] hover:bg-[#DDD4C5] hover:text-[#181614]'
@@ -80,7 +80,7 @@ export const GallerySection: React.FC = () => {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
           {filteredPhotos.map((photo, index) => (
             <div
               key={photo.id}
@@ -175,28 +175,28 @@ export const GallerySection: React.FC = () => {
               <img
                 src={selectedPhoto.url}
                 alt={selectedPhoto.title}
-                className="max-h-[60vh] md:max-h-[80vh] w-full object-contain"
+                className="max-h-[55vh] md:max-h-[80vh] w-full object-contain"
               />
             </div>
 
             {/* Info side */}
             <div className="md:w-2/5 p-6 flex flex-col justify-between text-white bg-[#201D1A]">
               <div>
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-2.5">
                   <span className="px-2.5 py-0.5 rounded-full bg-[#C28E46]/20 text-[#C28E46] text-[10px] font-mono uppercase tracking-wider">
                     {selectedPhoto.categoryName}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-2xl font-bold text-[#FAF8F5] mb-3 leading-snug">
+                <h3 className="font-serif text-2xl font-bold text-[#FAF8F5] mb-2 leading-snug">
                   {selectedPhoto.title}
                 </h3>
 
-                <p className="text-sm text-[#C4B9AC] leading-relaxed mb-6 font-light">
+                <p className="text-xs sm:text-sm text-[#C4B9AC] leading-relaxed mb-5 font-light">
                   {selectedPhoto.caption}
                 </p>
 
-                <div className="p-3.5 rounded-lg bg-[#2B2723] border border-white/10 mb-6">
+                <div className="p-3.5 rounded-lg bg-[#2B2723] border border-white/10 mb-5">
                   <span className="font-mono text-[10px] text-[#A89E92] uppercase tracking-wider block mb-1">
                     Featured Fabric / Finishing:
                   </span>
@@ -209,19 +209,20 @@ export const GallerySection: React.FC = () => {
               <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
                 <a
                   href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                    `Hello S.P. Garment, I love this style from your gallery: "${selectedPhoto.title}". Can you tailor something similar for me?`
+                    `හෙලෝ S.P. Garment, මම ඔබගේ Gallery එකේ "${selectedPhoto.title}" ඩිසයින් එක දැක්කා. මටත් මේ වගේ ඇඳුමක් මසා ගැනීමට විස්තර දැනගැනීමට අවශ්‍යයි.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs uppercase tracking-wider transition-colors shadow-sm"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shadow-sm"
                 >
                   <MessageCircle className="w-4 h-4 text-[#181614]" />
-                  <span>Enquire This Design on WhatsApp</span>
+                  <span>මෙම ඩිසයින් එක ගැන WhatsApp මගින් විමසන්න</span>
                 </a>
 
-                <p className="text-center text-[11px] text-[#8C8275]">
-                  Walk-ins welcome in Horampalla, Minuwangoda
-                </p>
+                <div className="text-center text-[11px] text-[#8C8275] space-y-0.5">
+                  <div>S.P. Garment · Horampalla, Minuwangoda</div>
+                  <div>Phone: 077-8778317 / 011-2283254</div>
+                </div>
               </div>
 
             </div>

@@ -78,11 +78,10 @@ export default function App() {
       {/* Luxury Footer */}
       <Footer
         onOpenAdmin={() => setAdminModalOpen(true)}
-        onSelectService={handleSelectService}
       />
 
       {/* Mobile Sticky Action Bar */}
-      <MobileBottomBar />
+      <MobileBottomBar onOpenSearch={() => setSearchModalOpen(true)} />
 
       {/* Modals */}
       <SearchModal

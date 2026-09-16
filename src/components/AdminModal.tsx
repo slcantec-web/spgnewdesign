@@ -97,7 +97,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
           <div className="flex items-center gap-2.5">
             <Shield className="w-5 h-5 text-[#C28E46]" />
             <h3 className="font-serif text-xl font-bold tracking-wide">
-              Studio Portal <em className="font-normal italic text-[#C28E46]">Admin</em>
+              Admin <em className="font-normal italic text-[#C28E46]">Portal</em>
             </h3>
           </div>
           <button
@@ -116,7 +116,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
               <Lock className="w-5 h-5 text-[#C28E46]" />
             </div>
             <h4 className="font-serif text-2xl font-bold text-[#181614] mb-2">
-              Studio Owner Sign-In
+              Owner Sign-In
             </h4>
             <p className="text-xs text-[#70665A] mb-6">
               Enter password to access stored client enquiries and analytics.

@@ -83,7 +83,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search custom dresses, saree blouses, alterations, kids frocks..."
+            placeholder="Custom dresses, saree blouses, alterations, kids frocks සොයන්න..."
             className="w-full bg-transparent text-sm sm:text-base text-[#181614] placeholder:text-[#A89E92] outline-none"
           />
           {query ? (
@@ -96,7 +96,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             </button>
           ) : (
             <span className="font-mono text-[10px] text-[#A89E92] uppercase px-1.5 py-0.5 rounded border border-[#E8E2D6]">
-              ESC to exit
+              ESC
             </span>
           )}
         </div>
@@ -104,7 +104,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         {/* Suggestion Chips */}
         <div className="px-4 py-3 bg-[#FAF8F5] border-b border-[#F0EAE1] flex items-center gap-1.5 flex-wrap">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[#8C8275] mr-1">
-            Quick Suggestions:
+            ප්‍රධාන සේවාවන්:
           </span>
           {quickKeywords.map((kw) => (
             <button
@@ -124,7 +124,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             results.length > 0 ? (
               <div className="space-y-3">
                 <span className="text-xs font-mono text-[#8C8275] uppercase block px-1">
-                  Found {results.length} tailoring service{results.length > 1 ? 's' : ''}:
+                  සේවාවන් {results.length} ක් හමුවිය:
                 </span>
                 {results.map((service) => (
                   <div
@@ -141,7 +141,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                           {service.categoryLabel}
                         </span>
                         <span className="text-xs text-[#C28E46] font-mono">
-                          Est. {service.leadTime}
+                          නිමකිරීම {service.leadTime}
                         </span>
                       </div>
                       <h4 className="font-serif text-lg font-bold text-[#181614] group-hover:text-[#C28E46] transition-colors">
@@ -159,25 +159,25 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             ) : (
               <div className="py-12 text-center text-[#70665A]">
                 <Scissors className="w-8 h-8 text-[#C28E46] mx-auto mb-2 opacity-60" />
-                <h4 className="font-serif text-lg font-bold text-[#181614]">No exact service found</h4>
+                <h4 className="font-serif text-lg font-bold text-[#181614]">ගැලපෙන සේවාවක් හමු නොවීය</h4>
                 <p className="text-xs text-[#8C8275] max-w-sm mx-auto mt-1 mb-4">
-                  We customize anything from scratch. Contact us on WhatsApp to discuss your unique design.
+                  ඔබට අවශ්‍ය ඕනෑම ඩිසයින් එකක් අපට මසා දිය හැක. විස්තර WhatsApp මගින් එවන්න.
                 </p>
                 <a
                   href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                    `Hello S.P. Garment, I searched for "${query}" on your website. Do you offer this custom tailoring service?`
+                    `හෙලෝ S.P. Garment, මට "${query}" පිළිබඳ ඇඳුමක් මසා ගැනීමට අවශ්‍යයි. ඒ පිළිබඳ විස්තර දැනගත හැකිද?`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#181614] text-[#FAF8F5] text-xs font-semibold"
                 >
-                  Ask Tailor on WhatsApp
+                  WhatsApp මගින් විමසන්න
                 </a>
               </div>
             )
           ) : (
             <div className="py-8 px-4 text-center text-[#8C8275] text-xs">
-              Type keywords above or pick a suggestion chip to view custom designs, measurements, and alterations.
+              ඔබට අවශ්‍ය ඇඳුම් වර්ගයේ නම ටයිප් කරන්න හෝ ඉහත ඇති වර්ග වලින් එකක් තෝරන්න.
             </div>
           )}
         </div>
