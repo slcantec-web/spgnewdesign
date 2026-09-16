@@ -11,16 +11,16 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5]/95 backdrop-blur-md border-t border-[#E6DDD0] py-2 px-3 shadow-lg">
-        <div className="grid grid-cols-4 gap-1">
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5]/98 backdrop-blur-md border-t border-[#E6DDD0] pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] px-2 shadow-lg">
+        <div className="grid grid-cols-4 gap-1 max-w-md mx-auto">
           {/* Call button that opens both phone options */}
           <button
             type="button"
             onClick={() => setCallSheetOpen(true)}
-            className="flex flex-col items-center justify-center py-1 text-[#181614] hover:text-[#C28E46] transition-colors cursor-pointer"
+            className="flex flex-col items-center justify-center py-1.5 px-1 text-[#181614] hover:text-[#C28E46] active:bg-[#EAE2D5]/50 rounded-lg transition-colors cursor-pointer"
           >
             <Phone className="w-5 h-5 text-[#C28E46]" />
-            <span className="text-[10px] font-medium mt-0.5">Call Us</span>
+            <span className="text-[10px] font-medium mt-0.5 tracking-tight">Call Us</span>
           </button>
 
           {/* WhatsApp */}
@@ -28,10 +28,10 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
             href={`https://wa.me/${STUDIO_INFO.whatsappRaw}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center justify-center py-1 text-[#181614] hover:text-[#25D366] transition-colors"
+            className="flex flex-col items-center justify-center py-1.5 px-1 text-[#181614] hover:text-[#25D366] active:bg-[#EAE2D5]/50 rounded-lg transition-colors"
           >
             <MessageCircle className="w-5 h-5 text-[#25D366]" />
-            <span className="text-[10px] font-medium mt-0.5">WhatsApp</span>
+            <span className="text-[10px] font-medium mt-0.5 tracking-tight">WhatsApp</span>
           </a>
 
           {/* Google Maps direct link */}
@@ -39,20 +39,20 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
             href={STUDIO_INFO.mapsDirectUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center justify-center py-1 text-[#181614] hover:text-[#C28E46] transition-colors"
+            className="flex flex-col items-center justify-center py-1.5 px-1 text-[#181614] hover:text-[#C28E46] active:bg-[#EAE2D5]/50 rounded-lg transition-colors"
           >
             <MapPin className="w-5 h-5 text-[#C28E46]" />
-            <span className="text-[10px] font-medium mt-0.5">Location</span>
+            <span className="text-[10px] font-medium mt-0.5 tracking-tight">Location</span>
           </a>
 
           {/* Search */}
           <button
             type="button"
             onClick={onOpenSearch}
-            className="flex flex-col items-center justify-center py-1 text-[#181614] hover:text-[#C28E46] transition-colors cursor-pointer"
+            className="flex flex-col items-center justify-center py-1.5 px-1 text-[#181614] hover:text-[#C28E46] active:bg-[#EAE2D5]/50 rounded-lg transition-colors cursor-pointer"
           >
             <Search className="w-5 h-5 text-[#70665A]" />
-            <span className="text-[10px] font-medium mt-0.5">Search</span>
+            <span className="text-[10px] font-medium mt-0.5 tracking-tight">Search</span>
           </button>
         </div>
       </div>

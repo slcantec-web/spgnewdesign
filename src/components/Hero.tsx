@@ -39,11 +39,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
               <button
                 type="button"
                 onClick={onExploreClick}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer"
               >
                 <span>අපේ සේවාවන් බලන්න</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -55,24 +55,24 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs"
               >
-                <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                 <span>WhatsApp පණිවිඩයක් එවන්න</span>
               </a>
 
               {/* Call Numbers */}
-              <div className="flex items-center justify-center gap-2 sm:flex-col sm:items-start text-xs text-[#70665A]">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:flex-col sm:items-start text-xs text-[#70665A] pt-1 sm:pt-0">
                 <a
                   href={`tel:${STUDIO_INFO.mobileClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium"
+                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/70 px-2 py-1 rounded border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0"
                 >
                   <Smartphone className="w-3.5 h-3.5 text-[#C28E46]" />
                   <span>077-8778317</span>
                 </a>
                 <a
                   href={`tel:${STUDIO_INFO.phoneClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium"
+                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/70 px-2 py-1 rounded border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#C28E46]" />
                   <span>011-2283254</span>
