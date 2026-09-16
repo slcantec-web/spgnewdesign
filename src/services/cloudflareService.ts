@@ -3,27 +3,38 @@ import { CloudflareConfig, R2FileItem } from '../types';
 export const CLOUDFLARE_CONFIG_KEY = 'spg_cloudflare_config';
 export const CLOUDFLARE_SYNC_EVENT = 'spg_cloudflare_synced';
 
+// Default Cloudflare Worker URL for S.P. Garment.
+// Every browser/device falls back to this automatically, so the admin
+// password hash and custom images sync everywhere without anyone having
+// to manually paste the Worker URL into Admin Settings on each device.
+const DEFAULT_WORKER_URL = 'https://sp-garment-worker.slcantec.workers.dev';
+
 /**
  * Retrieves the configured Cloudflare Worker URL and settings.
+ * Falls back to DEFAULT_WORKER_URL when nothing is stored locally,
+ * or when a stored config exists but has no workerUrl set.
  */
 export function getCloudflareConfig(): CloudflareConfig {
-  if (typeof window === 'undefined') return { workerUrl: '' };
+  if (typeof window === 'undefined') return { workerUrl: DEFAULT_WORKER_URL };
   try {
     const raw = localStorage.getItem(CLOUDFLARE_CONFIG_KEY);
     if (raw) {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.workerUrl === 'string' && parsed.workerUrl.trim().length > 0) {
+        return parsed;
+      }
     }
   } catch {
     // fallback
   }
-  return { workerUrl: '' };
+  return { workerUrl: DEFAULT_WORKER_URL };
 }
 
 /**
  * Saves Cloudflare Worker configuration to storage.
  */
 export function saveCloudflareConfig(config: CloudflareConfig): void {
-  const cleanUrl = (config.workerUrl || '').trim().replace(/\/+$/, '');
+  const cleanUrl = (config.workerUrl || '').trim().replace(/\/+$/, '') || DEFAULT_WORKER_URL;
   const data: CloudflareConfig = {
     ...config,
     workerUrl: cleanUrl,
