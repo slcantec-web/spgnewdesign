@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check, Clock, MessageSquare } from 'lucide-react';
 import { SERVICES, STUDIO_INFO } from '../data/tailoringData';
+import { useCustomImages } from '../services/imageManager';
 
 interface ServicesSectionProps {
   selectedServiceId: string | null;
@@ -11,6 +12,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   selectedServiceId,
   onEnquireForService,
 }) => {
+  const { getImage } = useCustomImages();
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [expandedId, setExpandedId] = useState<string | null>(selectedServiceId || null);
 
@@ -98,7 +100,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {/* Image Thumbnail */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-[#181614]">
                   <img
-                    src={service.image}
+                    src={getImage(service.id, service.image)}
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"

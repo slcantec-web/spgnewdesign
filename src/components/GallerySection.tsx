@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Eye, X, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_PHOTOS, STUDIO_INFO } from '../data/tailoringData';
 import { GalleryPhoto } from '../types';
+import { useCustomImages } from '../services/imageManager';
 
 export const GallerySection: React.FC = () => {
+  const { getImage } = useCustomImages();
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
 
@@ -88,7 +90,7 @@ export const GallerySection: React.FC = () => {
               className="group relative rounded-xl overflow-hidden bg-[#181614] aspect-[3/4] cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 border border-[#E0D5C5]"
             >
               <img
-                src={photo.url}
+                src={getImage(photo.id, photo.url)}
                 alt={photo.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                 loading="lazy"
@@ -173,7 +175,7 @@ export const GallerySection: React.FC = () => {
             {/* Image side */}
             <div className="md:w-3/5 bg-black flex items-center justify-center overflow-hidden">
               <img
-                src={selectedPhoto.url}
+                src={getImage(selectedPhoto.id, selectedPhoto.url)}
                 alt={selectedPhoto.title}
                 className="max-h-[55vh] md:max-h-[80vh] w-full object-contain"
               />

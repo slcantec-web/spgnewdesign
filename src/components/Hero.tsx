@@ -1,12 +1,15 @@
 import React from 'react';
 import { ArrowRight, MessageCircle, Phone, Smartphone, CheckCircle2, ShieldCheck, Ruler, Sparkles } from 'lucide-react';
 import { STUDIO_INFO } from '../data/tailoringData';
+import { useCustomImages } from '../services/imageManager';
 
 interface HeroProps {
   onExploreClick: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
+  const { getImage } = useCustomImages();
+  const heroImageUrl = getImage('hero_main', 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&auto=format&fit=crop&q=80');
   return (
     <section id="hero" className="relative pt-24 pb-14 md:pt-32 md:pb-20 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
       {/* Subtle architectural background texture */}
@@ -116,7 +119,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               {/* Main Image Container */}
               <div className="relative rounded-xl overflow-hidden bg-[#181614] aspect-[4/5] shadow-xl border border-[#D9CEBF] group">
                 <img
-                  src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&auto=format&fit=crop&q=80"
+                  src={heroImageUrl}
                   alt="S.P. Garment Tailoring Atelier measuring fabric and patterns in Minuwangoda"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="eager"

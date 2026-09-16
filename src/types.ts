@@ -36,3 +36,12 @@ export interface FabricGuide {
   recommendedFabrics: string[];
   tip: string;
 }
+
+export interface StockImageItem {
+  id: string;
+  section: 'Hero Section' | 'Services Section' | 'Gallery Section';
+  positionName: string;
+  description: string;
+  defaultUrl: string;
+  recommendedAspect?: string;
+}
