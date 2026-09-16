@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send, MessageCircle, Phone, Smartphone, Sparkles, CheckCircle2 } from 'lucide-react';
 import { STUDIO_INFO } from '../data/tailoringData';
 import { EnquiryRecord } from '../types';
+import { submitServerEnquiry } from '../services/apiSync';
 
 interface WhatsAppEnquirySectionProps {
   initialService?: string;
@@ -35,6 +36,8 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
       };
       existing.unshift(newRecord);
       localStorage.setItem('spg_enquiries', JSON.stringify(existing.slice(0, 100)));
+      // Central server sync so inquiry is immediately visible in admin dashboard on PC and mobile
+      submitServerEnquiry(newRecord).catch(() => {});
     } catch (err) {
       console.error('Storage error', err);
     }

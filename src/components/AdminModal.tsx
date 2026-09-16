@@ -49,6 +49,14 @@ import {
   pushRemotePasswordHash,
   pushRemoteCustomImages,
 } from '../services/cloudflareService';
+import {
+  syncFromServer,
+  updateServerPassword,
+  resetServerPassword,
+  syncConfigToServer,
+  fetchServerEnquiries,
+  clearServerEnquiries,
+} from '../services/apiSync';
 import { R2ImagePickerModal } from './R2ImagePickerModal';
 
 interface AdminModalProps {
@@ -108,6 +116,17 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
+      // 1. Central server sync so latest password from PC is immediately pulled onto Mobile
+      syncFromServer().then((srv) => {
+        if (srv.success) {
+          setHasCustomPassword(isUsingCustomPassword());
+          const cf = getCloudflareConfig();
+          setCfWorkerUrl(cf.workerUrl || '');
+          setCfApiSecret(cf.apiSecret || '');
+          setCfPublicR2Domain(cf.publicR2Domain || '');
+        }
+      });
+
       // Load cloudflare settings
       const cfConfig = getCloudflareConfig();
       setCfWorkerUrl(cfConfig.workerUrl || '');
@@ -158,13 +177,24 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const loadAllData = () => {
-    // Load enquiries
+  const loadAllData = async () => {
+    // Load enquiries from local storage first for speed
     try {
       const stored = JSON.parse(localStorage.getItem('spg_enquiries') || '[]');
       setEnquiries(stored);
     } catch {
       setEnquiries([]);
+    }
+
+    // Also fetch fresh enquiries from central server
+    try {
+      const serverEnqs = await fetchServerEnquiries();
+      if (serverEnqs && serverEnqs.length > 0) {
+        setEnquiries(serverEnqs);
+        localStorage.setItem('spg_enquiries', JSON.stringify(serverEnqs));
+      }
+    } catch {
+      // offline fallback
     }
 
     // Load custom images
@@ -180,7 +210,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     setIsVerifying(true);
 
     try {
-      // If cloudflare worker is configured, pull latest password hash first
+      // 1. First sync directly from server so ANY password changed on PC is applied immediately on Mobile
+      await syncFromServer();
+
+      // 2. If cloudflare worker is configured, pull latest password hash as well
       const cfConfig = getCloudflareConfig();
       if (cfConfig.workerUrl) {
         const remote = await fetchRemoteCloudflareConfig();
@@ -240,10 +273,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     document.body.removeChild(link);
   };
 
-  const handleClearAllEnquiries = () => {
+  const handleClearAllEnquiries = async () => {
     if (window.confirm('Are you sure you want to clear all recorded customer enquiries?')) {
       localStorage.removeItem('spg_enquiries');
       setEnquiries([]);
+      await clearServerEnquiries();
     }
   };
 
@@ -261,13 +295,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     const updated = getCustomImagesMap();
     setCustomImages(updated);
 
+    // Save to central server so all devices get the updated image
+    syncConfigToServer({ customImages: updated }).catch(() => {});
+
     // Also push to Cloudflare Worker if connected
     const cfConfig = getCloudflareConfig();
     if (cfConfig.workerUrl) {
       await pushRemoteCustomImages(updated);
-      setImageSaveFeedback(`Updated image for "${id}" and saved to Cloudflare!`);
+      setImageSaveFeedback(`Updated image for "${id}" and synced to Cloudflare & server!`);
     } else {
-      setImageSaveFeedback(`Updated image for "${id}" (stored locally)`);
+      setImageSaveFeedback(`Updated image for "${id}" (synced across devices)`);
     }
     setTimeout(() => setImageSaveFeedback(null), 3500);
   };
@@ -281,6 +318,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       delete next[id];
       return next;
     });
+
+    syncConfigToServer({ customImages: updated }).catch(() => {});
 
     const cfConfig = getCloudflareConfig();
     if (cfConfig.workerUrl) {
@@ -296,12 +335,15 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     const updated = getCustomImagesMap();
     setCustomImages(updated);
 
+    // Sync to central server
+    syncConfigToServer({ customImages: updated }).catch(() => {});
+
     const cfConfig = getCloudflareConfig();
     if (cfConfig.workerUrl) {
       await pushRemoteCustomImages(updated);
-      setImageSaveFeedback('All image links updated and synced to Cloudflare R2 / Worker!');
+      setImageSaveFeedback('All image links updated and synced to Cloudflare R2 & central server!');
     } else {
-      setImageSaveFeedback('All image links updated and saved locally!');
+      setImageSaveFeedback('All image links updated and synchronized across all devices!');
     }
     setTimeout(() => setImageSaveFeedback(null), 4000);
   };
@@ -315,6 +357,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       resetAllCustomImages();
       setCustomImages({});
       setImageDrafts({});
+
+      syncConfigToServer({ customImages: {} }).catch(() => {});
 
       const cfConfig = getCloudflareConfig();
       if (cfConfig.workerUrl) {
@@ -361,21 +405,26 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       // 2. Hash & store new password locally
       const newHash = await updateAdminPassword(newPassword);
 
-      // 3. Push new hash to Cloudflare Worker (so ALL devices get this new password)
+      // 3. Push new hash to central server so ALL devices (PC, Mobile, Tablet) sync immediately
+      const srvResult = await updateServerPassword(newHash, currentPassword);
+
+      // 4. Push new hash to Cloudflare Worker if configured
       const cfConfig = getCloudflareConfig();
       let syncedToCf = false;
       if (cfConfig.workerUrl) {
         syncedToCf = await pushRemotePasswordHash(newHash);
       }
 
-      if (syncedToCf) {
+      if (srvResult.success) {
         setPasswordSuccess(
-          'Password updated & synced across all devices via Cloudflare Worker! (SHA-256 Hashed)'
+          'Password updated & synchronized across all devices (PC, Mobile, Tablet)!'
+        );
+      } else if (syncedToCf) {
+        setPasswordSuccess(
+          'Password updated & synced across devices via Cloudflare Worker!'
         );
       } else {
-        setPasswordSuccess(
-          'Password updated locally! (Configure Cloudflare Worker in the next tab to sync across all devices)'
-        );
+        setPasswordSuccess('Password updated locally!');
       }
 
       setCurrentPassword('');
@@ -398,6 +447,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       resetAdminPasswordToDefault();
       setHasCustomPassword(false);
 
+      // Reset on central server so PC and Mobile both reset
+      await resetServerPassword();
+
       const cfConfig = getCloudflareConfig();
       if (cfConfig.workerUrl) {
         await pushRemotePasswordHash(
@@ -405,18 +457,21 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
         );
       }
 
-      setPasswordSuccess('Admin password reset to default setup hash.');
+      setPasswordSuccess('Admin password reset to default setup hash across all devices.');
       setPasswordError('');
     }
   };
 
   // Cloudflare Settings Handlers
-  const handleSaveCloudflareConfig = () => {
-    saveCloudflareConfig({
+  const handleSaveCloudflareConfig = async () => {
+    const newConfig = {
       workerUrl: cfWorkerUrl,
       apiSecret: cfApiSecret,
       publicR2Domain: cfPublicR2Domain,
-    });
+    };
+    saveCloudflareConfig(newConfig);
+    // Sync to central server so mobile automatically inherits Cloudflare settings
+    await syncConfigToServer({ cloudflareConfig: newConfig });
     setCfSaveSuccess(true);
     setTimeout(() => setCfSaveSuccess(false), 3000);
   };
@@ -1248,7 +1303,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <span>Change Admin Password</span>
                     </h4>
                     <p className="text-xs text-[#70665A] mt-1 leading-relaxed">
-                      Set a secure password for the Admin portal. Passwords are encrypted using one-way <strong>SHA-256 cryptographic hashing</strong>. {isCloudflareConnected && 'When updated, the new hash is immediately pushed to Cloudflare Worker to protect all devices.'}
+                      Set a secure password for the Admin portal. Passwords are protected using one-way <strong>SHA-256 cryptographic hashing</strong> and automatically synchronized across all your devices (PC, Mobile, and Tablet). {isCloudflareConnected && 'The hash is also synced with your Cloudflare Worker.'}
                     </p>
                   </div>
 

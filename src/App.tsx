@@ -15,6 +15,7 @@ import { MobileBottomBar } from './components/MobileBottomBar';
 import { fetchRemoteCloudflareConfig, getCloudflareConfig } from './services/cloudflareService';
 import { setStoredPasswordHash } from './utils/security';
 import { saveMultipleCustomImages } from './services/imageManager';
+import { syncFromServer } from './services/apiSync';
 
 export default function App() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -22,23 +23,30 @@ export default function App() {
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
   const [enquiryService, setEnquiryService] = useState<string>('Ladies Wear – Dresses');
 
-  // Background Cloudflare sync on initial load so any device gets latest password hash & images
+  // Multi-device central sync on initial load so any device (PC, Mobile, Tablet)
+  // gets the exact latest password hash, custom images, and settings
   useEffect(() => {
-    const config = getCloudflareConfig();
-    if (config.workerUrl) {
-      fetchRemoteCloudflareConfig().then((res) => {
-        if (res.success) {
-          if (res.passwordHash) {
-            setStoredPasswordHash(res.passwordHash);
+    // 1. Central server sync (ensures PC password change immediately applies on Mobile)
+    syncFromServer().then(() => {
+      // 2. Cloudflare Worker sync fallback/secondary if configured
+      const config = getCloudflareConfig();
+      if (config.workerUrl) {
+        fetchRemoteCloudflareConfig().then((res) => {
+          if (res.success) {
+            if (res.passwordHash) {
+              setStoredPasswordHash(res.passwordHash);
+            }
+            if (res.images && Object.keys(res.images).length > 0) {
+              saveMultipleCustomImages(res.images);
+            }
           }
-          if (res.images && Object.keys(res.images).length > 0) {
-            saveMultipleCustomImages(res.images);
-          }
-        }
-      }).catch(() => {
-        // silent fallback to local storage
-      });
-    }
+        }).catch(() => {
+          // silent fallback
+        });
+      }
+    }).catch(() => {
+      // silent fallback
+    });
   }, []);
 
   const scrollToServices = () => {
