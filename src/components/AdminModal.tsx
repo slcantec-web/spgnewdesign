@@ -415,16 +415,18 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
         syncedToCf = await pushRemotePasswordHash(newHash);
       }
 
-      if (srvResult.success) {
+      if (syncedToCf) {
+        setPasswordSuccess(
+          'Password updated & synced across all devices via Cloudflare Worker!'
+        );
+      } else if (srvResult.success) {
         setPasswordSuccess(
           'Password updated & synchronized across all devices (PC, Mobile, Tablet)!'
         );
-      } else if (syncedToCf) {
-        setPasswordSuccess(
-          'Password updated & synced across devices via Cloudflare Worker!'
-        );
       } else {
-        setPasswordSuccess('Password updated locally!');
+        setPasswordSuccess(
+          'Password updated locally, but could not reach the Cloudflare Worker to sync it to other devices. Check your internet connection and try again.'
+        );
       }
 
       setCurrentPassword('');
@@ -548,33 +550,33 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
         role="dialog"
         aria-modal="true"
         onClick={onClose}
-        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 sm:p-6 overflow-y-auto"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-4xl bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] shadow-2xl overflow-hidden my-6 flex flex-col max-h-[92vh]"
+          className="w-full sm:max-w-4xl bg-[#FFFFFF] sm:rounded-2xl border-0 sm:border border-[#E6DDCF] shadow-2xl overflow-hidden my-0 sm:my-6 flex flex-col h-full sm:h-auto max-h-full sm:max-h-[92vh] min-h-0"
         >
           {/* Modal Top Bar */}
-          <div className="p-4 sm:p-5 bg-[#181614] text-[#FAF8F5] flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#2A2622] border border-[#3E3832] flex items-center justify-center text-[#C28E46]">
-                <Shield className="w-5 h-5" />
+          <div className="p-3 sm:p-5 bg-[#181614] text-[#FAF8F5] flex items-center justify-between gap-2 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#2A2622] border border-[#3E3832] flex items-center justify-center text-[#C28E46] shrink-0">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <div>
-                <h3 className="font-serif text-lg sm:text-xl font-bold tracking-wide flex items-center gap-2">
-                  <span>S.P. Garment</span>
-                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#C28E46]/20 text-[#C28E46] font-normal border border-[#C28E46]/30">
+              <div className="min-w-0">
+                <h3 className="font-serif text-base sm:text-xl font-bold tracking-wide flex items-center gap-1.5 sm:gap-2 truncate">
+                  <span className="truncate">S.P. Garment</span>
+                  <span className="hidden sm:inline-block text-xs font-mono px-2 py-0.5 rounded bg-[#C28E46]/20 text-[#C28E46] font-normal border border-[#C28E46]/30 shrink-0">
                     Admin Panel
                   </span>
                 </h3>
-                <div className="flex items-center gap-2 text-[11px] text-[#A89E92]">
-                  <span>Minuwangoda Studio Management</span>
+                <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-[#A89E92] truncate">
+                  <span className="hidden sm:inline">Minuwangoda Studio Management</span>
                   {isCloudflareConnected ? (
-                    <span className="inline-flex items-center gap-1 text-[#C28E46] font-mono">
-                      <Cloud className="w-3 h-3" /> Cloudflare Connected
+                    <span className="inline-flex items-center gap-1 text-[#C28E46] font-mono shrink-0">
+                      <Cloud className="w-3 h-3" /> Connected
                     </span>
                   ) : (
-                    <span className="text-amber-400/80 font-mono">
+                    <span className="text-amber-400/80 font-mono shrink-0">
                       Local Mode
                     </span>
                   )}
@@ -582,12 +584,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {isAuthenticated && (
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="px-3 py-1.5 rounded-lg border border-white/20 text-white/80 hover:text-white hover:bg-white/10 text-xs font-mono transition-colors cursor-pointer"
+                  className="px-2 sm:px-3 py-1.5 rounded-lg border border-white/20 text-white/80 hover:text-white hover:bg-white/10 text-[11px] sm:text-xs font-mono transition-colors cursor-pointer whitespace-nowrap"
                 >
                   Logout
                 </button>
@@ -595,7 +597,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                 aria-label="Close dialog"
               >
                 <X className="w-5 h-5" />
@@ -606,7 +608,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
           {/* Content Body */}
           {!isAuthenticated ? (
             /* Sign-In View */
-            <div className="p-8 sm:p-14 max-w-md mx-auto text-center my-auto">
+            <div className="p-6 sm:p-14 max-w-md mx-auto text-center my-auto overflow-y-auto">
               <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] border border-[#E0D5C5] text-[#181614] flex items-center justify-center mx-auto mb-4 shadow-sm">
                 <Lock className="w-6 h-6 text-[#C28E46]" />
               </div>
@@ -674,20 +676,20 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
             </div>
           ) : (
             /* Authenticated Dashboard View */
-            <div className="flex flex-col flex-1 overflow-hidden">
+            <div className="flex flex-col flex-1 overflow-hidden min-h-0">
               {/* Navigation Tabs */}
-              <div className="px-4 sm:px-6 pt-3 bg-[#FAF8F5] border-b border-[#E6DDCF] flex items-center justify-between gap-4 overflow-x-auto shrink-0">
-                <div className="flex items-center gap-1 sm:gap-2">
+              <div className="px-2 sm:px-6 pt-2 sm:pt-3 bg-[#FAF8F5] border-b border-[#E6DDCF] flex items-center justify-between gap-2 sm:gap-4 overflow-x-auto shrink-0">
+                <div className="flex items-center gap-0.5 sm:gap-2 flex-nowrap">
                   <button
                     type="button"
                     onClick={() => setActiveTab('inquiries')}
-                    className={`px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-2 cursor-pointer border-b-2 ${
+                    className={`px-2.5 sm:px-3.5 py-2 sm:py-2.5 text-[11px] sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-1 sm:gap-2 cursor-pointer border-b-2 whitespace-nowrap shrink-0 ${
                       activeTab === 'inquiries'
                         ? 'border-[#181614] text-[#181614] bg-white shadow-xs'
                         : 'border-transparent text-[#70665A] hover:text-[#181614] hover:bg-white/50'
                     }`}
                   >
-                    <MessageSquare className="w-4 h-4 text-[#C28E46]" />
+                    <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C28E46]" />
                     <span>Inquiries</span>
                     <span className="px-1.5 py-0.2 rounded-full bg-[#EAE3D7] text-[#181614] text-[10px] font-mono font-bold">
                       {enquiries.length}
@@ -697,17 +699,18 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => setActiveTab('images')}
-                    className={`px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-2 cursor-pointer border-b-2 ${
+                    className={`px-2.5 sm:px-3.5 py-2 sm:py-2.5 text-[11px] sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-1 sm:gap-2 cursor-pointer border-b-2 whitespace-nowrap shrink-0 ${
                       activeTab === 'images'
                         ? 'border-[#181614] text-[#181614] bg-white shadow-xs'
                         : 'border-transparent text-[#70665A] hover:text-[#181614] hover:bg-white/50'
                     }`}
                   >
-                    <ImageIcon className="w-4 h-4 text-[#C28E46]" />
-                    <span>Stock Photos & R2</span>
+                    <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C28E46]" />
+                    <span className="hidden xs:inline sm:inline">Stock Photos & R2</span>
+                    <span className="xs:hidden sm:hidden">Photos</span>
                     {customCount > 0 ? (
                       <span className="px-1.5 py-0.2 rounded-full bg-[#C28E46] text-white text-[10px] font-mono font-bold">
-                        {customCount} custom
+                        {customCount}
                       </span>
                     ) : (
                       <span className="px-1.5 py-0.2 rounded-full bg-[#EAE3D7] text-[#181614] text-[10px] font-mono font-bold">
@@ -719,39 +722,40 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => setActiveTab('cloudflare')}
-                    className={`px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-2 cursor-pointer border-b-2 ${
+                    className={`px-2.5 sm:px-3.5 py-2 sm:py-2.5 text-[11px] sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-1 sm:gap-2 cursor-pointer border-b-2 whitespace-nowrap shrink-0 ${
                       activeTab === 'cloudflare'
                         ? 'border-[#181614] text-[#181614] bg-white shadow-xs'
                         : 'border-transparent text-[#70665A] hover:text-[#181614] hover:bg-white/50'
                     }`}
                   >
-                    <Cloud className="w-4 h-4 text-[#C28E46]" />
-                    <span>Cloudflare Worker & R2</span>
+                    <Cloud className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C28E46]" />
+                    <span className="hidden sm:inline">Cloudflare Worker & R2</span>
+                    <span className="sm:hidden">Cloudflare</span>
                     {isCloudflareConnected ? (
-                      <span className="w-2 h-2 rounded-full bg-emerald-600" title="Connected" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" title="Connected" />
                     ) : (
-                      <span className="w-2 h-2 rounded-full bg-amber-500" title="Setup Available" />
+                      <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" title="Setup Available" />
                     )}
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setActiveTab('security')}
-                    className={`px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-2 cursor-pointer border-b-2 ${
+                    className={`px-2.5 sm:px-3.5 py-2 sm:py-2.5 text-[11px] sm:text-sm font-semibold rounded-t-lg transition-all flex items-center gap-1 sm:gap-2 cursor-pointer border-b-2 whitespace-nowrap shrink-0 ${
                       activeTab === 'security'
                         ? 'border-[#181614] text-[#181614] bg-white shadow-xs'
                         : 'border-transparent text-[#70665A] hover:text-[#181614] hover:bg-white/50'
                     }`}
                   >
-                    <KeyRound className="w-4 h-4 text-[#C28E46]" />
+                    <KeyRound className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C28E46]" />
                     <span>Password</span>
                     {hasCustomPassword && (
-                      <span className="w-2 h-2 rounded-full bg-emerald-600" title="Custom Password Active" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" title="Custom Password Active" />
                     )}
                   </button>
                 </div>
 
-                <div className="hidden md:flex items-center gap-2 text-xs text-[#70665A] font-mono pb-2">
+                <div className="hidden md:flex items-center gap-2 text-xs text-[#70665A] font-mono pb-2 shrink-0">
                   {syncStatusBanner && (
                     <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                       {syncStatusBanner}
@@ -763,7 +767,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
               {/* Tab 1: Inquiries Log */}
               {activeTab === 'inquiries' && (
-                <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-5">
+                <div className="p-3 sm:p-6 overflow-y-auto flex-1 space-y-5 min-h-0">
                   {/* Stats cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6DDCF]">
@@ -805,7 +809,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       </p>
                     </div>
 
-                    <div className="flex gap-2 shrink-0">
+                    <div className="flex flex-wrap gap-2 shrink-0">
                       <button
                         type="button"
                         onClick={handleExportCSV}
@@ -842,7 +846,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <div className="divide-y divide-[#EAE3D7]">
                         {enquiries.map((enq) => (
                           <div key={enq.id} className="p-4 hover:bg-[#FAF8F5] transition-colors text-xs space-y-2">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col xs:flex-row sm:flex-row items-start sm:items-center justify-between gap-1">
                               <div className="flex items-center gap-2 font-semibold text-[#181614] text-sm">
                                 <User className="w-3.5 h-3.5 text-[#C28E46]" />
                                 <span>{enq.name}</span>
@@ -853,7 +857,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                               </span>
                             </div>
 
-                            <div className="flex flex-wrap items-center gap-4 text-[#524B43]">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[#524B43]">
                               <span className="flex items-center gap-1.5">
                                 <Phone className="w-3.5 h-3.5 text-[#70665A]" />
                                 <a href={`tel:${enq.phone}`} className="font-mono text-[#181614] hover:underline font-medium">
@@ -881,11 +885,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
               {/* Tab 2: Stock Images Manager & R2 Picker */}
               {activeTab === 'images' && (
-                <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-5">
+                <div className="p-3 sm:p-6 overflow-y-auto flex-1 space-y-5 min-h-0">
                   {/* Header & Controls */}
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D7]">
                     <div>
-                      <h4 className="font-serif text-xl font-bold text-[#181614] flex items-center gap-2">
+                      <h4 className="font-serif text-xl font-bold text-[#181614] flex flex-wrap items-center gap-2">
                         <span>Stock Photos & Cloudflare R2 Picker</span>
                         <span className="text-xs font-mono font-normal text-[#70665A]">
                           ({filteredStockImages.length} images)
@@ -896,7 +900,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
                       <button
                         type="button"
                         onClick={handleSaveAllImages}
@@ -919,15 +923,15 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
                   {/* Feedback Toast */}
                   {imageSaveFeedback && (
-                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        <span className="font-medium">{imageSaveFeedback}</span>
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span className="font-medium truncate">{imageSaveFeedback}</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => setImageSaveFeedback(null)}
-                        className="text-emerald-700 hover:text-emerald-900"
+                        className="text-emerald-700 hover:text-emerald-900 shrink-0"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -969,7 +973,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                           key={sec.key}
                           type="button"
                           onClick={() => setSelectedSectionFilter(sec.key)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
                             selectedSectionFilter === sec.key
                               ? 'bg-[#181614] text-[#FAF8F5]'
                               : 'bg-[#F2ECE2] text-[#5C5449] hover:bg-[#E6DEC2]'
@@ -997,7 +1001,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         return (
                           <div
                             key={item.id}
-                            className={`p-4 rounded-xl border transition-all ${
+                            className={`p-3 sm:p-4 rounded-xl border transition-all ${
                               isCustom
                                 ? 'border-[#C28E46] bg-[#FFFDF9]'
                                 : 'border-[#E6DDCF] bg-white hover:border-[#D4C8B5]'
@@ -1032,10 +1036,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                               </div>
 
                               {/* Details and URL Input */}
-                              <div className="flex-1 flex flex-col justify-between space-y-2.5">
+                              <div className="flex-1 flex flex-col justify-between space-y-2.5 min-w-0">
                                 <div>
                                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex flex-wrap items-center gap-2">
                                       <span className="px-2 py-0.5 rounded bg-[#F2ECE2] text-[#5C5449] font-mono text-[10px] uppercase font-semibold">
                                         {item.section}
                                       </span>
@@ -1071,17 +1075,17 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                                   )}
                                 </div>
 
-                                {/* Input, R2 Picker button and Action Buttons */}
+                                {/* Input, R2 Picker button and Action Buttons — stacked for mobile fit */}
                                 <div className="space-y-2 pt-1">
-                                  <div className="flex items-center gap-2">
-                                    <input
-                                      type="text"
-                                      value={draftUrl}
-                                      onChange={(e) => handleDraftChange(item.id, e.target.value)}
-                                      placeholder={item.defaultUrl}
-                                      className="flex-1 px-3 py-2 rounded-lg border border-[#D9D0C3] focus:border-[#181614] bg-[#FAF8F5] text-xs font-mono outline-none"
-                                    />
+                                  <input
+                                    type="text"
+                                    value={draftUrl}
+                                    onChange={(e) => handleDraftChange(item.id, e.target.value)}
+                                    placeholder={item.defaultUrl}
+                                    className="w-full px-3 py-2 rounded-lg border border-[#D9D0C3] focus:border-[#181614] bg-[#FAF8F5] text-xs font-mono outline-none"
+                                  />
 
+                                  <div className="flex flex-wrap items-center gap-2">
                                     {/* Pick from R2 Button */}
                                     <button
                                       type="button"
@@ -1113,8 +1117,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                                     )}
                                   </div>
 
-                                  <div className="flex items-center justify-between text-[10px] text-[#8C8275]">
-                                    <span className="truncate max-w-md">
+                                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10px] text-[#8C8275]">
+                                    <span className="truncate max-w-full sm:max-w-md">
                                       Default URL: <code className="text-[#524B43]">{item.defaultUrl.slice(0, 60)}...</code>
                                     </span>
                                     <a
@@ -1140,7 +1144,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
               {/* Tab 3: Cloudflare Worker & R2 Integration Setup */}
               {activeTab === 'cloudflare' && (
-                <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-6 max-w-2xl mx-auto w-full">
+                <div className="p-3 sm:p-6 overflow-y-auto flex-1 space-y-6 max-w-2xl mx-auto w-full min-h-0">
                   <div className="border-b border-[#EAE3D7] pb-3">
                     <h4 className="font-serif text-xl font-bold text-[#181614] flex items-center gap-2">
                       <Cloud className="w-5 h-5 text-[#C28E46]" />
@@ -1152,21 +1156,21 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   </div>
 
                   {/* Status Card */}
-                  <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6DDCF] flex items-center justify-between gap-4">
-                    <div>
+                  <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6DDCF] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="min-w-0">
                       <span className="text-[10px] font-mono uppercase text-[#8C8275] block">
                         Cloudflare Sync Status
                       </span>
                       {isCloudflareConnected ? (
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
-                          <span className="text-xs font-semibold text-emerald-800">
+                        <div className="flex items-center gap-2 mt-0.5 min-w-0">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0" />
+                          <span className="text-xs font-semibold text-emerald-800 truncate">
                             Connected ({cfWorkerUrl})
                           </span>
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
                           <span className="text-xs font-semibold text-amber-800">
                             Not Configured (Running in Local Browser Mode)
                           </span>
@@ -1179,7 +1183,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         type="button"
                         onClick={syncFromCloudflare}
                         disabled={isSyncingWithCloudflare}
-                        className="px-3 py-1.5 rounded-lg border border-[#D9D0C3] hover:bg-white text-xs font-medium text-[#181614] transition-colors cursor-pointer flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-lg border border-[#D9D0C3] hover:bg-white text-xs font-medium text-[#181614] transition-colors cursor-pointer flex items-center gap-1.5 shrink-0"
                       >
                         <RefreshCw className={`w-3 h-3 ${isSyncingWithCloudflare ? 'animate-spin' : ''}`} />
                         <span>Sync Now</span>
@@ -1296,7 +1300,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
               {/* Tab 4: Security & Change Password */}
               {activeTab === 'security' && (
-                <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-6 max-w-2xl mx-auto w-full">
+                <div className="p-3 sm:p-6 overflow-y-auto flex-1 space-y-6 max-w-2xl mx-auto w-full min-h-0">
                   <div className="border-b border-[#EAE3D7] pb-3">
                     <h4 className="font-serif text-xl font-bold text-[#181614] flex items-center gap-2">
                       <KeyRound className="w-5 h-5 text-[#C28E46]" />
@@ -1308,21 +1312,21 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   </div>
 
                   {/* Security Status Card */}
-                  <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6DDCF] flex items-center justify-between gap-4">
+                  <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E6DDCF] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
                       <span className="text-[10px] font-mono uppercase text-[#8C8275] block">
                         Password Status
                       </span>
                       {hasCustomPassword ? (
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0" />
                           <span className="text-xs font-semibold text-emerald-800">
                             Custom Hashed Password Active
                           </span>
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
                           <span className="text-xs font-semibold text-amber-800">
                             Initial Setup Password in Use
                           </span>
@@ -1334,7 +1338,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <button
                         type="button"
                         onClick={handleResetPasswordToDefault}
-                        className="text-xs text-[#70665A] hover:text-red-700 underline font-mono cursor-pointer"
+                        className="text-xs text-[#70665A] hover:text-red-700 underline font-mono cursor-pointer shrink-0"
                       >
                         Reset to Default Hash
                       </button>

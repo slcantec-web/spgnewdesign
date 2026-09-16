@@ -119,23 +119,23 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
       role="dialog"
       aria-modal="true"
       onClick={onClose}
-      className="fixed inset-0 z-60 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-60 bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 sm:p-6 overflow-y-auto"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-3xl bg-white rounded-2xl border border-[#E6DDCF] shadow-2xl overflow-hidden my-auto flex flex-col max-h-[88vh]"
+        className="w-full sm:max-w-3xl bg-white sm:rounded-2xl border-0 sm:border border-[#E6DDCF] shadow-2xl overflow-hidden my-0 sm:my-auto flex flex-col h-full sm:h-auto max-h-full sm:max-h-[88vh] min-h-0"
       >
         {/* Header */}
-        <div className="p-4 sm:p-5 bg-[#181614] text-white flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#2A2622] border border-[#3E3832] flex items-center justify-center text-[#C28E46]">
+        <div className="p-3 sm:p-5 bg-[#181614] text-white flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-[#2A2622] border border-[#3E3832] flex items-center justify-center text-[#C28E46] shrink-0">
               <Layers className="w-4 h-4" />
             </div>
-            <div>
-              <h4 className="font-serif text-base sm:text-lg font-bold tracking-wide flex items-center gap-2">
-                <span>Cloudflare R2 Image Library</span>
+            <div className="min-w-0">
+              <h4 className="font-serif text-sm sm:text-lg font-bold tracking-wide flex items-center gap-2 truncate">
+                <span className="truncate">Cloudflare R2 Image Library</span>
               </h4>
-              <p className="text-[11px] text-[#A89E92] truncate max-w-sm sm:max-w-md">
+              <p className="text-[10px] sm:text-[11px] text-[#A89E92] truncate max-w-[220px] sm:max-w-sm md:max-w-md">
                 Choosing image for: <strong className="text-white">{targetPositionName}</strong>
               </p>
             </div>
@@ -144,7 +144,7 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            className="p-1.5 text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
@@ -152,7 +152,7 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
 
         {/* Body */}
         {!isConfigured ? (
-          <div className="p-8 sm:p-12 text-center space-y-4 my-auto">
+          <div className="p-6 sm:p-12 text-center space-y-4 my-auto overflow-y-auto">
             <div className="w-14 h-14 rounded-2xl bg-[#FAF8F5] border border-[#E0D5C5] text-[#C28E46] flex items-center justify-center mx-auto shadow-sm">
               <Layers className="w-6 h-6" />
             </div>
@@ -177,11 +177,11 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col flex-1 overflow-hidden p-4 sm:p-6 space-y-4">
+          <div className="flex flex-col flex-1 overflow-hidden p-3 sm:p-6 space-y-4 min-h-0">
             {/* Top Toolbar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D7]">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D7] shrink-0">
               {/* Search */}
-              <div className="relative flex-1 max-w-xs">
+              <div className="relative flex-1 max-w-full sm:max-w-xs">
                 <Search className="w-3.5 h-3.5 text-[#8C8275] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
@@ -193,18 +193,18 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
               </div>
 
               {/* Upload & Refresh */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={loadFiles}
                   disabled={loading}
-                  className="p-2 rounded-lg border border-[#D9D0C3] hover:bg-[#FAF8F5] text-[#524B43] text-xs transition-colors cursor-pointer"
+                  className="p-2 rounded-lg border border-[#D9D0C3] hover:bg-[#FAF8F5] text-[#524B43] text-xs transition-colors cursor-pointer shrink-0"
                   title="Refresh list"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
                 </button>
 
-                <label className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-white text-xs font-semibold transition-colors cursor-pointer shadow-2xs">
+                <label className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-white text-xs font-semibold transition-colors cursor-pointer shadow-2xs whitespace-nowrap">
                   <Upload className="w-3.5 h-3.5" />
                   <span>{uploading ? 'Uploading...' : 'Upload to R2'}</span>
                   <input
@@ -220,7 +220,7 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
 
             {/* Error Message */}
             {error && (
-              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2 shrink-0">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span className="flex-1">{error}</span>
               </div>
@@ -284,8 +284,8 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
             </div>
 
             {/* Bottom Footer Actions */}
-            <div className="pt-3 border-t border-[#EAE3D7] flex items-center justify-between gap-3 shrink-0">
-              <div className="text-[11px] text-[#70665A] truncate max-w-md">
+            <div className="pt-3 border-t border-[#EAE3D7] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+              <div className="text-[11px] text-[#70665A] truncate max-w-full sm:max-w-md">
                 {selectedUrl ? (
                   <span>
                     Selected: <code className="font-mono text-[#181614]">{selectedUrl}</code>
@@ -299,7 +299,7 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-3.5 py-2 rounded-lg border border-[#D9D0C3] text-xs font-medium text-[#70665A] hover:bg-[#FAF8F5] transition-colors cursor-pointer"
+                  className="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg border border-[#D9D0C3] text-xs font-medium text-[#70665A] hover:bg-[#FAF8F5] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -308,7 +308,7 @@ export const R2ImagePickerModal: React.FC<R2ImagePickerModalProps> = ({
                   type="button"
                   onClick={handleConfirmSelect}
                   disabled={!selectedUrl}
-                  className="px-4 py-2 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-white text-xs font-semibold uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer shadow-xs flex items-center gap-1.5"
+                  className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-white text-xs font-semibold uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
                 >
                   <Check className="w-3.5 h-3.5" />
                   <span>Apply Image</span>
