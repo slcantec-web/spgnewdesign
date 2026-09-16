@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Marquee } from './components/Marquee';
@@ -12,12 +12,34 @@ import { SearchModal } from './components/SearchModal';
 import { AdminModal } from './components/AdminModal';
 import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
+import { fetchRemoteCloudflareConfig, getCloudflareConfig } from './services/cloudflareService';
+import { setStoredPasswordHash } from './utils/security';
+import { saveMultipleCustomImages } from './services/imageManager';
 
 export default function App() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
   const [enquiryService, setEnquiryService] = useState<string>('Ladies Wear – Dresses');
+
+  // Background Cloudflare sync on initial load so any device gets latest password hash & images
+  useEffect(() => {
+    const config = getCloudflareConfig();
+    if (config.workerUrl) {
+      fetchRemoteCloudflareConfig().then((res) => {
+        if (res.success) {
+          if (res.passwordHash) {
+            setStoredPasswordHash(res.passwordHash);
+          }
+          if (res.images && Object.keys(res.images).length > 0) {
+            saveMultipleCustomImages(res.images);
+          }
+        }
+      }).catch(() => {
+        // silent fallback to local storage
+      });
+    }
+  }, []);
 
   const scrollToServices = () => {
     const el = document.getElementById('services');

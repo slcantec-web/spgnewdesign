@@ -1,0 +1,18 @@
+name = "sp-garment-worker"
+main = "worker.js"
+compatibility_date = "2024-04-01"
+
+# R2 Bucket binding for images and persistent configuration
+[[r2_buckets]]
+binding = "IMAGES_BUCKET"
+bucket_name = "sp-garment-images"
+preview_bucket_name = "sp-garment-images"
+
+# (Optional) Cloudflare KV binding for super-fast cached configuration
+# [[kv_namespaces]]
+# binding = "CONFIG_KV"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+[vars]
+# If you enable Public Development URL or Custom Domain in Cloudflare R2 bucket settings:
+# PUBLIC_R2_URL = "https://pub-yourbucketid.r2.dev"

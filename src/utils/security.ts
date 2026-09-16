@@ -61,6 +61,19 @@ export function getStoredPasswordHash(): string {
 }
 
 /**
+ * Sets the active SHA-256 password hash (used when syncing from Cloudflare Worker).
+ */
+export function setStoredPasswordHash(hash: string): void {
+  if (hash && hash.trim().length === 64) {
+    try {
+      localStorage.setItem(ADMIN_PASSWORD_STORAGE_KEY, hash.trim());
+    } catch {
+      // ignore
+    }
+  }
+}
+
+/**
  * Checks if the user has configured a custom password or is using the initial hash.
  */
 export function isUsingCustomPassword(): boolean {

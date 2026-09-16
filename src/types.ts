@@ -45,3 +45,16 @@ export interface StockImageItem {
   defaultUrl: string;
   recommendedAspect?: string;
 }
+
+export interface CloudflareConfig {
+  workerUrl: string;
+  apiSecret?: string;
+  publicR2Domain?: string;
+}
+
+export interface R2FileItem {
+  key: string;
+  size: number;
+  uploadedAt: string;
+  url: string;
+}
