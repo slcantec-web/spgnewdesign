@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 gpu-layer ${
           scrolled
             ? 'bg-[#FAF8F5]/95 backdrop-blur-md shadow-sm border-b border-[#E8E2D6] py-2.5'
             : 'bg-[#FAF8F5] border-b border-[#ECE6DB] py-3.5'

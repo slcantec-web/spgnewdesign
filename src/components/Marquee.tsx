@@ -14,7 +14,7 @@ export const Marquee: React.FC = () => {
   ];
 
   return (
-    <div className="border-y border-[#E6DDD0] py-3.5 bg-[#F5EFE6] overflow-hidden select-none">
+    <div className="border-y border-[#E6DDD0] py-3.5 bg-[#F5EFE6] overflow-hidden select-none [contain:paint]">
       <div className="animate-marquee flex items-center gap-8 whitespace-nowrap">
         {[...items, ...items, ...items].map((item, idx) => (
           <div key={idx} className="flex items-center gap-8">

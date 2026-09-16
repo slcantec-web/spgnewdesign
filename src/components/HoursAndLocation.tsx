@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
-import { Clock, MapPin, Phone, MessageCircle, ExternalLink, Smartphone } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Clock, MapPin, Phone, MessageCircle, ExternalLink, Smartphone, Navigation, Lock, Unlock } from 'lucide-react';
 import { STUDIO_INFO } from '../data/tailoringData';
 
 export const HoursAndLocation: React.FC = () => {
+  const [mapInteractive, setMapInteractive] = useState(false);
+
   // Determine if studio is open right now
   const status = useMemo(() => {
     const now = new Date();
@@ -41,7 +43,7 @@ export const HoursAndLocation: React.FC = () => {
   }, []);
 
   return (
-    <section id="hours" className="py-16 md:py-24 bg-[#FAF8F5] border-t border-[#E6DDD0] relative">
+    <section id="hours" className="py-16 md:py-24 bg-[#FAF8F5] border-t border-[#E6DDD0] relative cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Label */}
@@ -179,14 +181,52 @@ export const HoursAndLocation: React.FC = () => {
 
           {/* Right Column: Google Maps & Direct Link */}
           <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-[#E0D5C5] shadow-sm relative min-h-[380px] bg-[#E8DFD1] flex flex-col">
-            <iframe
-              src={STUDIO_INFO.mapEmbedUrl}
-              className="w-full flex-1 min-h-[350px] border-0"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="S.P. Garment Minuwangoda Location Map"
-            />
+            <div className="relative w-full flex-1 min-h-[350px]">
+              <iframe
+                src={STUDIO_INFO.mapEmbedUrl}
+                className={`w-full h-full min-h-[350px] border-0 transition-opacity ${
+                  mapInteractive ? 'pointer-events-auto' : 'pointer-events-none'
+                }`}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="S.P. Garment Minuwangoda Location Map"
+              />
+
+              {/* Scroll protection overlay banner for mobile browsers */}
+              {!mapInteractive && (
+                <div
+                  onClick={() => setMapInteractive(true)}
+                  className="absolute inset-0 bg-transparent flex items-center justify-center p-4 cursor-pointer"
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMapInteractive(true);
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#181614]/90 hover:bg-[#181614] text-[#FAF8F5] text-xs font-medium shadow-lg backdrop-blur-xs border border-white/20 transition-all active:scale-95"
+                  >
+                    <Unlock className="w-3.5 h-3.5 text-[#C28E46]" />
+                    <span>සිතියම හැසිරවීමට මෙතන ස්පර්ශ කරන්න (Tap to navigate map)</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Lock button when map is active */}
+              {mapInteractive && (
+                <div className="absolute top-3 right-3 z-10">
+                  <button
+                    type="button"
+                    onClick={() => setMapInteractive(false)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181614]/90 text-white text-xs font-mono font-medium shadow-md border border-white/20 hover:bg-[#181614] transition-all"
+                  >
+                    <Lock className="w-3 h-3 text-[#C28E46]" />
+                    <span>Lock Map (අගුළුලන්න)</span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Bottom Bar on Map with Direct Google Maps shortlink */}
             <div className="p-4 bg-[#FFFFFF] border-t border-[#E0D5C5] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">

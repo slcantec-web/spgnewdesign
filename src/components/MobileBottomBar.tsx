@@ -11,7 +11,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5]/98 backdrop-blur-md border-t border-[#E6DDD0] pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] px-2 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5]/98 backdrop-blur-md border-t border-[#E6DDD0] pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] px-2 shadow-lg gpu-layer">
         <div className="grid grid-cols-4 gap-1 max-w-md mx-auto">
           {/* Call button that opens both phone options */}
           <button

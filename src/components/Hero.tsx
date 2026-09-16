@@ -123,6 +123,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   alt="S.P. Garment Tailoring Atelier measuring fabric and patterns in Minuwangoda"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="eager"
+                  decoding="async"
                 />
                 
                 {/* Subtle gradient overlay */}

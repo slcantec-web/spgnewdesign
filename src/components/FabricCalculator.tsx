@@ -13,7 +13,7 @@ export const FabricCalculator: React.FC = () => {
   const activeGuide = FABRIC_GUIDES.find((g) => g.garment === selectedGarment) || filteredGuides[0];
 
   return (
-    <section id="calculator" className="py-16 md:py-24 bg-[#FAF8F5] relative">
+    <section id="calculator" className="py-16 md:py-24 bg-[#FAF8F5] relative cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

@@ -30,7 +30,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
     : SERVICES.filter((s) => s.category === activeFilter);
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-[#FAF8F5] relative">
+    <section id="services" className="py-16 md:py-24 bg-[#FAF8F5] relative cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -104,6 +104,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   

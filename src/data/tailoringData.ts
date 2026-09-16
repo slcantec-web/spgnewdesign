@@ -32,7 +32,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Ladies Wear Custom Tailoring',
     shortDesc: 'ඔබේ මිනුමටම ගැලපෙන සාරි හැට්ට, ගවුම්, කලිසම්, සායවල් සහ Party Wear ඉතා පිළිවෙළට මසා දෙනු ලැබේ.',
     leadTime: 'දින 3–7 අතර',
-    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'Saree Blouse (Princess cut, Padded, Boat neck, Deep back)',
       'A-line, Maxi සහ Casual Everyday ගවුම්',
@@ -50,7 +50,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Kids Frocks & Function Sets',
     shortDesc: 'පුංචි බබාලගේ Birthday Frocks, Party Dresses, සාම්ප්‍රදායික ඇඳුම් සහ පාසල් නිල ඇඳුම් (Uniforms).',
     leadTime: 'දින 3–5 අතර',
-    image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'Flower Girl සහ Birthday Princess Frocks',
       'සුවපහසු Cotton Day Frocks සහ Rompers',
@@ -68,7 +68,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Pattern Drafting & Reference Sewing',
     shortDesc: 'ඔබ කැමති ඕනෑම Photo එකක් හෝ ඩිසයින් එකක් අපිට පෙන්වන්න. ඒ ආකාරයෙන්ම ඔබේ මිනුමට ගැලපෙන සේ මසා දෙනු ලැබේ.',
     leadTime: 'දින 5–10 අතර',
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'ඔබ ලබාදෙන Photo එකට අනුව Pattern සකස් කිරීම',
       'ඔබේ සිරුරට වඩාත්ම ගැලපෙන ලෙස නියමිත මිනුම් ලබාගැනීම',
@@ -86,7 +86,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Fit Adjustments & Restyling',
     shortDesc: 'ඇඳුම් වල උස අඩු වැඩි කිරීම, ඉණ හා අත් හරිගැස්වීම, අලුතින් Zip දැමීම ඇතුළු සියලුම Alteration කටයුතු.',
     leadTime: 'දින 1–3 අතර',
-    image: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'Dress සහ Trouser Hemming (උස අඩු වැඩි කිරීම)',
       'Waist & Hip Resizing (ඉණ බුරුල් කිරීම හෝ තද කිරීම)',
@@ -104,7 +104,7 @@ export const SERVICES: ServiceItem[] = [
     title: 'Decorative Finishes & Finishing',
     shortDesc: 'Lace ඇල්ලීම, Piping, Frills, Pleats සහ Fabric Buttons වැනි සියුම් මැහුම් නිමාවන්.',
     leadTime: 'දින 2–4 අතර',
-    image: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'Full සහ Half Breathable Linings දැමීම',
       'Tiered Ruffles, Frills සහ Pleats වැඩ',
@@ -123,7 +123,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Artisan Tailoring Atelier',
     category: 'custom',
     categoryName: 'Custom Atelier',
-    url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=75',
     caption: 'නියමිත මිනුම් අනුව pattern සහ රෙදි කපන ආකාරය.',
     fabricType: 'Pure Linen & Raw Silk'
   },
@@ -132,7 +132,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Bespoke Evening Gown',
     category: 'ladies',
     categoryName: 'Ladies Wear',
-    url: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&auto=format&fit=crop&q=75',
     caption: 'Pleated Skirt එකක් සහිත අලංකාර Evening Gown එකක්.',
     fabricType: 'Silk Chiffon & Satin Lining'
   },
@@ -141,7 +141,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Princess Birthday Frock',
     category: 'kids',
     categoryName: 'Kids Frocks',
-    url: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&auto=format&fit=crop&q=75',
     caption: 'Soft Net හා Cotton Lining සහිත ලස්සන Birthday Frock එකක්.',
     fabricType: 'Soft Tulle & 100% Breathable Cotton'
   },
@@ -150,7 +150,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Fine Lace & Edge Finishing',
     category: 'details',
     categoryName: 'Finishing Details',
-    url: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&auto=format&fit=crop&q=75',
     caption: 'සියුම් Lace වැඩ හා පිරිසිදු මැහුම් නිමාව.',
     fabricType: 'Chantilly Lace & Organza'
   },
@@ -159,7 +159,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Hand-Tailored Floral Dress',
     category: 'ladies',
     categoryName: 'Ladies Wear',
-    url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=75',
     caption: 'ඉණට belt එකක් සහිත A-line Dress එකක්.',
     fabricType: 'Printed Rayon & Soft Voile'
   },
@@ -168,7 +168,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Little One Casual Outfit',
     category: 'kids',
     categoryName: 'Kids Frocks',
-    url: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&auto=format&fit=crop&q=75',
     caption: 'Frill වැඩ සහිත කුඩා දරුවෙකුගේ ඇඳුමක්.',
     fabricType: 'Handloom Cotton'
   },
@@ -177,7 +177,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Fabric Inspection & Pattern Cut',
     category: 'custom',
     categoryName: 'Custom Atelier',
-    url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&auto=format&fit=crop&q=75',
     caption: 'රෙදි කැපීමට පෙර pattern එක නිවැරදිව පරීක්ෂා කර බැලීම.',
     fabricType: 'Tailoring Shears & Pattern Board'
   },
@@ -186,7 +186,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Traditional Saree Blouse Craft',
     category: 'ladies',
     categoryName: 'Ladies Wear',
-    url: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&auto=format&fit=crop&q=75',
     caption: 'Deep Back විලාසිතාවේ සාරි හැට්ටයක් (Saree Blouse).',
     fabricType: 'Brocade & Silk Tissue'
   },
@@ -195,7 +195,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Tailored High-Waist Trouser',
     category: 'ladies',
     categoryName: 'Ladies Wear',
-    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=75',
     caption: 'Pleats හා side pockets සහිත කාන්තා කලිසමක් (Trouser).',
     fabricType: 'Wool Blend Suiting'
   },
@@ -204,7 +204,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Precision Sewing & Thread Work',
     category: 'details',
     categoryName: 'Finishing Details',
-    url: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&auto=format&fit=crop&q=75',
     caption: 'කල්පවතින ශක්තිමත් පිරිසිදු මැහුම් නිමාව.',
     fabricType: 'Spun Polyester Threads'
   },
@@ -213,7 +213,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'School & Ceremony Uniform',
     category: 'kids',
     categoryName: 'Kids Frocks',
-    url: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&auto=format&fit=crop&q=75',
     caption: 'පිළිවෙළට මසන ලද පාසල් නිල ඇඳුමක්.',
     fabricType: 'Durable Poplin & Twill'
   },
@@ -222,7 +222,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Hand-Drafted Atelier Master Patterns',
     category: 'custom',
     categoryName: 'Custom Atelier',
-    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1000&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=75',
     caption: 'එක් එක් කෙනාගේ මිනුම් වලට ගැලපෙන ලෙස pattern ඇඳීම.',
     fabricType: 'Craft Drafting Paper'
   }

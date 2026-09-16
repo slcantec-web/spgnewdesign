@@ -8,10 +8,11 @@
   }
 
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: clip;
     width: 100%;
   }
 
@@ -19,9 +20,11 @@
     font-family: var(--font-sans);
     color: #181614;
     background-color: #FAF8F5;
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
     min-width: 320px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
   }
 
   h1, h2, h3, .font-serif {
@@ -34,18 +37,34 @@
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .animate-marquee {
   display: flex;
   width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
   animation: marquee 35s linear infinite;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+/* Off-screen section layout virtualization for silky smooth mobile scroll */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 650px;
+}
+
+/* GPU isolation for fixed overlays */
+.gpu-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Subtle scrollbar */

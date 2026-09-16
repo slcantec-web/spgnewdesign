@@ -44,7 +44,7 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="py-16 md:py-24 bg-[#F5EFE6] border-t border-[#E6DDD0] relative">
+    <section id="gallery" className="py-16 md:py-24 bg-[#F5EFE6] border-t border-[#E6DDD0] relative cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -94,6 +94,7 @@ export const GallerySection: React.FC = () => {
                 alt={photo.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                 loading="lazy"
+                decoding="async"
               />
 
               {/* Number tag */}
