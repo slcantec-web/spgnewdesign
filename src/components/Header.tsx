@@ -153,11 +153,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
               {/* WhatsApp Enquiry Button */}
               <a
                 href="#enquiry"
-                className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] transition-colors shadow-sm shrink-0"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] transition-colors shadow-sm shrink-0 whitespace-nowrap"
               >
-                <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#25D366]" />
-                <span className="hidden xs:inline">Enquire</span>
-                <span className="xs:hidden">Chat</span>
+                <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#25D366] shrink-0" />
+                <span className="hidden sm:inline">WhatsApp</span>
+                <span className="sm:hidden">Chat</span>
               </a>
 
               {/* Mobile menu toggle */}

@@ -77,11 +77,11 @@ export const FabricCalculator: React.FC = () => {
                         : 'hover:bg-[#FAF8F5] text-[#181614] border border-transparent hover:border-[#EAE3D7]'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <Ruler className={`w-4 h-4 shrink-0 ${isSelected ? 'text-[#C28E46]' : 'text-[#8C8275]'}`} />
-                      <span className="text-xs sm:text-sm font-medium">{guide.garment}</span>
+                      <span className="text-xs sm:text-sm font-medium truncate">{guide.garment}</span>
                     </div>
-                    <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded ${
+                    <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 ${
                       isSelected ? 'bg-white/15 text-[#C28E46]' : 'text-[#8C8275]'
                     }`}>
                       {guide.category}
@@ -150,10 +150,10 @@ export const FabricCalculator: React.FC = () => {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shrink-0"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shrink-0 whitespace-nowrap"
                 >
                   <span>WhatsApp එකෙන් විමසන්න</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>
 

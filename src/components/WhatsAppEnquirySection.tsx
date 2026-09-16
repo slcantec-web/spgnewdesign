@@ -130,7 +130,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
           </div>
 
           {/* Right Column: Form */}
-          <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#E4DCCE] p-6 sm:p-8 shadow-sm relative">
+          <div className="lg:col-span-7 bg-[#FFFFFF] rounded-2xl border border-[#E4DCCE] p-5 sm:p-8 shadow-sm relative">
             {submitted ? (
               <div className="py-12 text-center flex flex-col items-center">
                 <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
@@ -229,10 +229,11 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer"
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer whitespace-nowrap"
                 >
-                  <Send className="w-4 h-4 text-[#C28E46] group-hover:text-white transition-colors" />
-                  <span>WhatsApp පණිවිඩයක් එවන්න (+94 76 831 8149)</span>
+                  <Send className="w-4 h-4 text-[#C28E46] group-hover:text-white transition-colors shrink-0" />
+                  <span>WhatsApp පණිවිඩයක් එවන්න</span>
+                  <span className="hidden sm:inline text-xs font-mono text-[#D9C4A6] font-normal">(+94 76 831 8149)</span>
                 </button>
 
                 <p className="text-[11px] text-center text-[#8C8275] pt-0.5">

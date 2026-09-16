@@ -63,25 +63,25 @@ export const HoursAndLocation: React.FC = () => {
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             
             {/* Opening Hours Box */}
-            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] p-5 sm:p-6 shadow-xs">
-              <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-[#F0EAE1]">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-[#C28E46]" />
-                  <h3 className="font-serif text-xl font-bold text-[#181614]">
+            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] p-4 sm:p-6 shadow-xs">
+              <div className="flex items-center justify-between gap-2 mb-4 pb-3.5 border-b border-[#F0EAE1]">
+                <div className="flex items-center gap-2 shrink-0">
+                  <Clock className="w-5 h-5 text-[#C28E46] shrink-0" />
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-[#181614] whitespace-nowrap">
                     විවෘත වේලාවන්
                   </h3>
                 </div>
 
                 {/* Live Open / Closed Badge */}
                 <span
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-medium shrink-0 whitespace-nowrap ${
                     status.isOpen
                       ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                       : 'bg-amber-50 text-amber-800 border border-amber-200'
                   }`}
                 >
                   <span
-                    className={`w-2 h-2 rounded-full ${
+                    className={`w-2 h-2 rounded-full shrink-0 ${
                       status.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
                     }`}
                   />
@@ -90,27 +90,37 @@ export const HoursAndLocation: React.FC = () => {
               </div>
 
               {/* Day-by-Day Schedule */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {STUDIO_INFO.hours.map((h) => {
                   const isToday = h.day === status.currentDayName;
+                  const match = h.day.match(/^(.*?)\s*\((.*?)\)$/);
+                  const sinhalaDay = match ? match[1] : h.day;
+                  const englishDay = match ? match[2] : '';
+
                   return (
                     <div
                       key={h.day}
-                      className={`flex items-center justify-between py-1.5 px-3 rounded-lg text-xs sm:text-sm transition-colors ${
+                      className={`flex items-center justify-between gap-2 py-2 px-2.5 sm:px-3 rounded-lg text-xs sm:text-sm transition-colors ${
                         isToday
-                          ? 'bg-[#181614] text-[#FAF8F5] font-semibold'
+                          ? 'bg-[#181614] text-[#FAF8F5] font-semibold shadow-xs'
                           : 'text-[#524B43] hover:bg-[#FAF8F5]'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span>{h.day}</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="whitespace-nowrap font-medium">{sinhalaDay}</span>
+                        {englishDay && (
+                          <span className={`hidden sm:inline text-[11px] font-mono whitespace-nowrap ${isToday ? 'text-[#D4A362]' : 'text-[#8C8275]'}`}>
+                            ({englishDay})
+                          </span>
+                        )}
                         {isToday && (
-                          <span className="text-[10px] font-mono text-[#C28E46] uppercase tracking-wider font-normal">
-                            · අද දින
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#C28E46] text-[#181614] shrink-0 uppercase tracking-tight">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#181614] animate-pulse" />
+                            අද
                           </span>
                         )}
                       </div>
-                      <span className="font-mono text-xs tracking-tight">
+                      <span className="font-mono text-xs tracking-tight shrink-0 whitespace-nowrap">
                         {h.time}
                       </span>
                     </div>
@@ -118,23 +128,23 @@ export const HoursAndLocation: React.FC = () => {
                 })}
               </div>
 
-              <div className="mt-5 pt-3.5 border-t border-[#F0EAE1] flex flex-wrap items-center justify-between gap-2">
+              <div className="mt-4 pt-3 border-t border-[#F0EAE1] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span className="text-xs text-[#70665A]">
                   විවෘත වේලාවන් තුළ ඕනෑම වේලාවක පැමිණ මිනුම් ලබාදිය හැක.
                 </span>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 shrink-0">
                   <a
                     href={`tel:${STUDIO_INFO.mobileClean}`}
-                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1"
+                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1 whitespace-nowrap"
                   >
-                    <Smartphone className="w-3.5 h-3.5 text-[#C28E46]" />
+                    <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
                     <span>077-8778317</span>
                   </a>
                   <a
                     href={`tel:${STUDIO_INFO.phoneClean}`}
-                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1"
+                    className="text-xs font-semibold text-[#181614] hover:text-[#C28E46] inline-flex items-center gap-1 whitespace-nowrap"
                   >
-                    <Phone className="w-3.5 h-3.5 text-[#C28E46]" />
+                    <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
                     <span>011-2283254</span>
                   </a>
                 </div>
@@ -153,13 +163,13 @@ export const HoursAndLocation: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3.5 border-t border-white/10 text-xs">
                 <div>
                   <span className="text-[#8C8275] block font-mono text-[10px] uppercase">Mobile Number</span>
-                  <a href={`tel:${STUDIO_INFO.mobileClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm">
+                  <a href={`tel:${STUDIO_INFO.mobileClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm whitespace-nowrap">
                     {STUDIO_INFO.mobile}
                   </a>
                 </div>
                 <div>
                   <span className="text-[#8C8275] block font-mono text-[10px] uppercase">Landline</span>
-                  <a href={`tel:${STUDIO_INFO.phoneClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm">
+                  <a href={`tel:${STUDIO_INFO.phoneClean}`} className="text-white hover:text-[#C28E46] font-medium text-xs sm:text-sm whitespace-nowrap">
                     {STUDIO_INFO.phone}
                   </a>
                 </div>
@@ -169,7 +179,7 @@ export const HoursAndLocation: React.FC = () => {
                     href={`https://wa.me/${STUDIO_INFO.whatsappRaw}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#25D366] hover:underline font-medium text-xs sm:text-sm"
+                    className="text-[#25D366] hover:underline font-medium text-xs sm:text-sm whitespace-nowrap"
                   >
                     {STUDIO_INFO.whatsapp}
                   </a>

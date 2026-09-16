@@ -114,8 +114,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   </span>
 
                   {/* Lead Time Badge */}
-                  <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FAF8F5]/90 text-[#181614] text-[11px] font-medium flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-[#C28E46]" />
+                  <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FAF8F5]/95 text-[#181614] text-[11px] font-medium flex items-center gap-1 whitespace-nowrap shadow-xs">
+                    <Clock className="w-3 h-3 text-[#C28E46] shrink-0" />
                     <span>නිමකිරීම: {service.leadTime}</span>
                   </span>
                 </div>
@@ -160,10 +160,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => onEnquireForService(service.title)}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181614] hover:text-[#C28E46] transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181614] hover:text-[#C28E46] transition-colors cursor-pointer whitespace-nowrap"
                     >
                       <span>විස්තර විමසන්න</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                     </button>
 
                     <a
@@ -172,7 +172,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3 py-1.5 rounded-lg bg-[#F5EFE6] hover:bg-[#181614] text-[#181614] hover:text-[#FAF8F5] text-xs font-medium transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-[#F5EFE6] hover:bg-[#181614] text-[#181614] hover:text-[#FAF8F5] text-xs font-medium transition-all whitespace-nowrap"
                     >
                       WhatsApp
                     </a>

@@ -19,34 +19,35 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* Left Column: Headline, Narrative & Actions */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
             
             {/* Atelier Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#F4EFEA] border border-[#E2D9CC] text-[#70665A] text-xs font-mono tracking-wider uppercase mb-5 w-fit shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-[#C28E46] animate-pulse" />
-              <span>Horampalla, Minuwangoda · Western Province, LK</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F4EFEA] border border-[#E2D9CC] text-[#70665A] text-xs font-mono tracking-wider uppercase mb-5 shadow-xs whitespace-nowrap mx-auto sm:mx-0">
+              <span className="w-2 h-2 rounded-full bg-[#C28E46] animate-pulse shrink-0" />
+              <span className="hidden sm:inline">Horampalla, Minuwangoda · Western Province, LK</span>
+              <span className="sm:hidden">Horampalla, Minuwangoda</span>
             </div>
 
-            {/* Main Editorial Headline with Natural Sinhala and balanced sizing */}
-            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[#181614] leading-[1.25] mb-4">
-              කාන්තා සහ ළමා ඇඳුම්,<br className="hidden sm:inline" />
-              ඔබ කැමති විලාසිතාවට <em className="italic font-normal text-[#C28E46]">මසා ගන්න.</em>
+            {/* Main Editorial Headline with Natural Sinhala and balanced sizing - centered on mobile */}
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[#181614] leading-[1.25] mb-4 text-center sm:text-left">
+              කාන්තා සහ ළමා ඇඳුම්,<br className="hidden sm:inline" />{' '}
+              <span className="inline">ඔබ කැමති විලාසිතාවට <em className="italic font-normal text-[#C28E46]">මසා ගන්න.</em></span>
             </h1>
 
-            {/* Natural Native Subtitle */}
-            <p className="text-sm sm:text-base text-[#524B43] leading-relaxed max-w-2xl mb-6 font-normal">
+            {/* Natural Native Subtitle - centered on mobile */}
+            <p className="text-sm sm:text-base text-[#524B43] leading-relaxed max-w-2xl mb-6 font-normal text-center sm:text-left mx-auto sm:mx-0">
               ඔබ කැමති ඕනෑම ඇඳුමක ඩිසයින් එකක් හෝ photo එකක් අපිට පෙන්වන්න. සාරි හැට්ට, ගවුම්, සාය, කලිසම් සහ පුංචි බබාලගේ ඇඳුම් ඔබේ සිරුරට වඩාත්ම සුවපහසු ලෙස, ඉතා පිරිසිදු නිමාවකින් යුතුව මසා දෙනු ලැබේ.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={onExploreClick}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
               >
                 <span>අපේ සේවාවන් බලන්න</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
               </button>
 
               <a
@@ -55,54 +56,54 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs whitespace-nowrap"
               >
                 <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                 <span>WhatsApp පණිවිඩයක් එවන්න</span>
               </a>
 
               {/* Call Numbers */}
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:flex-col sm:items-start text-xs text-[#70665A] pt-1 sm:pt-0">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:flex-col sm:items-start text-xs text-[#70665A] pt-1 sm:pt-0">
                 <a
                   href={`tel:${STUDIO_INFO.mobileClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/70 px-2 py-1 rounded border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0"
+                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1 rounded-md border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0 whitespace-nowrap"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-[#C28E46]" />
+                  <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
                   <span>077-8778317</span>
                 </a>
                 <a
                   href={`tel:${STUDIO_INFO.phoneClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/70 px-2 py-1 rounded border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0"
+                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1 rounded-md border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0 whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#C28E46]" />
+                  <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
                   <span>011-2283254</span>
                 </a>
               </div>
             </div>
 
             {/* Key Highlights Grid */}
-            <div className="pt-6 border-t border-[#EAE3D6] grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <div className="flex items-start gap-2.5">
-                <Ruler className="w-4 h-4 text-[#C28E46] mt-0.5 shrink-0" />
+            <div className="pt-6 border-t border-[#EAE3D6] grid grid-cols-3 gap-2 sm:gap-4 w-full">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                <Ruler className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono">Custom Fit</h4>
-                  <p className="text-xs text-[#70665A]">ඔබේ ඇඟටම හරියන සේ</p>
+                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Custom Fit</h4>
+                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">ඔබේ ඇඟටම හරියන සේ</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-2.5">
-                <Sparkles className="w-4 h-4 text-[#C28E46] mt-0.5 shrink-0" />
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                <Sparkles className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono">Ladies & Kids</h4>
-                  <p className="text-xs text-[#70665A]">කාන්තා සහ ළමා ඇඳුම්</p>
+                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Ladies & Kids</h4>
+                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">කාන්තා සහ ළමා</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-2.5 col-span-2 sm:col-span-1">
-                <ShieldCheck className="w-4 h-4 text-[#C28E46] mt-0.5 shrink-0" />
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                <ShieldCheck className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono">Neat Finish</h4>
-                  <p className="text-xs text-[#70665A]">පිරිසිදු මැහුම් නිමාව</p>
+                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Neat Finish</h4>
+                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">පිරිසිදු මැහුම් නිමාව</p>
                 </div>
               </div>
             </div>
@@ -150,9 +151,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 </div>
 
                 {/* Top Corner Floating Tag */}
-                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#181614]/85 text-[#FAF8F5] backdrop-blur-sm border border-white/20 text-xs font-mono tracking-wider flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C28E46]" />
-                  <span>Horampalla, Minuwangoda (# 28)</span>
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#181614]/85 text-[#FAF8F5] backdrop-blur-sm border border-white/20 text-xs font-mono tracking-wider flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C28E46] shrink-0" />
+                  <span className="truncate">Horampalla, Minuwangoda (# 28)</span>
                 </div>
               </div>
 
