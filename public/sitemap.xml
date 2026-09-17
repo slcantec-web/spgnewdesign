@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This is a single-page site, so there is only one real URL to list —
+  search engines don't treat #anchor sections (like #services, #gallery)
+  as separate indexable pages, so listing them here would add nothing.
+  Update <loc> to your actual production domain before deploying, and
+  bump <lastmod> whenever the page's content changes meaningfully.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://sp-garment.pages.dev/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
