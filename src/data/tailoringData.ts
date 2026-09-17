@@ -3,7 +3,6 @@ import { ServiceItem, GalleryPhoto, FabricGuide } from '../types';
 export const STUDIO_INFO = {
   name: 'S.P. Garment',
   tagline: 'Ladies & Kids Tailor Shop',
-  sinhalaTagline: 'කාන්තා සහ ළමා ඇඳුම් මැහුම් සේවය',
   address: 'S.P Garment # 28, Horampalla, Minuwangoda, Western Province, Sri Lanka',
   phone: '011-2283254',
   phoneClean: '0112283254',
@@ -14,13 +13,13 @@ export const STUDIO_INFO = {
   mapsDirectUrl: 'https://maps.app.goo.gl/KamrRXZeXZKqi8Ff7',
   mapEmbedUrl: 'https://maps.google.com/maps?q=7.1860292,79.9751599&hl=en&z=17&output=embed',
   hours: [
-    { day: 'සඳුදා (Monday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'අඟහරුවාදා (Tuesday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'බදාදා (Wednesday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'බ්‍රහස්පතින්දා (Thursday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'සිකුරාදා (Friday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'සෙනසුරාදා (Saturday)', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
-    { day: 'ඉරිදා (Sunday)', time: '09:30 — 17:30', openHour: 9.5, closeHour: 17.5 },
+    { day: 'Monday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Tuesday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Wednesday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Thursday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Friday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Saturday', time: '08:30 — 17:30', openHour: 8.5, closeHour: 17.5 },
+    { day: 'Sunday', time: '09:30 — 17:30', openHour: 9.5, closeHour: 17.5 },
   ],
 };
 
@@ -30,90 +29,90 @@ export const SERVICES: ServiceItem[] = [
     category: 'ladies',
     categoryLabel: 'Ladies Wear',
     title: 'Ladies Wear Custom Tailoring',
-    shortDesc: 'ඔබේ මිනුමටම ගැලපෙන සාරි හැට්ට, ගවුම්, කලිසම්, සායවල් සහ Party Wear ඉතා පිළිවෙළට මසා දෙනු ලැබේ.',
-    leadTime: 'දින 3–7 අතර',
+    shortDesc: 'Saree blouses, dresses, trousers, skirts and party wear tailored precisely to your measurements.',
+    leadTime: '3–7 days',
     image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=75',
     popularItems: [
       'Saree Blouse (Princess cut, Padded, Boat neck, Deep back)',
-      'A-line, Maxi සහ Casual Everyday ගවුම්',
-      'Party Gowns සහ Evening Function ඇඳුම්',
-      'Palazzo, Cigarette සහ Wide-leg Trousers (කලිසම්)',
-      'Pencil, Pleated සහ Wrap Skirts (සාය)',
-      'Traditional Salwar Kameez සහ Lehenga'
+      'A-line, Maxi and Casual Everyday Dresses',
+      'Party Gowns and Evening Function Wear',
+      'Palazzo, Cigarette and Wide-leg Trousers',
+      'Pencil, Pleated and Wrap Skirts',
+      'Traditional Salwar Kameez and Lehenga'
     ],
-    details: 'සාම්ප්‍රදායික සාරි හැට්ටයේ සිට නවීන Western Dresses දක්වා, ඔබට වඩාත්ම සුවපහසු ලෙස සහ අලංකාරව ගැලපෙන පරිදි නියමිත pattern අනුව මසා දෙනු ලැබේ.'
+    details: 'From traditional saree blouses to modern western dresses, everything is tailored to your exact pattern for the most comfortable and flattering fit.'
   },
   {
     id: 'kids-wear',
     category: 'kids',
     categoryLabel: 'Kids Wear',
     title: 'Kids Frocks & Function Sets',
-    shortDesc: 'පුංචි බබාලගේ Birthday Frocks, Party Dresses, සාම්ප්‍රදායික ඇඳුම් සහ පාසල් නිල ඇඳුම් (Uniforms).',
-    leadTime: 'දින 3–5 අතර',
+    shortDesc: 'Birthday frocks, party dresses, traditional outfits and school uniforms for your little ones.',
+    leadTime: '3–5 days',
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&auto=format&fit=crop&q=75',
     popularItems: [
-      'Flower Girl සහ Birthday Princess Frocks',
-      'සුවපහසු Cotton Day Frocks සහ Rompers',
+      'Flower Girl and Birthday Princess Frocks',
+      'Comfortable Cotton Day Frocks and Rompers',
       'Matching Top & Skirt / Pant Sets',
-      'Traditional Pattu Pavadai සහ ළමා සාරි',
-      'School Uniforms සහ පෙරපාසල් ඇඳුම්',
+      'Traditional Pattu Pavadai and Kids Sarees',
+      'School Uniforms and Preschool Outfits',
       'Ceremony & Family Event Sets'
     ],
-    details: 'කුඩා දරුවන්ට ඇඳීමට අපහසු නොවන සේ ඇතුළතට මෘදු Cotton Lining දමා, සමට නොදැනෙන පරිදි ඉතා පිරිසිදු නිමාවකින් මසනු ලැබේ.'
+    details: 'Soft cotton lining is used throughout so nothing irritates delicate skin, finished to a clean standard that\u2019s comfortable for kids to wear all day.'
   },
   {
     id: 'custom-design',
     category: 'custom',
     categoryLabel: 'Custom Design',
     title: 'Pattern Drafting & Reference Sewing',
-    shortDesc: 'ඔබ කැමති ඕනෑම Photo එකක් හෝ ඩිසයින් එකක් අපිට පෙන්වන්න. ඒ ආකාරයෙන්ම ඔබේ මිනුමට ගැලපෙන සේ මසා දෙනු ලැබේ.',
-    leadTime: 'දින 5–10 අතර',
+    shortDesc: 'Show us any photo or design idea — it will be tailored to match, fitted exactly to your measurements.',
+    leadTime: '5–10 days',
     image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&auto=format&fit=crop&q=75',
     popularItems: [
-      'ඔබ ලබාදෙන Photo එකට අනුව Pattern සකස් කිරීම',
-      'ඔබේ සිරුරට වඩාත්ම ගැලපෙන ලෙස නියමිත මිනුම් ලබාගැනීම',
-      'Design වෙනස්කම් සහ Pattern Modification',
-      'Bridal Retinue සහ Bridesmaid Dresses',
+      'Pattern drafting from a reference photo you provide',
+      'Precise measurements taken for the best fit on your body',
+      'Design adjustments and pattern modification',
+      'Bridal Retinue and Bridesmaid Dresses',
       'Family Matching Theme Outfits',
-      'විශේෂ අවශ්‍යතා අනුව කැමති පරිදි ඇඳුම් මැසීම'
+      'Custom sewing to any special requirement'
     ],
-    details: 'ඔබ තෝරාගත් රෙදි වර්ගයට හා ඩිසයින් එකට ගැලපෙන පරිදි, අවශ්‍ය Lining සහ Finishing යොදා ඔබ බලාපොරොත්තු වන පෙනුමෙන්ම මසා දෙනු ලැබේ.'
+    details: 'Matched to your chosen fabric and design, with the right lining and finishing, tailored to look exactly the way you pictured it.'
   },
   {
     id: 'alterations',
     category: 'alterations',
     categoryLabel: 'Alterations & Fitting',
     title: 'Fit Adjustments & Restyling',
-    shortDesc: 'ඇඳුම් වල උස අඩු වැඩි කිරීම, ඉණ හා අත් හරිගැස්වීම, අලුතින් Zip දැමීම ඇතුළු සියලුම Alteration කටයුතු.',
-    leadTime: 'දින 1–3 අතර',
+    shortDesc: 'Hemming, waist and sleeve adjustments, zip replacements and all other alteration work.',
+    leadTime: '1–3 days',
     image: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&auto=format&fit=crop&q=75',
     popularItems: [
-      'Dress සහ Trouser Hemming (උස අඩු වැඩි කිරීම)',
-      'Waist & Hip Resizing (ඉණ බුරුල් කිරීම හෝ තද කිරීම)',
-      'Sleeve Slimming සහ Armhole වෙනස් කිරීම',
-      'Concealed / Heavy-duty Zip දැමීම',
-      'මැහුම් ශක්තිමත් කිරීම සහ Lining අලුත්වැඩියාව',
-      'Neckline (කර) හැඩය වෙනස් කිරීම'
+      'Dress and Trouser Hemming (length adjustment)',
+      'Waist & Hip Resizing (loosening or tightening)',
+      'Sleeve Slimming and Armhole Adjustment',
+      'Concealed / Heavy-duty Zip Replacement',
+      'Seam Reinforcement and Lining Repair',
+      'Neckline Reshaping'
     ],
-    details: 'කඩෙන් ගත් හෝ කලින් මසන ලද ඇඳුම් ඔබේ ඇඟට හරි යන්නේ නැත්නම්, ඒවා පිළිවෙළට සකසා (alterations) ඇඟට ගැලපෙන සේ හරිගස්වා දෙනු ලැබේ.'
+    details: 'Store-bought or previously tailored garments that don\u2019t fit quite right are altered and refitted to sit perfectly on your body.'
   },
   {
     id: 'finishing',
     category: 'finishing',
     categoryLabel: 'Finishing Details',
     title: 'Decorative Finishes & Finishing',
-    shortDesc: 'Lace ඇල්ලීම, Piping, Frills, Pleats සහ Fabric Buttons වැනි සියුම් මැහුම් නිමාවන්.',
-    leadTime: 'දින 2–4 අතර',
+    shortDesc: 'Lace work, piping, frills, pleats and fabric-covered buttons — fine finishing touches.',
+    leadTime: '2–4 days',
     image: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&auto=format&fit=crop&q=75',
     popularItems: [
-      'Full සහ Half Breathable Linings දැමීම',
-      'Tiered Ruffles, Frills සහ Pleats වැඩ',
-      'Bias Binding සහ Contrast Piping',
-      'Lace Borders සහ Scalloped Hems',
-      'Handmade Fabric Buttons සහ Bows',
-      'Internal Boning සහ Bra Cups සවිකිරීම'
+      'Full and Half Breathable Linings',
+      'Tiered Ruffles, Frills and Pleats',
+      'Bias Binding and Contrast Piping',
+      'Lace Borders and Scalloped Hems',
+      'Handmade Fabric Buttons and Bows',
+      'Internal Boning and Bra Cup Fitting'
     ],
-    details: 'ඇඳුමේ පිටත මෙන්ම ඇතුළත ද නූල් නොඇදෙන සේ පිරිසිදුව, උසස් මැහුම් නිමාවකින් (Neat Finishing) යුතුව මසා දෙනු ලැබේ.'
+    details: 'Both the outside and inside of the garment are finished to a clean, thread-free standard with a premium neat-finish stitch quality.'
   }
 ];
 
@@ -124,7 +123,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'custom',
     categoryName: 'Custom Atelier',
     url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=75',
-    caption: 'නියමිත මිනුම් අනුව pattern සහ රෙදි කපන ආකාරය.',
+    caption: 'Pattern drafting and fabric cutting to exact measurements.',
     fabricType: 'Pure Linen & Raw Silk'
   },
   {
@@ -133,7 +132,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'ladies',
     categoryName: 'Ladies Wear',
     url: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&auto=format&fit=crop&q=75',
-    caption: 'Pleated Skirt එකක් සහිත අලංකාර Evening Gown එකක්.',
+    caption: 'An elegant evening gown with a pleated skirt.',
     fabricType: 'Silk Chiffon & Satin Lining'
   },
   {
@@ -142,7 +141,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'kids',
     categoryName: 'Kids Frocks',
     url: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&auto=format&fit=crop&q=75',
-    caption: 'Soft Net හා Cotton Lining සහිත ලස්සන Birthday Frock එකක්.',
+    caption: 'A beautiful birthday frock with soft net and cotton lining.',
     fabricType: 'Soft Tulle & 100% Breathable Cotton'
   },
   {
@@ -151,7 +150,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'details',
     categoryName: 'Finishing Details',
     url: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&auto=format&fit=crop&q=75',
-    caption: 'සියුම් Lace වැඩ හා පිරිසිදු මැහුම් නිමාව.',
+    caption: 'Delicate lacework and clean, neat finishing.',
     fabricType: 'Chantilly Lace & Organza'
   },
   {
@@ -160,7 +159,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'ladies',
     categoryName: 'Ladies Wear',
     url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=75',
-    caption: 'ඉණට belt එකක් සහිත A-line Dress එකක්.',
+    caption: 'An A-line dress with a fitted waist belt.',
     fabricType: 'Printed Rayon & Soft Voile'
   },
   {
@@ -169,7 +168,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'kids',
     categoryName: 'Kids Frocks',
     url: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&auto=format&fit=crop&q=75',
-    caption: 'Frill වැඩ සහිත කුඩා දරුවෙකුගේ ඇඳුමක්.',
+    caption: 'A little one\u2019s outfit finished with frill work.',
     fabricType: 'Handloom Cotton'
   },
   {
@@ -178,7 +177,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'custom',
     categoryName: 'Custom Atelier',
     url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&auto=format&fit=crop&q=75',
-    caption: 'රෙදි කැපීමට පෙර pattern එක නිවැරදිව පරීක්ෂා කර බැලීම.',
+    caption: 'Checking the pattern carefully before cutting the fabric.',
     fabricType: 'Tailoring Shears & Pattern Board'
   },
   {
@@ -187,7 +186,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'ladies',
     categoryName: 'Ladies Wear',
     url: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&auto=format&fit=crop&q=75',
-    caption: 'Deep Back විලාසිතාවේ සාරි හැට්ටයක් (Saree Blouse).',
+    caption: 'A saree blouse in a deep-back style.',
     fabricType: 'Brocade & Silk Tissue'
   },
   {
@@ -196,7 +195,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'ladies',
     categoryName: 'Ladies Wear',
     url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=75',
-    caption: 'Pleats හා side pockets සහිත කාන්තා කලිසමක් (Trouser).',
+    caption: 'A ladies\u2019 trouser with pleats and side pockets.',
     fabricType: 'Wool Blend Suiting'
   },
   {
@@ -205,7 +204,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'details',
     categoryName: 'Finishing Details',
     url: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&auto=format&fit=crop&q=75',
-    caption: 'කල්පවතින ශක්තිමත් පිරිසිදු මැහුම් නිමාව.',
+    caption: 'Durable, long-lasting, clean stitch finishing.',
     fabricType: 'Spun Polyester Threads'
   },
   {
@@ -214,7 +213,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'kids',
     categoryName: 'Kids Frocks',
     url: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&auto=format&fit=crop&q=75',
-    caption: 'පිළිවෙළට මසන ලද පාසල් නිල ඇඳුමක්.',
+    caption: 'A neatly tailored school uniform.',
     fabricType: 'Durable Poplin & Twill'
   },
   {
@@ -223,52 +222,52 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     category: 'custom',
     categoryName: 'Custom Atelier',
     url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=75',
-    caption: 'එක් එක් කෙනාගේ මිනුම් වලට ගැලපෙන ලෙස pattern ඇඳීම.',
+    caption: 'Drafting a pattern fitted to each individual customer\u2019s measurements.',
     fabricType: 'Craft Drafting Paper'
   }
 ];
 
 export const FABRIC_GUIDES: FabricGuide[] = [
   {
-    garment: 'Traditional Saree Blouse (සාරි හැට්ටය)',
+    garment: 'Traditional Saree Blouse',
     category: 'Ladies',
-    fabricRequirement: 'මීටර් 0.8 සිට 1.0 දක්වා (Standard 44" පළල)',
+    fabricRequirement: '0.8 to 1.0 meters (Standard 44" width)',
     recommendedFabrics: ['Raw Silk', 'Cotton Brocade', 'Velvet', 'Chanderi'],
-    tip: 'වැලමිට ළඟට දිග අත් හෝ Princess Cut සඳහා නම් මීටර් 1.2ක් පමණ රැගෙන ඒම වඩාත් සුදුසුයි.'
+    tip: 'For elbow-length sleeves or a princess cut, bringing about 1.2 meters is best.'
   },
   {
-    garment: 'A-Line Knee-Length Dress (දණහිස දක්වා)',
+    garment: 'A-Line Knee-Length Dress',
     category: 'Ladies',
-    fabricRequirement: 'මීටර් 2.0 සිට 2.5 දක්වා (44"–54" පළල)',
+    fabricRequirement: '2.0 to 2.5 meters (44"–54" width)',
     recommendedFabrics: ['Linen', 'Cotton Twill', 'Crepe', 'Rayon Viscose'],
-    tip: 'අත් පළල් කර මසන්නේ නම් හෝ belt එකක් අවශ්‍ය නම් තවත් මීටර් භාගයක් (0.5m) අමතරව රැගෙන ඒම වඩාත් සුදුසුයි.'
+    tip: 'If you want wider sleeves or a fitted belt, bring an extra half meter (0.5m) as well.'
   },
   {
-    garment: 'Floor-Length Maxi / Gown (බිම ගෑවෙන දිග)',
+    garment: 'Floor-Length Maxi / Gown',
     category: 'Ladies',
-    fabricRequirement: 'මීටර් 3.5 සිට 4.5 දක්වා',
+    fabricRequirement: '3.5 to 4.5 meters',
     recommendedFabrics: ['Chiffon', 'Georgette', 'Satin', 'Modal Silk'],
-    tip: 'පළල් Flare එකක් අවශ්‍ය නම් මීටර් 4ක් පමණ අවශ්‍ය වේ. ඇතුළත lining එක සඳහා වෙනම මීටර් 3ක් පමණ රැගෙන එන්න.'
+    tip: 'About 4 meters is needed for a wide flare. Bring a separate 3 meters or so for the inner lining.'
   },
   {
-    garment: 'Tailored Cigarette or Palazzo Pants (කලිසම්)',
+    garment: 'Tailored Cigarette or Palazzo Pants',
     category: 'Ladies',
-    fabricRequirement: 'මීටර් 2.0 සිට 2.25 දක්වා',
+    fabricRequirement: '2.0 to 2.25 meters',
     recommendedFabrics: ['Cotton Stretch', 'Linen Blend', 'Heavy Crepe', 'Wool Blend'],
-    tip: 'ඇඳීමට පහසු වීම සඳහා මදක් ඇදෙන සුළු (stretch) රෙදි වර්ග තෝරාගැනීම වඩාත් සුදුසුයි.'
+    tip: 'A fabric with a bit of stretch is best for comfortable everyday wear.'
   },
   {
-    garment: 'Kids Party / Birthday Frock (අවුරුදු 3–8)',
+    garment: 'Kids Party / Birthday Frock (ages 3–8)',
     category: 'Kids',
-    fabricRequirement: 'මීටර් 1.5–2.0 Main Fabric + 1.0m Net/Tulle',
+    fabricRequirement: '1.5–2.0m Main Fabric + 1.0m Net/Tulle',
     recommendedFabrics: ['Satin Silk', 'Organza', 'Soft Cotton Poplin'],
-    tip: 'දරුවාට ඇඳීමට අපහසු නොවන සේ ඇතුළත lining එක සඳහා 100% Cotton රෙදි රැගෙන ඒම වඩාත් සුදුසුයි.'
+    tip: 'Bring 100% cotton fabric for the inner lining so it\u2019s comfortable for a child to wear.'
   },
   {
-    garment: 'Kids Casual Day Dress / Set (අවුරුදු 1–5)',
+    garment: 'Kids Casual Day Dress / Set (ages 1–5)',
     category: 'Kids',
-    fabricRequirement: 'මීටර් 1.0 සිට 1.25 දක්වා',
+    fabricRequirement: '1.0 to 1.25 meters',
     recommendedFabrics: ['Printed Cotton', 'Muslin', 'Linen-Cotton'],
-    tip: 'Cotton රෙදි මසන්නට කලින් වතුර දමා වේලා ගැනීමෙන් (wash කර ගැනීමෙන්) පසුව ඇඳුම හැකිලීම වළක්වා ගත හැක.'
+    tip: 'Washing cotton fabric before sewing helps prevent the garment from shrinking afterward.'
   }
 ];
