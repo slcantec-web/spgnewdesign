@@ -8,7 +8,11 @@ binding = "IMAGES_BUCKET"
 bucket_name = "sp-garment-images"
 preview_bucket_name = "sp-garment-images"
 
-# (Optional) Cloudflare KV binding for super-fast cached configuration
+# (Optional but recommended) Cloudflare KV binding for fast cached configuration
+# AND for rate-limiting the /api/auth/change-password endpoint. Without this
+# binding, config falls back to being stored inside the R2 bucket and the
+# rate limiter is skipped (Workers don't reliably share in-memory state
+# between requests, so KV is what makes per-IP attempt counting possible).
 # [[kv_namespaces]]
 # binding = "CONFIG_KV"
 # id = "YOUR_KV_NAMESPACE_ID"

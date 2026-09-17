@@ -8,9 +8,14 @@
  * 2. Settings -> Variables -> R2 Bucket Bindings:
  *    - Variable name: IMAGES_BUCKET
  *    - R2 Bucket: select your bucket (e.g. sp-garment-images)
- * 3. (Optional) Settings -> Variables -> Environment Variables:
+ * 3. (Optional but recommended) Settings -> Variables -> KV Namespace Bindings:
+ *    - Variable name: CONFIG_KV
+ *    - KV Namespace: create/select one (e.g. spg-config)
+ *    Binding this enables both faster config reads and the rate limiter
+ *    on the password-change endpoint below.
+ * 4. (Optional) Settings -> Variables -> Environment Variables:
  *    - PUBLIC_R2_URL: your custom domain or pub-xxx.r2.dev URL (optional)
- * 4. Paste this code directly into the editor and click "Deploy"!
+ * 5. Paste this code directly into the editor and click "Deploy"!
  */
 
 // Initial Default SHA-256 Hash for 'spgarment2024'
@@ -21,6 +26,67 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Admin-Secret',
 };
+
+// --- Rate limiting for /api/auth/change-password ---
+// Workers don't keep reliable in-memory state between requests (each
+// request can land on a fresh isolate), so this uses KV as the shared
+// counter store, keyed per client IP with a sliding window.
+// If CONFIG_KV isn't bound, rate limiting is silently skipped rather than
+// failing the request — bind CONFIG_KV (see setup notes above) to enable it.
+const RATE_LIMIT_WINDOW_SEC = 15 * 60; // 15 minutes
+const RATE_LIMIT_MAX_ATTEMPTS = 10;
+
+async function checkRateLimit(env, request, bucketName) {
+  if (!env.CONFIG_KV) {
+    // No KV bound — can't track attempts across requests, so allow through.
+    return { limited: false };
+  }
+
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const key = `ratelimit:${bucketName}:${ip}`;
+  const now = Date.now();
+
+  let bucket = null;
+  try {
+    const raw = await env.CONFIG_KV.get(key);
+    if (raw) bucket = JSON.parse(raw);
+  } catch {
+    bucket = null;
+  }
+
+  if (!bucket || now - bucket.windowStart > RATE_LIMIT_WINDOW_SEC * 1000) {
+    bucket = { count: 1, windowStart: now };
+    await env.CONFIG_KV.put(key, JSON.stringify(bucket), { expirationTtl: RATE_LIMIT_WINDOW_SEC });
+    return { limited: false };
+  }
+
+  bucket.count += 1;
+  const retryAfterSec = Math.max(
+    1,
+    Math.ceil((RATE_LIMIT_WINDOW_SEC * 1000 - (now - bucket.windowStart)) / 1000)
+  );
+
+  if (bucket.count > RATE_LIMIT_MAX_ATTEMPTS) {
+    return { limited: true, retryAfterSec };
+  }
+
+  await env.CONFIG_KV.put(key, JSON.stringify(bucket), { expirationTtl: retryAfterSec });
+  return { limited: false };
+}
+
+function rateLimitedResponse(retryAfterSec) {
+  return new Response(
+    JSON.stringify({
+      success: false,
+      error: 'Too many password attempts from this device. Please wait before trying again.',
+      retryAfterSeconds: retryAfterSec,
+    }),
+    {
+      status: 429,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Retry-After': String(retryAfterSec) },
+    }
+  );
+}
 
 export default {
   async fetch(request, env) {
@@ -77,6 +143,11 @@ export default {
 
       // 2. POST /api/auth/change-password -> Updates SHA-256 password hash across all devices
       if (url.pathname === '/api/auth/change-password' && request.method === 'POST') {
+        const rateCheck = await checkRateLimit(env, request, 'change-password');
+        if (rateCheck.limited) {
+          return rateLimitedResponse(rateCheck.retryAfterSec);
+        }
+
         const body = await request.json();
         if (!body.newHash || body.newHash.length !== 64) {
           return new Response(
