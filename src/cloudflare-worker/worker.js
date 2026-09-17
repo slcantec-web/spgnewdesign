@@ -21,6 +21,12 @@
 // Initial Default SHA-256 Hash for 'spgarment2024'
 const DEFAULT_HASH = 'a87bf471c9656f49c082c462893809457c67672aa8c53054b8248ddefd26d7bf';
 
+// All KV keys this Worker touches are prefixed with this, so the same KV
+// namespace can safely be shared with other, unrelated Cloudflare Worker
+// projects without their keys colliding with (and silently overwriting)
+// this project's password hash, images, or rate-limit counters.
+const KV_PREFIX = 'spg:';
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -43,7 +49,7 @@ async function checkRateLimit(env, request, bucketName) {
   }
 
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
-  const key = `ratelimit:${bucketName}:${ip}`;
+  const key = `${KV_PREFIX}ratelimit:${bucketName}:${ip}`;
   const now = Date.now();
 
   let bucket = null;
@@ -104,8 +110,8 @@ export default {
         let images = {};
 
         if (env.CONFIG_KV) {
-          passwordHash = (await env.CONFIG_KV.get('admin_password_hash')) || DEFAULT_HASH;
-          const imagesJson = await env.CONFIG_KV.get('custom_images');
+          passwordHash = (await env.CONFIG_KV.get(`${KV_PREFIX}admin_password_hash`)) || DEFAULT_HASH;
+          const imagesJson = await env.CONFIG_KV.get(`${KV_PREFIX}custom_images`);
           if (imagesJson) {
             try {
               images = JSON.parse(imagesJson);
@@ -157,7 +163,7 @@ export default {
         }
 
         if (env.CONFIG_KV) {
-          await env.CONFIG_KV.put('admin_password_hash', body.newHash);
+          await env.CONFIG_KV.put(`${KV_PREFIX}admin_password_hash`, body.newHash);
         } else if (env.IMAGES_BUCKET) {
           const configFile = await env.IMAGES_BUCKET.get('_config/app-config.json');
           let currentConfig = {};
@@ -186,7 +192,7 @@ export default {
         const imagesMap = body.images || {};
 
         if (env.CONFIG_KV) {
-          await env.CONFIG_KV.put('custom_images', JSON.stringify(imagesMap));
+          await env.CONFIG_KV.put(`${KV_PREFIX}custom_images`, JSON.stringify(imagesMap));
         } else if (env.IMAGES_BUCKET) {
           const configFile = await env.IMAGES_BUCKET.get('_config/app-config.json');
           let currentConfig = {};
