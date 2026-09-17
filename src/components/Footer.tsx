@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             </div>
 
             <p className="text-xs sm:text-sm text-[#BDB5AB] leading-relaxed max-w-sm font-light">
-              මිනුවන්ගොඩ Horampalla හි පිහිටි Ladies සහ Kids Tailor Shop එක. ඔබ කැමති ඕනෑම විලාසිතාවකින්, නියමිත මිනුමට පිරිසිදුව මසා නිමකර දෙනු ලැබේ.
+              A Ladies and Kids tailor shop in Horampalla, Minuwangoda. Any style you like, tailored precisely to your measurements and finished cleanly.
             </p>
 
             <div className="font-mono text-xs text-[#C28E46]">
@@ -36,7 +36,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Quick links */}
           <div>
             <h4 className="font-mono text-xs uppercase tracking-widest text-[#A89E92] mb-3">
-              ප්‍රධාන සේවාවන්
+              Main Services
             </h4>
             <ul className="space-y-2 text-xs text-[#DBD3C8]">
               <li><a href="#services" className="hover:text-[#C28E46] transition-colors">Ladies Wear</a></li>
@@ -50,19 +50,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Shop hours */}
           <div>
             <h4 className="font-mono text-xs uppercase tracking-widest text-[#A89E92] mb-3">
-              විවෘත වේලාවන්
+              Opening Hours
             </h4>
             <div className="space-y-1.5 text-xs text-[#DBD3C8]">
               <div>
-                <span className="block text-[#8C8275]">සඳුදා – සෙනසුරාදා:</span>
+                <span className="block text-[#8C8275]">Monday – Saturday:</span>
                 <span className="font-mono font-medium text-white">08:30 — 17:30</span>
               </div>
               <div>
-                <span className="block text-[#8C8275]">ඉරිදා:</span>
+                <span className="block text-[#8C8275]">Sunday:</span>
                 <span className="font-mono font-medium text-white">09:30 — 17:30</span>
               </div>
               <p className="text-[11px] text-[#A89E92] pt-1">
-                මිනුම් ලබාදීම සඳහා විවෘත වේලාවන් තුළ පැමිණිය හැක.
+                Walk in during opening hours to have your measurements taken.
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Contact & Map */}
           <div>
             <h4 className="font-mono text-xs uppercase tracking-widest text-[#A89E92] mb-3">
-              අප අමතන්න
+              Contact Us
             </h4>
             <div className="space-y-2.5 text-xs text-[#DBD3C8]">
               <div>

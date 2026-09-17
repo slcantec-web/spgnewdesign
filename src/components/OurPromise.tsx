@@ -9,26 +9,26 @@ export const OurPromise: React.FC<OurPromiseProps> = ({ onEnquireClick }) => {
   const steps = [
     {
       num: '01',
-      title: 'විලාසිතාව සහ රෙදි තෝරාගැනීම',
-      desc: 'ඔබ කැමති ඩිසයින් එකක photo එකක් හෝ අදහසක් සමඟ රෙදි රැගෙන අප වෙත පැමිණෙන්න.',
+      title: 'Choose Your Style & Fabric',
+      desc: 'Bring your fabric along with a photo of the design you like, or just an idea in mind.',
       icon: Scissors
     },
     {
       num: '02',
-      title: 'මිනුම් ලබාගැනීම',
-      desc: 'ඔබේ සිරුරට වඩාත්ම සුවපහසුවෙන් සහ අලංකාරව ගැලපෙන ලෙස අපගේ tailor shop එකේදීම නිවැරදිව මිනුම් ලබාගනු ලැබේ.',
+      title: 'Measurements Taken',
+      desc: 'Your exact measurements are taken in-store, for the most comfortable and flattering fit.',
       icon: Compass
     },
     {
       num: '03',
-      title: 'රෙදි කපා මැසීම',
-      desc: 'පැටර්න් කපා, අවශ්‍ය lining සහ piping යොදා ඉතා පිරිසිදු නිමාවකින් යුතුව මසා නිම කරනු ලැබේ.',
+      title: 'Cutting & Sewing',
+      desc: 'The pattern is cut, lining and piping are added as needed, and the garment is sewn to a clean finish.',
       icon: Sparkles
     },
     {
       num: '04',
-      title: 'ඇඳ බලා භාරගැනීම (Fitting)',
-      desc: 'ඇඳුම මසා නිම වූ පසු ඇඳ බලා, අවශ්‍ය නම් වෙනස්කම්ද සිදු කර නියමිත දිනටම ලබාදෙනු ලැබේ.',
+      title: 'Fitting & Handover',
+      desc: 'Once finished, the garment is fitted on and adjusted if needed before being handed over on time.',
       icon: CheckCircle
     }
   ];
@@ -44,16 +44,16 @@ export const OurPromise: React.FC<OurPromiseProps> = ({ onEnquireClick }) => {
         <div className="max-w-3xl mb-14">
           <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#C28E46] mb-3">
             <span className="w-6 h-px bg-[#C28E46]" />
-            <span>අපේ සේවාව සිදුවන ආකාරය (Our Process)</span>
+            <span>Our Process</span>
           </div>
 
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal leading-tight tracking-tight text-[#FAF8F5] mb-4">
-            ඔබ කැමති ඕනෑම ඩිසයින් එකක්,<br />
-            <em className="italic text-[#C28E46]">ඔබේම මිනුමට ලස්සනට මසා ගන්න.</em>
+            Any style you like,<br />
+            <em className="italic text-[#C28E46]">tailored to your own measurements.</em>
           </h2>
 
           <p className="text-sm sm:text-base text-[#C7BEB3] leading-relaxed font-light">
-            S.P. Garment වෙතින් කාන්තා සහ ළමා ඇඳුම් ඔබ කැමති විලාසිතාවකට අනුව, ඔබේ සිරුරට අලංකාරව ගැලපෙන පරිදි උසස් මැහුම් නිමාවකින් යුතුව මසා ගත හැක.
+            S.P. Garment tailors Ladies and Kids wear in any style you choose, fitted beautifully to your body with premium sewing finish.
           </p>
 
           <div className="mt-5 pt-3 border-t border-white/10 font-mono text-xs sm:text-sm text-[#C28E46] tracking-wider uppercase">
@@ -95,10 +95,10 @@ export const OurPromise: React.FC<OurPromiseProps> = ({ onEnquireClick }) => {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 sm:p-6 rounded-xl bg-[#23201C]/80 border border-white/10">
           <div>
             <h4 className="font-serif text-lg text-white font-semibold">
-              ඇඳුමක් මසා ගැනීමට අවශ්‍යද?
+              Ready to get a garment tailored?
             </h4>
             <p className="text-xs text-[#A89E92]">
-              මිනුවන්ගොඩ හොරම්පැල්ලේ අපගේ tailor shop එකට පැමිණෙන්න. නැතහොත් WhatsApp හෝ දුරකථනයෙන් විස්තර විමසන්න.
+              Visit our tailor shop in Horampalla, Minuwangoda, or reach out via WhatsApp or phone for details.
             </p>
           </div>
           <button
@@ -106,7 +106,7 @@ export const OurPromise: React.FC<OurPromiseProps> = ({ onEnquireClick }) => {
             onClick={onEnquireClick}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs sm:text-sm transition-colors shrink-0 cursor-pointer"
           >
-            <span>විස්තර විමසන්න</span>
+            <span>Send an Enquiry</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Check, Clock, MessageSquare } from 'lucide-react';
 import { SERVICES, STUDIO_INFO } from '../data/tailoringData';
 import { useCustomImages } from '../services/imageManager';
+import { buildResponsiveImage } from '../utils/imageOptim';
 
 interface ServicesSectionProps {
   selectedServiceId: string | null;
@@ -17,7 +18,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   const [expandedId, setExpandedId] = useState<string | null>(selectedServiceId || null);
 
   const filters = [
-    { key: 'all', label: 'All Services (සියල්ල)' },
+    { key: 'all', label: 'All Services' },
     { key: 'ladies', label: 'Ladies Wear' },
     { key: 'kids', label: 'Kids Wear' },
     { key: 'custom', label: 'Custom Design' },
@@ -38,34 +39,34 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
               <span className="w-6 h-px bg-[#181614]" />
-              <span>Tailoring Catalogue (මැහුම් සේවාවන්)</span>
+              <span>Tailoring Catalogue</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15]">
               Services <em className="italic text-[#C28E46]">crafted</em> for you.
             </h2>
             <p className="text-sm sm:text-base text-[#665D52] mt-2 max-w-xl font-normal">
-              සාරි හැට්ට, කාන්තා ගවුම්, කලිසම්, සායවල් සහ පුංචි බබාලගේ ඇඳුම් ඔබ කැමති ඕනෑම විලාසිතාවකට අනුව පිළිවෙළට මසා දෙනු ලැබේ.
+              Saree blouses, dresses, trousers, skirts and little ones' outfits, tailored to any style you like.
             </p>
           </div>
 
           {/* WhatsApp Direct Banner */}
           <div className="bg-[#FFFFFF] border border-[#E4DCCE] p-4 rounded-xl shadow-xs max-w-xs shrink-0">
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#C28E46] font-semibold block">
-              කැමති ඩිසයින් එකක Photo එකක් තියෙනවද?
+              Have a photo of a design you like?
             </span>
             <p className="text-xs text-[#524B43] mt-1 mb-2">
-              ඔබ මසා ගැනීමට කැමති ඇඳුමේ photo එකක් අපේ WhatsApp අංකයට එවන්න. ඒ සඳහා යන වියදම සහ දින ගණන අපෙන් විමසන්න.
+              Send us a photo of the garment you'd like tailored on WhatsApp, and we'll get back to you with the cost and timeline.
             </p>
             <a
               href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                'හෙලෝ S.P. Garment, මා ළඟ මැසීමට අවශ්‍ය ඇඳුමක Photo Reference එකක් තියෙනවා.'
+                "Hello S.P. Garment, I have a photo reference of a garment I'd like tailored."
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181614] hover:text-[#C28E46] transition-colors"
             >
               <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
-              <span>Photo එක WhatsApp කරන්න →</span>
+              <span>Send Photo on WhatsApp →</span>
             </a>
           </div>
         </div>
@@ -92,15 +93,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredServices.map((service, index) => {
             const isExpanded = expandedId === service.id;
+            // Cards render at roughly 1/3, 1/2, or full viewport width depending
+            // on breakpoint, so ask for a matching image size instead of a flat w=600.
+            const cardImg = buildResponsiveImage(
+              getImage(service.id, service.image),
+              [400, 600, 800],
+              '(min-width: 1024px) 32vw, (min-width: 768px) 46vw, 92vw'
+            );
+
             return (
               <div
                 key={service.id}
-                className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col group"
+                className="bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-300 flex flex-col group"
               >
                 {/* Image Thumbnail */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#181614]">
+                <div className="cv-tile relative aspect-[16/10] overflow-hidden bg-[#181614]">
                   <img
-                    src={getImage(service.id, service.image)}
+                    src={cardImg.src}
+                    srcSet={cardImg.srcSet}
+                    sizes={cardImg.sizes}
+                    width={640}
+                    height={400}
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
@@ -109,14 +122,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   
                   {/* Category Pill */}
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#181614]/85 text-[#FAF8F5] text-[10px] font-mono tracking-wider uppercase backdrop-blur-xs">
+                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#181614]/85 text-[#FAF8F5] text-[10px] font-mono tracking-wider uppercase">
                     0{index + 1} / {service.categoryLabel}
                   </span>
 
                   {/* Lead Time Badge */}
                   <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-[#FAF8F5]/95 text-[#181614] text-[11px] font-medium flex items-center gap-1 whitespace-nowrap shadow-xs">
                     <Clock className="w-3 h-3 text-[#C28E46] shrink-0" />
-                    <span>නිමකිරීම: {service.leadTime}</span>
+                    <span>Ready in: {service.leadTime}</span>
                   </span>
                 </div>
 
@@ -134,7 +147,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     {/* Popular items / tags */}
                     <div className="space-y-1.5 pt-2 border-t border-[#F0EAE1]">
                       <span className="font-mono text-[10px] tracking-wider uppercase text-[#8C8275] block mb-1.5">
-                        බහුලව මසන විලාසිතා:
+                        Popular Styles:
                       </span>
                       {service.popularItems.slice(0, isExpanded ? service.popularItems.length : 3).map((item, idx) => (
                         <div key={idx} className="flex items-start gap-2 text-xs text-[#423C34]">
@@ -149,7 +162,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                           onClick={() => setExpandedId(isExpanded ? null : service.id)}
                           className="text-xs text-[#C28E46] hover:underline font-medium pt-1 block cursor-pointer"
                         >
-                          {isExpanded ? 'අඩු කරන්න' : `+ තවත් ${service.popularItems.length - 3} ක් බලන්න...`}
+                          {isExpanded ? 'Show less' : `+ See ${service.popularItems.length - 3} more...`}
                         </button>
                       )}
                     </div>
@@ -162,13 +175,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       onClick={() => onEnquireForService(service.title)}
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181614] hover:text-[#C28E46] transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      <span>විස්තර විමසන්න</span>
+                      <span>Ask for Details</span>
                       <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                     </button>
 
                     <a
                       href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                        `හෙලෝ S.P. Garment, මට ඔබේ ${service.title} සේවාව පිළිබඳ විස්තර සහ මිල ගණන් දැනගැනීමට අවශ්‍යයි.`
+                        `Hello S.P. Garment, I'd like to know more about your ${service.title} service and pricing.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

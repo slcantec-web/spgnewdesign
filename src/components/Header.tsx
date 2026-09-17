@@ -23,11 +23,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
 
   return (
     <>
+      {/*
+        Note: no backdrop-blur here. A fixed, blurred header sitting above a
+        scrolling image grid forces the GPU to re-sample every pixel behind
+        it on every frame, which is the main cause of janky mobile scroll.
+        A solid near-opaque background gives nearly the same look for a
+        fraction of the cost. Padding stays constant (no py toggle) so the
+        header never triggers a layout recompute when the scroll state flips.
+      */}
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 gpu-layer ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 gpu-layer py-3 ${
           scrolled
-            ? 'bg-[#FAF8F5]/95 backdrop-blur-md shadow-sm border-b border-[#E8E2D6] py-2.5'
-            : 'bg-[#FAF8F5] border-b border-[#ECE6DB] py-3.5'
+            ? 'bg-[#FAF8F5] shadow-sm border-b border-[#E8E2D6]'
+            : 'bg-[#FAF8F5] border-b border-[#ECE6DB]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                   href="#services"
                   className="px-3 py-2 text-xs lg:text-sm font-medium text-[#4A453E] hover:text-[#181614] hover:bg-[#F0EBE1] rounded-md transition-colors inline-flex items-center gap-1"
                 >
-                  සේවාවන් (Services)
+                  Services
                   <ChevronDown className="w-3.5 h-3.5 opacity-60" />
                 </a>
 
@@ -97,21 +105,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 href="#gallery"
                 className="px-3 py-2 text-xs lg:text-sm font-medium text-[#4A453E] hover:text-[#181614] hover:bg-[#F0EBE1] rounded-md transition-colors"
               >
-                විලාසිතා (Gallery)
+                Gallery
               </a>
 
               <a
                 href="#calculator"
                 className="px-3 py-2 text-xs lg:text-sm font-medium text-[#4A453E] hover:text-[#181614] hover:bg-[#F0EBE1] rounded-md transition-colors"
               >
-                රෙදි මඟපෙන්වීම (Fabric Guide)
+                Fabric Guide
               </a>
 
               <a
                 href="#hours"
                 className="px-3 py-2 text-xs lg:text-sm font-medium text-[#4A453E] hover:text-[#181614] hover:bg-[#F0EBE1] rounded-md transition-colors"
               >
-                ලිපිනය සහ වේලාවන්
+                Location & Hours
               </a>
             </nav>
 
@@ -179,7 +187,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
       {/* Mobile Menu Drawer & Overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex flex-col">
-          {/* Backdrop */}
+          {/* Backdrop — modal-only blur is fine since it doesn't run during scroll */}
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
@@ -213,7 +221,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>මුල් පිටුව (Home)</span>
+                <span>Home</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">01</span>
               </a>
 
@@ -222,7 +230,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>මසා දෙන ඇඳුම් (Services)</span>
+                <span>Services</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">02</span>
               </a>
 
@@ -231,7 +239,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>විලාසිතා (Gallery)</span>
+                <span>Gallery</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">03</span>
               </a>
 
@@ -240,7 +248,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>අවශ්‍ය රෙදි ප්‍රමාණය (Fabric Guide)</span>
+                <span>Fabric Guide</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">04</span>
               </a>
 
@@ -249,7 +257,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>ස්ථානය සහ වේලාවන් (Hours & Map)</span>
+                <span>Hours & Map</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">05</span>
               </a>
 
@@ -258,7 +266,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-3 px-2 font-medium text-[#181614] hover:text-[#C28E46] flex items-center justify-between transition-colors"
               >
-                <span>විස්තර විමසන්න (WhatsApp Enquiry)</span>
+                <span>WhatsApp Enquiry</span>
                 <span className="text-[11px] font-mono text-[#8C8275]">06</span>
               </a>
             </div>

@@ -3,6 +3,7 @@ import { Eye, X, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_PHOTOS, STUDIO_INFO } from '../data/tailoringData';
 import { GalleryPhoto } from '../types';
 import { useCustomImages } from '../services/imageManager';
+import { buildResponsiveImage } from '../utils/imageOptim';
 
 export const GallerySection: React.FC = () => {
   const { getImage } = useCustomImages();
@@ -10,9 +11,9 @@ export const GallerySection: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
 
   const categories = [
-    { key: 'all', label: 'සියල්ල (All)' },
-    { key: 'ladies', label: 'කාන්තා ඇඳුම්' },
-    { key: 'kids', label: 'ළමා ඇඳුම්' },
+    { key: 'all', label: 'All' },
+    { key: 'ladies', label: 'Ladies Wear' },
+    { key: 'kids', label: 'Kids Wear' },
     { key: 'custom', label: 'Custom Designs' },
     { key: 'details', label: 'Finishing Details' },
   ];
@@ -52,13 +53,13 @@ export const GallerySection: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
               <span className="w-6 h-px bg-[#181614]" />
-              <span>විලාසිතා හා නිර්මාණ අදහස් (Design Inspirations)</span>
+              <span>Design Inspirations</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15]">
               A glimpse of <em className="italic text-[#C28E46]">our craft.</em>
             </h2>
             <p className="text-sm sm:text-base text-[#665D52] mt-2 max-w-xl font-normal">
-              අප විසින් මසන ලද කාන්තා සහ ළමා ඇඳුම් විලාසිතා කිහිපයක් මෙතැනින් බලන්න.
+              A few of the Ladies and Kids wear styles we've tailored.
             </p>
           </div>
 
@@ -83,56 +84,76 @@ export const GallerySection: React.FC = () => {
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
-          {filteredPhotos.map((photo, index) => (
-            <div
-              key={photo.id}
-              onClick={() => setSelectedPhoto(photo)}
-              className="group relative rounded-xl overflow-hidden bg-[#181614] aspect-[3/4] cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 border border-[#E0D5C5]"
-            >
-              <img
-                src={getImage(photo.id, photo.url)}
-                alt={photo.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-                loading="lazy"
-                decoding="async"
-              />
+          {filteredPhotos.map((photo, index) => {
+            // Grid tiles render at roughly 150–280px wide depending on breakpoint,
+            // so request correspondingly small images instead of a flat w=600 for everyone.
+            const tileImg = buildResponsiveImage(
+              getImage(photo.id, photo.url),
+              [280, 400, 560],
+              '(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 46vw'
+            );
 
-              {/* Number tag */}
-              <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] font-mono text-white/90">
-                0{index + 1}
-              </span>
+            return (
+              <div
+                key={photo.id}
+                onClick={() => setSelectedPhoto(photo)}
+                className="cv-tile group relative rounded-xl overflow-hidden bg-[#181614] aspect-[3/4] cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 border border-[#E0D5C5]"
+              >
+                <img
+                  src={tileImg.src}
+                  srcSet={tileImg.srcSet}
+                  sizes={tileImg.sizes}
+                  width={480}
+                  height={640}
+                  alt={photo.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                  loading="lazy"
+                  decoding="async"
+                />
 
-              {/* Category chip */}
-              <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-[#FAF8F5]/90 text-[10px] font-mono text-[#181614] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                {photo.categoryName}
-              </span>
+                {/* Number tag */}
+                <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-white/90">
+                  0{index + 1}
+                </span>
 
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                {/* Category chip */}
+                <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-[#FAF8F5]/90 text-[10px] font-mono text-[#181614] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  {photo.categoryName}
+                </span>
 
-              {/* Details on Hover / Card Footer */}
-              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white transform translate-y-1 group-hover:translate-y-0 transition-transform">
-                <h4 className="font-serif text-sm sm:text-base font-semibold leading-tight line-clamp-1 text-[#FAF8F5]">
-                  {photo.title}
-                </h4>
-                <p className="text-[11px] text-[#D4CBBF] line-clamp-2 mt-1 hidden sm:block">
-                  {photo.caption}
-                </p>
-                <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-[#C28E46]">
-                  <span>{photo.fabricType}</span>
-                  <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Eye className="w-3 h-3" /> View
-                  </span>
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+
+                {/* Details on Hover / Card Footer */}
+                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white transform translate-y-1 group-hover:translate-y-0 transition-transform">
+                  <h4 className="font-serif text-sm sm:text-base font-semibold leading-tight line-clamp-1 text-[#FAF8F5]">
+                    {photo.title}
+                  </h4>
+                  <p className="text-[11px] text-[#D4CBBF] line-clamp-2 mt-1 hidden sm:block">
+                    {photo.caption}
+                  </p>
+                  <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-[#C28E46]">
+                    <span>{photo.fabricType}</span>
+                    <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Eye className="w-3 h-3" /> View
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedPhoto && (
+      {/* Lightbox Modal — fixed + blurred, but only while open (not during page scroll), so this is fine perf-wise */}
+      {selectedPhoto && (() => {
+        const lightboxImg = buildResponsiveImage(
+          getImage(selectedPhoto.id, selectedPhoto.url),
+          [480, 720, 960],
+          '(min-width: 768px) 60vw, 100vw'
+        );
+        return (
         <div
           role="dialog"
           aria-modal="true"
@@ -176,9 +197,12 @@ export const GallerySection: React.FC = () => {
             {/* Image side */}
             <div className="md:w-3/5 bg-black flex items-center justify-center overflow-hidden">
               <img
-                src={getImage(selectedPhoto.id, selectedPhoto.url)}
+                src={lightboxImg.src}
+                srcSet={lightboxImg.srcSet}
+                sizes={lightboxImg.sizes}
                 alt={selectedPhoto.title}
                 className="max-h-[55vh] md:max-h-[80vh] w-full object-contain"
+                decoding="async"
               />
             </div>
 
@@ -212,14 +236,14 @@ export const GallerySection: React.FC = () => {
               <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
                 <a
                   href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                    `හෙලෝ S.P. Garment, මම ඔබගේ Gallery එකේ "${selectedPhoto.title}" ඩිසයින් එක දැක්කා. මටත් මේ වගේ ඇඳුමක් මසා ගැනීමට විස්තර දැනගැනීමට අවශ්‍යයි.`
+                    `Hello S.P. Garment, I saw the "${selectedPhoto.title}" design in your gallery. I'd like to know more about getting a similar garment tailored.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shadow-sm"
                 >
                   <MessageCircle className="w-4 h-4 text-[#181614]" />
-                  <span>මෙම ඩිසයින් එක ගැන WhatsApp මගින් විමසන්න</span>
+                  <span>Ask About This Design on WhatsApp</span>
                 </a>
 
                 <div className="text-center text-[11px] text-[#8C8275] space-y-0.5">
@@ -231,7 +255,8 @@ export const GallerySection: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
     </section>
   );
 };

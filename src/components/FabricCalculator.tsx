@@ -20,13 +20,13 @@ export const FabricCalculator: React.FC = () => {
         <div className="max-w-2xl mb-10">
           <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
             <span className="w-6 h-px bg-[#181614]" />
-            <span>රෙදි ප්‍රමාණය පිළිබඳ මඟපෙන්වීම (Fabric Guide)</span>
+            <span>Fabric Guide</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15]">
             Fabric requirement <em className="italic text-[#C28E46]">estimator.</em>
           </h2>
           <p className="text-sm sm:text-base text-[#665D52] mt-2 font-normal">
-            රෙදි මිලදී ගැනීමට පෙර සාරි හැට්ටයක්, ගවුමක් හෝ බබාගේ ඇඳුමක් සඳහා සාමාන්‍යයෙන් අවශ්‍ය වන රෙදි ප්‍රමාණය මෙතැනින් බලාගත හැක.
+            See roughly how much fabric you'll need for a saree blouse, dress or kids' outfit before you go shopping.
           </p>
         </div>
 
@@ -37,7 +37,7 @@ export const FabricCalculator: React.FC = () => {
           <div className="lg:col-span-5 bg-[#FFFFFF] rounded-2xl border border-[#E6DDCF] p-5 shadow-xs">
             <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F0EAE1]">
               <span className="font-mono text-xs uppercase tracking-wider text-[#8C8275]">
-                ඇඳුම් වර්ගය තෝරන්න:
+                Choose a garment type:
               </span>
 
               {/* Filter */}
@@ -57,7 +57,7 @@ export const FabricCalculator: React.FC = () => {
                         : 'bg-[#F2ECE2] text-[#5C5449] hover:bg-[#E4DCCE]'
                     }`}
                   >
-                    {cat === 'All' ? 'සියල්ල' : cat === 'Ladies' ? 'කාන්තා' : 'ළමා'}
+                    {cat === 'All' ? 'All' : cat === 'Ladies' ? 'Ladies' : 'Kids'}
                   </button>
                 ))}
               </div>
@@ -100,7 +100,7 @@ export const FabricCalculator: React.FC = () => {
 
             <div className="relative">
               <span className="font-mono text-xs uppercase tracking-wider text-[#C28E46] block mb-2">
-                අවශ්‍ය විය හැකි රෙදි ප්‍රමාණය
+                Estimated Fabric Needed
               </span>
 
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-5">
@@ -110,7 +110,7 @@ export const FabricCalculator: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
                 <div className="p-4 rounded-xl bg-[#2A2622] border border-white/10">
                   <span className="text-[11px] font-mono uppercase tracking-wider text-[#A89E92] block mb-1">
-                    අවශ්‍ය රෙදි ප්‍රමාණය
+                    Fabric Required
                   </span>
                   <div className="text-base sm:text-lg font-serif font-bold text-[#C28E46]">
                     {activeGuide.fabricRequirement}
@@ -119,7 +119,7 @@ export const FabricCalculator: React.FC = () => {
 
                 <div className="p-4 rounded-xl bg-[#2A2622] border border-white/10">
                   <span className="text-[11px] font-mono uppercase tracking-wider text-[#A89E92] block mb-1">
-                    ගැලපෙන රෙදි වර්ග
+                    Recommended Fabrics
                   </span>
                   <div className="text-xs sm:text-sm text-white font-medium flex flex-wrap gap-1.5 mt-1">
                     {activeGuide.recommendedFabrics.map((fab, i) => (
@@ -135,24 +135,24 @@ export const FabricCalculator: React.FC = () => {
               <div className="p-4 rounded-xl bg-[#C28E46]/10 border border-[#C28E46]/30 mb-6 flex items-start gap-3">
                 <HelpCircle className="w-4 h-4 text-[#C28E46] shrink-0 mt-0.5" />
                 <p className="text-xs sm:text-sm text-[#E2DACF] leading-relaxed">
-                  <strong className="text-[#C28E46]">විශේෂ උපදෙසක්:</strong> {activeGuide.tip}
+                  <strong className="text-[#C28E46]">Tip:</strong> {activeGuide.tip}
                 </p>
               </div>
 
               {/* Action */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
                 <p className="text-xs text-[#8C8275]">
-                  ඔබේ උස හෝ දරුවාගේ වයස අනුව අවශ්‍ය නිවැරදි ප්‍රමාණය දැනගැනීමට:
+                  To confirm the exact amount for your height or your child's age:
                 </p>
                 <a
                   href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                    `හෙලෝ S.P. Garment, මට ${activeGuide.garment} එකක් මසා ගැනීමට අවශ්‍යයි. ඒ සඳහා රෙදි කොපමණ ප්‍රමාණයක් මිලදී ගත යුතුද?`
+                    `Hello S.P. Garment, I would like to have a ${activeGuide.garment} tailored. How much fabric should I buy for it?`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shrink-0 whitespace-nowrap"
                 >
-                  <span>WhatsApp එකෙන් විමසන්න</span>
+                  <span>Ask on WhatsApp</span>
                   <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </div>

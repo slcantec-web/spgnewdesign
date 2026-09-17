@@ -15,18 +15,17 @@ export const HoursAndLocation: React.FC = () => {
     const hour = slDate.getHours() + slDate.getMinutes() / 60;
 
     let isOpen = false;
-    let daySinhala = 'සඳුදා (Monday)';
 
-    const daysSinhala = [
-      'ඉරිදා (Sunday)',
-      'සඳුදා (Monday)',
-      'අඟහරුවාදා (Tuesday)',
-      'බදාදා (Wednesday)',
-      'බ්‍රහස්පතින්දා (Thursday)',
-      'සිකුරාදා (Friday)',
-      'සෙනසුරාදා (Saturday)'
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
     ];
-    daySinhala = daysSinhala[day];
+    const currentDayName = dayNames[day];
 
     if (day >= 1 && day <= 6) {
       // Mon to Sat: 8:30 to 17:30
@@ -38,7 +37,7 @@ export const HoursAndLocation: React.FC = () => {
 
     return {
       isOpen,
-      currentDayName: daySinhala,
+      currentDayName,
     };
   }, []);
 
@@ -49,7 +48,7 @@ export const HoursAndLocation: React.FC = () => {
         {/* Section Label */}
         <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
           <span className="w-6 h-px bg-[#181614]" />
-          <span>ලිපිනය සහ වේලාවන් (Location & Hours)</span>
+          <span>Location & Hours</span>
         </div>
 
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15] mb-10">
@@ -68,7 +67,7 @@ export const HoursAndLocation: React.FC = () => {
                 <div className="flex items-center gap-2 shrink-0">
                   <Clock className="w-5 h-5 text-[#C28E46] shrink-0" />
                   <h3 className="font-serif text-lg sm:text-xl font-bold text-[#181614] whitespace-nowrap">
-                    විවෘත වේලාවන්
+                    Opening Hours
                   </h3>
                 </div>
 
@@ -85,7 +84,7 @@ export const HoursAndLocation: React.FC = () => {
                       status.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
                     }`}
                   />
-                  <span>{status.isOpen ? 'දැන් විවෘතයි' : 'දැනට වසා ඇත'}</span>
+                  <span>{status.isOpen ? 'Open Now' : 'Currently Closed'}</span>
                 </span>
               </div>
 
@@ -93,9 +92,6 @@ export const HoursAndLocation: React.FC = () => {
               <div className="space-y-1.5">
                 {STUDIO_INFO.hours.map((h) => {
                   const isToday = h.day === status.currentDayName;
-                  const match = h.day.match(/^(.*?)\s*\((.*?)\)$/);
-                  const sinhalaDay = match ? match[1] : h.day;
-                  const englishDay = match ? match[2] : '';
 
                   return (
                     <div
@@ -107,16 +103,11 @@ export const HoursAndLocation: React.FC = () => {
                       }`}
                     >
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="whitespace-nowrap font-medium">{sinhalaDay}</span>
-                        {englishDay && (
-                          <span className={`hidden sm:inline text-[11px] font-mono whitespace-nowrap ${isToday ? 'text-[#D4A362]' : 'text-[#8C8275]'}`}>
-                            ({englishDay})
-                          </span>
-                        )}
+                        <span className="whitespace-nowrap font-medium">{h.day}</span>
                         {isToday && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#C28E46] text-[#181614] shrink-0 uppercase tracking-tight">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#181614] animate-pulse" />
-                            අද
+                            Today
                           </span>
                         )}
                       </div>
@@ -130,7 +121,7 @@ export const HoursAndLocation: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-[#F0EAE1] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span className="text-xs text-[#70665A]">
-                  විවෘත වේලාවන් තුළ ඕනෑම වේලාවක පැමිණ මිනුම් ලබාදිය හැක.
+                  Walk in any time during opening hours to get your measurements taken.
                 </span>
                 <div className="flex items-center gap-3 shrink-0">
                   <a
@@ -154,7 +145,7 @@ export const HoursAndLocation: React.FC = () => {
             {/* Address & Direct Contact Card */}
             <div className="bg-[#181614] text-[#FAF8F5] rounded-2xl p-5 sm:p-6 border border-white/10 shadow-md">
               <span className="font-mono text-xs uppercase tracking-widest text-[#C28E46] block mb-1.5">
-                Shop Address (ලිපිනය)
+                Shop Address
               </span>
               <p className="text-sm font-medium leading-relaxed text-[#EAE3D6] mb-4">
                 {STUDIO_INFO.address}
@@ -218,7 +209,7 @@ export const HoursAndLocation: React.FC = () => {
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#181614]/90 hover:bg-[#181614] text-[#FAF8F5] text-xs font-medium shadow-lg backdrop-blur-xs border border-white/20 transition-all active:scale-95"
                   >
                     <Unlock className="w-3.5 h-3.5 text-[#C28E46]" />
-                    <span>සිතියම හැසිරවීමට මෙතන ස්පර්ශ කරන්න (Tap to navigate map)</span>
+                    <span>Tap to navigate the map</span>
                   </button>
                 </div>
               )}
@@ -232,7 +223,7 @@ export const HoursAndLocation: React.FC = () => {
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181614]/90 text-white text-xs font-mono font-medium shadow-md border border-white/20 hover:bg-[#181614] transition-all"
                   >
                     <Lock className="w-3 h-3 text-[#C28E46]" />
-                    <span>Lock Map (අගුළුලන්න)</span>
+                    <span>Lock Map</span>
                   </button>
                 </div>
               )}
@@ -253,7 +244,7 @@ export const HoursAndLocation: React.FC = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] text-xs font-semibold transition-colors shrink-0 shadow-xs"
               >
-                <span>Google Maps ඔස්සේ මාර්ගය බලන්න</span>
+                <span>Get Directions on Google Maps</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>

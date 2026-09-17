@@ -42,13 +42,13 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
       console.error('Storage error', err);
     }
 
-    // Format WhatsApp message in Sinhala-English blend
+    // Format WhatsApp message
     const waText = `*New Tailoring Enquiry – S.P. Garment*\n\n` +
-      `*පාරිභෝගිකයාගේ නම (Name):* ${name.trim()}\n` +
-      `*දුරකථන අංකය (Phone):* ${phone.trim()}\n` +
-      `*අවශ්‍ය සේවාව:* ${service}\n` +
-      `*විස්තර (Details):* ${message.trim() || 'මිල ගණන් සහ මිනුම් ලබාදීම පිළිබඳ විමසීම'}\n\n` +
-      `_S.P. Garment Minuwangoda වෙබ් අඩවියෙන් යවන ලදි_`;
+      `*Customer Name:* ${name.trim()}\n` +
+      `*Phone Number:* ${phone.trim()}\n` +
+      `*Service Requested:* ${service}\n` +
+      `*Details:* ${message.trim() || 'Enquiry about pricing and measurements'}\n\n` +
+      `_Sent from the S.P. Garment Minuwangoda website_`;
 
     const waUrl = `https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(waText)}`;
 
@@ -67,7 +67,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-[#70665A] mb-2.5">
               <span className="w-6 h-px bg-[#181614]" />
-              <span>විස්තර විමසන්න (Contact Us)</span>
+              <span>Contact Us</span>
             </div>
 
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#181614] leading-[1.15] mb-5">
@@ -75,7 +75,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
             </h2>
 
             <p className="text-sm sm:text-base text-[#524B43] leading-relaxed mb-6 font-normal">
-              ඔබට මසා ගැනීමට අවශ්‍ය ගවුම්, සාරි හැට්ට, ළමා ඇඳුම් හෝ ඇඳුම් වල වෙනස්කම් (Alterations) පිළිබඳ විස්තර අපට එවන්න. WhatsApp හෝ ඇමතුමක් මගින් අපි ඉක්මනින්ම පිළිතුරු ලබා දෙන්නෙමු.
+              Send us the details of the dress, saree blouse, kids' outfit or alteration you need. We'll get back to you quickly via WhatsApp or phone.
             </p>
 
             <div className="space-y-3">
@@ -127,7 +127,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
             <div className="mt-6 p-4 rounded-xl bg-[#F0EAE0] border border-[#E0D7C9] text-xs text-[#524B43] flex items-start gap-2.5">
               <Sparkles className="w-4 h-4 text-[#C28E46] shrink-0 mt-0.5" />
               <span>
-                <strong>විශේෂ උපදෙසක්:</strong> ඔබ කැමති ඕනෑම ඩිසයින් එකක photo එකක් හෝ රෙදි රැගෙන අපගේ tailor shop එකට පැමිණෙන්න. කතාබහ කර නියමිත මිනුම් ලබාදිය හැක.
+                <strong>Tip:</strong> Bring any design photo you like along with your fabric to our tailor shop. We'll go over the details and take your measurements on the spot.
               </span>
             </div>
           </div>
@@ -140,24 +140,24 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-[#181614] mb-2">
-                  ඔබගේ පණිවිඩය WhatsApp වෙත යොමු කරන ලදි!
+                  Your message has been sent to WhatsApp!
                 </h3>
                 <p className="text-sm text-[#524B43] max-w-md mx-auto mb-6">
-                  ස්තූතියි, <strong>{name}</strong>. WhatsApp ස්වයංක්‍රීයව විවෘත නොවූයේ නම් නැවත උත්සාහ කරන්න.
+                  Thank you, <strong>{name}</strong>. If WhatsApp didn't open automatically, please try again.
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2.5 rounded-lg border border-[#181614] text-[#181614] hover:bg-[#181614] hover:text-[#FAF8F5] text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
-                  තවත් පණිවිඩයක් එවන්න
+                  Send Another Message
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="f-name" className="block text-xs font-mono font-medium text-[#70665A] uppercase tracking-wider mb-1.5">
-                    ඔබේ නම (Full Name) *
+                    Full Name *
                   </label>
                   <input
                     id="f-name"
@@ -165,7 +165,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="උදා: Nimasha Fernando"
+                    placeholder="e.g. Nimasha Fernando"
                     className="w-full px-4 py-2.5 rounded-lg border border-[#D9D0C3] focus:border-[#181614] focus:ring-1 focus:ring-[#181614] bg-[#FAF8F5] text-[#181614] text-sm outline-none transition-all placeholder:text-[#9E9589]"
                   />
                 </div>
@@ -173,7 +173,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="f-phone" className="block text-xs font-mono font-medium text-[#70665A] uppercase tracking-wider mb-1.5">
-                      දුරකථන අංකය (Phone Number) *
+                      Phone Number *
                     </label>
                     <input
                       id="f-phone"
@@ -188,7 +188,7 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
 
                   <div>
                     <label htmlFor="f-service" className="block text-xs font-mono font-medium text-[#70665A] uppercase tracking-wider mb-1.5">
-                      අවශ්‍ය සේවාව *
+                      Service Needed *
                     </label>
                     <select
                       id="f-service"
@@ -218,14 +218,14 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
 
                 <div>
                   <label htmlFor="f-message" className="block text-xs font-mono font-medium text-[#70665A] uppercase tracking-wider mb-1.5">
-                    ඇඳුම හෝ රෙදි පිළිබඳ වැඩිදුර විස්තර (අවශ්‍ය නම් පමණි)
+                    Further Details (optional)
                   </label>
                   <textarea
                     id="f-message"
                     rows={3}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="ඔබට අවශ්‍ය ඩිසයින් එක, අත් විලාසිතාව, අවශ්‍ය දිනය හෝ වෙනත් කරුණු..."
+                    placeholder="The design you want, sleeve style, needed date, or anything else..."
                     className="w-full px-4 py-2.5 rounded-lg border border-[#D9D0C3] focus:border-[#181614] focus:ring-1 focus:ring-[#181614] bg-[#FAF8F5] text-[#181614] text-sm outline-none transition-all placeholder:text-[#9E9589]"
                   />
                 </div>
@@ -235,12 +235,12 @@ export const WhatsAppEnquirySection: React.FC<WhatsAppEnquirySectionProps> = ({
                   className="w-full py-3.5 px-4 rounded-xl bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer whitespace-nowrap"
                 >
                   <Send className="w-4 h-4 text-[#C28E46] group-hover:text-white transition-colors shrink-0" />
-                  <span>WhatsApp පණිවිඩයක් එවන්න</span>
+                  <span>Send WhatsApp Message</span>
                   <span className="hidden sm:inline text-xs font-mono text-[#D9C4A6] font-normal">(+94 76 831 8149)</span>
                 </button>
 
                 <p className="text-[11px] text-center text-[#8C8275] pt-0.5">
-                  මිනුම් ලබාදීම, මිල ගණන් සහ අවශ්‍ය දින පිළිබඳව අපි ඉක්මනින්ම පිළිතුරු ලබා දෙන්නෙමු.
+                  We'll get back to you quickly with measurements, pricing and the expected completion date.
                 </p>
               </form>
             )}

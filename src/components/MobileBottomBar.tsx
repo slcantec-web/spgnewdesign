@@ -11,7 +11,14 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5]/98 backdrop-blur-md border-t border-[#E6DDD0] pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] px-2 shadow-lg gpu-layer">
+      {/*
+        No backdrop-blur here on purpose: this bar is fixed and visible
+        during every scroll, right over the Gallery grid. A blurred fixed
+        bar forces a re-sample of every image scrolling underneath it on
+        every frame — a solid near-opaque background looks almost
+        identical and costs a fraction of the GPU time.
+      */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#FAF8F5] border-t border-[#E6DDD0] pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] px-2 shadow-lg gpu-layer">
         <div className="grid grid-cols-4 gap-1 max-w-md mx-auto">
           {/* Call button that opens both phone options */}
           <button
@@ -57,7 +64,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
         </div>
       </div>
 
-      {/* Call numbers selection sheet */}
+      {/* Call numbers selection sheet — modal only, so blur here doesn't run during scroll */}
       {callSheetOpen && (
         <div
           role="dialog"
@@ -71,7 +78,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
           >
             <div className="flex items-center justify-between pb-2 border-b border-[#E6DDD0]">
               <span className="font-serif text-lg font-bold text-[#181614]">
-                අප අමතන්න (Call Us)
+                Call Us
               </span>
               <button
                 type="button"
@@ -83,7 +90,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
             </div>
 
             <p className="text-xs text-[#524B43]">
-              ඔබට පහසු දුරකථන අංකයකින් අපව සම්බන්ධ කරගන්න:
+              Choose whichever number is easiest to reach us on:
             </p>
 
             <a
@@ -94,7 +101,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
                 <Smartphone className="w-5 h-5 text-[#C28E46]" />
                 <div className="text-left">
                   <div className="font-bold text-sm">077-8778317</div>
-                  <div className="text-[11px] text-[#70665A]">Mobile Phone (ඉක්මන් ඇමතුම්)</div>
+                  <div className="text-[11px] text-[#70665A]">Mobile Phone (Quick Calls)</div>
                 </div>
               </div>
               <span className="text-xs font-semibold text-[#C28E46]">Call Now →</span>
@@ -108,7 +115,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
                 <Phone className="w-5 h-5 text-[#C28E46]" />
                 <div className="text-left">
                   <div className="font-bold text-sm">011-2283254</div>
-                  <div className="text-[11px] text-[#70665A]">Landline (ස්ථාවර දුරකථනය)</div>
+                  <div className="text-[11px] text-[#70665A]">Landline</div>
                 </div>
               </div>
               <span className="text-xs font-semibold text-[#181614]">Call Now →</span>
@@ -119,7 +126,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onOpenSearch }
               onClick={() => setCallSheetOpen(false)}
               className="w-full py-2.5 rounded-xl bg-[#EAE2D5] text-[#181614] text-xs font-semibold mt-2"
             >
-              වසන්න (Close)
+              Close
             </button>
           </div>
         </div>
