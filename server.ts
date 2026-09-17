@@ -83,9 +83,69 @@ function sha256(text: string): string {
   return crypto.createHash('sha256').update(text).digest('hex');
 }
 
+// --- Simple in-memory rate limiter ---
+// Protects the password-mutating endpoints from brute force / abuse.
+// Note: this is per-process memory, so it resets on server restart and
+// won't share state across multiple server instances behind a load
+// balancer — fine for a single-instance deployment like this one, but
+// swap for a shared store (Redis, etc.) if you ever scale horizontally.
+interface RateLimitBucket {
+  count: number;
+  windowStart: number;
+}
+
+function createRateLimiter(options: { windowMs: number; max: number; message: string }) {
+  const buckets = new Map<string, RateLimitBucket>();
+
+  // Periodically clear out stale buckets so this Map doesn't grow forever
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, bucket] of buckets.entries()) {
+      if (now - bucket.windowStart > options.windowMs) {
+        buckets.delete(key);
+      }
+    }
+  }, options.windowMs).unref();
+
+  return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const key = req.ip || 'unknown';
+    const now = Date.now();
+    const existing = buckets.get(key);
+
+    if (!existing || now - existing.windowStart > options.windowMs) {
+      buckets.set(key, { count: 1, windowStart: now });
+      return next();
+    }
+
+    existing.count += 1;
+    if (existing.count > options.max) {
+      const retryAfterSec = Math.ceil((options.windowMs - (now - existing.windowStart)) / 1000);
+      res.setHeader('Retry-After', String(retryAfterSec));
+      return res.status(429).json({
+        success: false,
+        error: options.message,
+        retryAfterSeconds: retryAfterSec,
+      });
+    }
+
+    return next();
+  };
+}
+
+// 10 attempts per 15 minutes per IP on anything that touches the admin password
+const passwordEndpointLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Too many password attempts from this device. Please wait before trying again.',
+});
+
 async function startServer() {
   initStore();
   const app = express();
+
+  // Needed for req.ip to reflect the real client address if this ever
+  // runs behind a reverse proxy / load balancer (Cloudflare, nginx, etc.)
+  app.set('trust proxy', true);
 
   app.use(express.json({ limit: '5mb' }));
 
@@ -107,7 +167,7 @@ async function startServer() {
   });
 
   // 2. POST /api/admin/change-password -> Updates password across all devices
-  app.post('/api/admin/change-password', (req, res) => {
+  app.post('/api/admin/change-password', passwordEndpointLimiter, (req, res) => {
     try {
       const { currentPassword, currentHash, newPassword, newHash } = req.body;
 
@@ -151,7 +211,7 @@ async function startServer() {
   });
 
   // 3. POST /api/admin/reset-password -> Reset to initial default hash
-  app.post('/api/admin/reset-password', (req, res) => {
+  app.post('/api/admin/reset-password', passwordEndpointLimiter, (req, res) => {
     store.passwordHash = DEFAULT_ADMIN_HASH;
     saveStore();
     console.log(`[Auth] Admin password reset to default setup hash.`);
