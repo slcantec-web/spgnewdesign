@@ -66,6 +66,56 @@ interface AdminModalProps {
 
 type AdminTab = 'inquiries' | 'images' | 'cloudflare' | 'security';
 
+// --- Login rate-limiting (brute-force lockout) ---
+// Note: the password check itself still happens client-side (the hash is
+// fetched to the browser for offline comparison), so this lockout stops
+// casual/automated attempts through the UI but cannot stop someone who
+// opens devtools and calls verifyAdminPassword directly. Real protection
+// against that would require moving verification to a server endpoint
+// that never exposes the hash to the client. The server/Worker endpoints
+// that actually mutate the password ARE rate-limited server-side (see
+// server.ts and cloudflare-worker/worker.js).
+const LOGIN_LOCKOUT_STORAGE_KEY = 'spg_admin_login_lockout';
+const MAX_ATTEMPTS_PER_TIER = 5;
+// Escalating lockout durations (seconds) — 30s, 1m, 2m, 5m, 10m (capped)
+const LOCKOUT_DURATIONS_SEC = [30, 60, 120, 300, 600];
+
+interface LoginLockoutState {
+  failCount: number;
+  lockUntil: number; // epoch ms, 0 when not locked
+}
+
+function readLoginLockout(): LoginLockoutState {
+  try {
+    const raw = localStorage.getItem(LOGIN_LOCKOUT_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed.failCount === 'number' && typeof parsed.lockUntil === 'number') {
+        return parsed;
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return { failCount: 0, lockUntil: 0 };
+}
+
+function writeLoginLockout(state: LoginLockoutState): void {
+  try {
+    localStorage.setItem(LOGIN_LOCKOUT_STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // ignore
+  }
+}
+
+function clearLoginLockout(): void {
+  try {
+    localStorage.removeItem(LOGIN_LOCKOUT_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -73,6 +123,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [lockUntil, setLockUntil] = useState(0);
+  const [lockSecondsLeft, setLockSecondsLeft] = useState(0);
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<AdminTab>('inquiries');
@@ -116,6 +168,18 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
+      // Restore any active login lockout (persists across closes/refreshes
+      // via localStorage, so it can't be bypassed by just reopening the modal)
+      const lockout = readLoginLockout();
+      const remaining = lockout.lockUntil - Date.now();
+      if (remaining > 0) {
+        setLockUntil(lockout.lockUntil);
+        setLockSecondsLeft(Math.ceil(remaining / 1000));
+      } else {
+        setLockUntil(0);
+        setLockSecondsLeft(0);
+      }
+
       // 1. Central server sync so latest password from PC is immediately pulled onto Mobile
       syncFromServer().then((srv) => {
         if (srv.success) {
@@ -152,6 +216,24 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       setPickerTarget(null);
     }
   }, [isOpen]);
+
+  // Tick the lockout countdown once a second while locked, and clear it
+  // automatically the moment it expires.
+  useEffect(() => {
+    if (!lockUntil) return;
+    const tick = () => {
+      const remaining = lockUntil - Date.now();
+      if (remaining <= 0) {
+        setLockUntil(0);
+        setLockSecondsLeft(0);
+      } else {
+        setLockSecondsLeft(Math.ceil(remaining / 1000));
+      }
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [lockUntil]);
 
   const syncFromCloudflare = async () => {
     setIsSyncingWithCloudflare(true);
@@ -207,6 +289,18 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
+
+    // Hard stop if still locked out — don't even attempt verification or
+    // burn a network round-trip on a request we're going to refuse anyway.
+    const currentLockout = readLoginLockout();
+    if (currentLockout.lockUntil > Date.now()) {
+      const secs = Math.ceil((currentLockout.lockUntil - Date.now()) / 1000);
+      setLockUntil(currentLockout.lockUntil);
+      setLockSecondsLeft(secs);
+      setAuthError(`Too many failed attempts. Try again in ${secs}s.`);
+      return;
+    }
+
     setIsVerifying(true);
 
     try {
@@ -224,13 +318,36 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
       const isValid = await verifyAdminPassword(passwordInput);
       if (isValid) {
+        clearLoginLockout();
+        setLockUntil(0);
+        setLockSecondsLeft(0);
         setIsAuthenticated(true);
         sessionStorage.setItem('spg_admin_auth', 'true');
         setAuthError('');
         setPasswordInput('');
         loadAllData();
       } else {
-        setAuthError('Incorrect password. Please verify and try again.');
+        const lockout = readLoginLockout();
+        const failCount = lockout.failCount + 1;
+
+        if (failCount % MAX_ATTEMPTS_PER_TIER === 0) {
+          const tier = Math.min(
+            Math.floor(failCount / MAX_ATTEMPTS_PER_TIER) - 1,
+            LOCKOUT_DURATIONS_SEC.length - 1
+          );
+          const durationSec = LOCKOUT_DURATIONS_SEC[tier];
+          const until = Date.now() + durationSec * 1000;
+          writeLoginLockout({ failCount, lockUntil: until });
+          setLockUntil(until);
+          setLockSecondsLeft(durationSec);
+          setAuthError(`Too many failed attempts. Locked for ${durationSec}s.`);
+        } else {
+          writeLoginLockout({ failCount, lockUntil: 0 });
+          const remaining = MAX_ATTEMPTS_PER_TIER - (failCount % MAX_ATTEMPTS_PER_TIER);
+          setAuthError(
+            `Incorrect password. Please verify and try again. (${remaining} attempt${remaining !== 1 ? 's' : ''} left before a temporary lockout)`
+          );
+        }
       }
     } catch {
       setAuthError('Authentication failed. Please try again.');
@@ -631,7 +748,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       onChange={(e) => setPasswordInput(e.target.value)}
                       placeholder="Enter password"
                       autoFocus
-                      className="w-full pl-4 pr-11 py-3 rounded-xl border border-[#D9D0C3] focus:border-[#181614] focus:ring-1 focus:ring-[#181614] bg-[#FAF8F5] text-[#181614] text-sm outline-none transition-all"
+                      disabled={lockSecondsLeft > 0}
+                      className="w-full pl-4 pr-11 py-3 rounded-xl border border-[#D9D0C3] focus:border-[#181614] focus:ring-1 focus:ring-[#181614] bg-[#FAF8F5] text-[#181614] text-sm outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <button
                       type="button"
@@ -644,22 +762,37 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                {authError && (
-                  <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                    <span>{authError}</span>
+                {lockSecondsLeft > 0 ? (
+                  <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
+                    <Lock className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>
+                      Too many failed attempts. Locked for{' '}
+                      <strong className="font-mono">{lockSecondsLeft}s</strong>.
+                    </span>
                   </div>
+                ) : (
+                  authError && (
+                    <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <span>{authError}</span>
+                    </div>
+                  )
                 )}
 
                 <button
                   type="submit"
-                  disabled={isVerifying || !passwordInput}
-                  className="w-full py-3.5 rounded-xl bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] font-semibold text-xs uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer shadow-md flex items-center justify-center gap-2"
+                  disabled={isVerifying || !passwordInput || lockSecondsLeft > 0}
+                  className="w-full py-3.5 rounded-xl bg-[#181614] hover:bg-[#C28E46] text-[#FAF8F5] font-semibold text-xs uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-md flex items-center justify-center gap-2"
                 >
                   {isVerifying ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
                       <span>Checking Credentials...</span>
+                    </>
+                  ) : lockSecondsLeft > 0 ? (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      <span>Locked ({lockSecondsLeft}s)</span>
                     </>
                   ) : (
                     <>

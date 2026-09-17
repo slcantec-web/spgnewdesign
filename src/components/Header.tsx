@@ -32,10 +32,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onOpenAdmin, onSel
         header never triggers a layout recompute when the scroll state flips.
       */}
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 gpu-layer py-3 ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-shadow duration-300 gpu-layer py-3 bg-white ${
           scrolled
-            ? 'bg-[#FAF8F5] shadow-sm border-b border-[#E8E2D6]'
-            : 'bg-[#FAF8F5] border-b border-[#ECE6DB]'
+            ? 'shadow-sm border-b border-[#E4DCCC]'
+            : 'shadow-[0_1px_0_0_rgba(24,22,20,0.06)] border-b border-[#ECE6DB]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

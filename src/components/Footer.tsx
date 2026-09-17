@@ -137,7 +137,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               <span>Admin Portal</span>
             </button>
             <span>·</span>
-            <span>Static Deployment Ready</span>
+            <a
+              href="https://cloudebase.top"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#C28E46] transition-colors"
+            >
+              Website by Cloudebase
+            </a>
           </div>
         </div>
 

@@ -18,7 +18,16 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   );
 
   return (
-    <section id="hero" className="relative pt-24 pb-14 md:pt-32 md:pb-20 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
+    /*
+      Top padding is intentionally flat across breakpoints (not scaled up
+      like the bottom padding) because the fixed header's rendered height
+      barely changes between mobile and desktop (~65-68px either way) — it
+      was previously scaling to pt-36 (144px) on desktop, leaving a large
+      empty gap between the header and the hero content that isn't there
+      on mobile. pt-24 already looked right on mobile, so that's kept as
+      the value for every breakpoint.
+    */
+    <section id="hero" className="relative pt-24 pb-14 md:pb-20 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
       {/* Subtle architectural background texture */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.035] bg-[radial-gradient(#181614_1px,transparent_1px)] [background-size:24px_24px]" />
       
