@@ -66,24 +66,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 {/* Subtle gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#181614]/80 via-transparent to-black/10" />
 
-                {/* Floating Bottom Card — glass look: translucent background + strong
-                    blur so the photo underneath stays visible through the panel.
-                    The dark gradient overlay above still gives enough contrast for
-                    the dark text/icons here to stay readable. */}
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
+                {/* Floating Bottom Card — dark frosted glass: a translucent dark
+                    panel (not light) so the photo underneath still shows through
+                    the blur, but text contrast no longer depends on whatever is
+                    behind it. Light text stays legible whether the photo there
+                    is bright or dark, unlike the previous light-glass + dark-text
+                    combo, which could wash out over lighter parts of the photo. */}
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-[#181614]/55 backdrop-blur-xl border border-white/15 shadow-lg">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <span className="font-mono text-[10px] uppercase tracking-widest text-[#C28E46] font-semibold block">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[#D9A868] font-semibold block">
                         Ladies & Kids Tailoring
                       </span>
-                      <h3 className="font-serif text-lg font-bold text-[#181614] leading-tight">
-                        Made to <em className="italic text-[#C28E46]">measure.</em>
+                      <h3 className="font-serif text-lg font-bold text-white leading-tight [text-shadow:0_1px_3px_rgba(0,0,0,0.35)]">
+                        Made to <em className="italic text-[#D9A868]">measure.</em>
                       </h3>
-                      <p className="text-xs text-[#70665A] mt-0.5">
+                      <p className="text-xs text-[#E5DED3] mt-0.5">
                         Bring your favorite design or photo to us
                       </p>
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-[#181614] text-[#C28E46] flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-white/90 text-[#181614] flex items-center justify-center shrink-0">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                   </div>
