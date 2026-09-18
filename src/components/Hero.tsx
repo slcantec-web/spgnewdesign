@@ -218,7 +218,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   <MapPin className="w-5 h-5 text-[#C28E46] shrink-0 mt-0.5" />
                   <div className="min-w-0">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-[#C28E46] font-semibold block mb-1">
-                      Visit The Studio
+                      Visit The Tailor Shop
                     </span>
                     <p className="text-sm text-[#EAE3D6] leading-snug">
                       {STUDIO_INFO.address}

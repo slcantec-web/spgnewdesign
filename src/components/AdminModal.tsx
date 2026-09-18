@@ -687,7 +687,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   </span>
                 </h3>
                 <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-[#A89E92] truncate">
-                  <span className="hidden sm:inline">Minuwangoda Studio Management</span>
+                  <span className="hidden sm:inline">Minuwangoda Tailor Shop Management</span>
                   {isCloudflareConnected ? (
                     <span className="inline-flex items-center gap-1 text-[#C28E46] font-mono shrink-0">
                       <Cloud className="w-3 h-3" /> Connected
@@ -1029,7 +1029,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         </span>
                       </h4>
                       <p className="text-xs text-[#70665A] mt-0.5">
-                        Pick photos directly from your <strong>Cloudflare R2 bucket</strong>, upload new atelier photos, or paste direct URLs.
+                        Pick photos directly from your <strong>Cloudflare R2 bucket</strong>, upload new tailor shop photos, or paste direct URLs.
                       </p>
                     </div>
 
