@@ -1,6 +1,6 @@
 {
-  "name": "S.P. Garment – Custom Tailoring Studio",
-  "description": "Bespoke custom tailoring studio for ladies and kids in Minuwangoda, Sri Lanka. Bring your fabric and design, handcrafted to your exact measurements.",
+  "name": "S.P. Garment – Custom Tailor Shop",
+  "description": "Bespoke custom tailor shop for ladies and kids in Minuwangoda, Sri Lanka. Bring your fabric and design, handcrafted to your exact measurements.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
