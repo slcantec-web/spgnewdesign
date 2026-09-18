@@ -8,7 +8,7 @@ export const Marquee: React.FC = () => {
     'Saree Blouses (සාරි හැට්ට)',
     'Fit Alterations (ඇඳුම් හරිගැස්වීම)',
     'Design & Finishing (Lace & Piping)',
-    'Pattern Drafting (රටා කැපීම)',
+    'Pattern Drafting (ඇඳුම් රටා නිර්මාණය)',
     'Occasion Gowns (උත්සව ඇඳුම්)',
     'School Uniforms (පාසල් ඇඳුම්)',
   ];
