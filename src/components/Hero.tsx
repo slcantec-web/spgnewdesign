@@ -117,16 +117,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               Show us any design or photo you have in mind. Saree blouses, dresses, skirts, trousers and kids' outfits are all tailored to fit you perfectly, finished to a clean, premium standard.
             </p>
 
-            {/* CTAs — both buttons share the same padding and an explicit
+            {/* CTAs — both buttons share the same padding, border width
+                (one is a transparent border so its box height exactly
+                matches the bordered WhatsApp button), and an explicit
                 min-width on sm+ so they render as the same size regardless
                 of their (different-length) label text. On mobile the
-                flex-col + items-stretch column already makes both full width,
-                so no min-width is needed there. */}
+                flex-col + items-stretch column already makes both full
+                width, so no min-width is needed there. */}
             <div className="animate-fade-slide-up-delay-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={onExploreClick}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:min-w-[228px] rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:min-w-[228px] rounded-lg border border-transparent bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
               >
                 <span>Explore Our Services</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
@@ -146,10 +148,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             </div>
 
             {/* Call Numbers — its own row, always the same pill style at
-                every breakpoint (no longer switching to plain/borderless
-                text on desktop), so both numbers always look identical to
-                each other instead of changing style depending on screen size. */}
-            <div className="animate-fade-slide-up-delay-2 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 text-xs text-[#70665A] mb-8">
+                every breakpoint, centered on mobile and left-aligned on
+                desktop to match the buttons/text above it. mt-4 restores
+                the spacing from the CTA row above (previously missing,
+                which made this row sit flush against the buttons), and
+                mb-8 keeps the gap before the Key Highlights grid below. */}
+            <div className="animate-fade-slide-up-delay-2 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 text-xs text-[#70665A] mt-4 mb-8">
               <a
                 href={`tel:${STUDIO_INFO.mobileClean}`}
                 className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
