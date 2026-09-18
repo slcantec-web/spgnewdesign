@@ -16,8 +16,15 @@ export const STOCK_IMAGE_DEFINITIONS: StockImageItem[] = [
   },
 
   // Services Section
+  // NOTE: These ids MUST match ServiceItem.id values in src/data/tailoringData.ts
+  // (e.g. 'ladies-wear', 'kids-wear', ...) because ServicesSection.tsx looks the
+  // image up with getImage(service.id, service.image). They previously had a
+  // 'service_' prefix here which did NOT match service.id, so the admin panel
+  // would save a custom photo under 'service_ladies-wear' while the page looked
+  // up 'ladies-wear' — the save appeared to succeed (no error) but the on-page
+  // image silently fell back to the default stock photo. Fixed by aligning ids.
   {
-    id: 'service_ladies-wear',
+    id: 'ladies-wear',
     section: 'Services Section',
     positionName: 'Services - Ladies Wear (කාන්තා ඇඳුම්)',
     description: 'Card photo for Custom Dresses, Evening Gowns, Saree Blouses & Skirts',
@@ -25,7 +32,7 @@ export const STOCK_IMAGE_DEFINITIONS: StockImageItem[] = [
     recommendedAspect: 'Landscape / Aspect 16:10 or 4:3 (e.g. 800x500px)',
   },
   {
-    id: 'service_kids-wear',
+    id: 'kids-wear',
     section: 'Services Section',
     positionName: 'Services - Kids Frocks & Sets (ළමා ඇඳුම්)',
     description: 'Card photo for Birthday Frocks, Ceremony Dresses, Girls & Boys Outfits',
@@ -33,7 +40,7 @@ export const STOCK_IMAGE_DEFINITIONS: StockImageItem[] = [
     recommendedAspect: 'Landscape / Aspect 16:10 or 4:3 (e.g. 800x500px)',
   },
   {
-    id: 'service_custom-design',
+    id: 'custom-design',
     section: 'Services Section',
     positionName: 'Services - Custom Design & Pattern (අභිරුචි මෝස්තර)',
     description: 'Card photo for Pattern Drafting, bespoke cuts, styling from photos',
@@ -41,7 +48,7 @@ export const STOCK_IMAGE_DEFINITIONS: StockImageItem[] = [
     recommendedAspect: 'Landscape / Aspect 16:10 or 4:3 (e.g. 800x500px)',
   },
   {
-    id: 'service_alterations',
+    id: 'alterations',
     section: 'Services Section',
     positionName: 'Services - Alterations & Fitting (ඇඳුම් වෙනස් කිරීම්)',
     description: 'Card photo for Resizing, zippers, shortening & garment repairs',
@@ -49,7 +56,7 @@ export const STOCK_IMAGE_DEFINITIONS: StockImageItem[] = [
     recommendedAspect: 'Landscape / Aspect 16:10 or 4:3 (e.g. 800x500px)',
   },
   {
-    id: 'service_finishing',
+    id: 'finishing',
     section: 'Services Section',
     positionName: 'Services - Finishing & Details (උසස් මැහුම් නිමාව)',
     description: 'Card photo for Lace edge work, piping, lining & neat hem stitches',
