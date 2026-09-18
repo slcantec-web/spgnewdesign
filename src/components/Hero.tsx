@@ -66,8 +66,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 {/* Subtle gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#181614]/80 via-transparent to-black/10" />
 
-                {/* Floating Bottom Card */}
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-[#FAF8F5]/95 backdrop-blur-md border border-[#E8E2D6] shadow-lg">
+                {/* Floating Bottom Card — glass look: translucent background + strong
+                    blur so the photo underneath stays visible through the panel.
+                    The dark gradient overlay above still gives enough contrast for
+                    the dark text/icons here to stay readable. */}
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-white/15 backdrop-blur-xl border border-white/25 shadow-lg">
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <span className="font-mono text-[10px] uppercase tracking-widest text-[#C28E46] font-semibold block">
@@ -86,11 +89,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   </div>
                 </div>
 
-                {/* Top Corner Floating Tag */}
-                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#181614]/85 text-[#FAF8F5] backdrop-blur-sm border border-white/20 text-xs font-mono tracking-wider flex items-center gap-1.5 whitespace-nowrap shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C28E46] shrink-0" />
-                  <span className="truncate">Horampalla, Minuwangoda (# 28)</span>
-                </div>
               </div>
 
             </div>
