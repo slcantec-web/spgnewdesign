@@ -117,12 +117,16 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               Show us any design or photo you have in mind. Saree blouses, dresses, skirts, trousers and kids' outfits are all tailored to fit you perfectly, finished to a clean, premium standard.
             </p>
 
-            {/* CTAs */}
-            <div className="animate-fade-slide-up-delay-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8 w-full sm:w-auto">
+            {/* CTAs — both buttons share the same padding and an explicit
+                min-width on sm+ so they render as the same size regardless
+                of their (different-length) label text. On mobile the
+                flex-col + items-stretch column already makes both full width,
+                so no min-width is needed there. */}
+            <div className="animate-fade-slide-up-delay-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={onExploreClick}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:min-w-[228px] rounded-lg bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
               >
                 <span>Explore Our Services</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
@@ -134,29 +138,32 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:min-w-[228px] rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs whitespace-nowrap"
               >
                 <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                 <span>Send a WhatsApp Message</span>
               </a>
+            </div>
 
-              {/* Call Numbers */}
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:flex-col sm:items-start text-xs text-[#70665A] pt-1 sm:pt-0">
-                <a
-                  href={`tel:${STUDIO_INFO.mobileClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1 rounded-md border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0 whitespace-nowrap"
-                >
-                  <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
-                  <span>077-8778317</span>
-                </a>
-                <a
-                  href={`tel:${STUDIO_INFO.phoneClean}`}
-                  className="inline-flex items-center gap-1 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1 rounded-md border border-[#E0D5C5] sm:bg-transparent sm:p-0 sm:border-0 whitespace-nowrap"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
-                  <span>011-2283254</span>
-                </a>
-              </div>
+            {/* Call Numbers — its own row, always the same pill style at
+                every breakpoint (no longer switching to plain/borderless
+                text on desktop), so both numbers always look identical to
+                each other instead of changing style depending on screen size. */}
+            <div className="animate-fade-slide-up-delay-2 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 text-xs text-[#70665A] mb-8">
+              <a
+                href={`tel:${STUDIO_INFO.mobileClean}`}
+                className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+              >
+                <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
+                <span>077-8778317</span>
+              </a>
+              <a
+                href={`tel:${STUDIO_INFO.phoneClean}`}
+                className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
+                <span>011-2283254</span>
+              </a>
             </div>
 
             {/* Key Highlights Grid */}
