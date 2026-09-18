@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MessageCircle, Phone, Smartphone, CheckCircle2, ShieldCheck, Ruler, Sparkles } from 'lucide-react';
+import { ArrowRight, MessageCircle, Phone, Smartphone, CheckCircle2, ShieldCheck, Ruler, Sparkles, MapPin, ExternalLink } from 'lucide-react';
 import { STUDIO_INFO } from '../data/tailoringData';
 import { useCustomImages } from '../services/imageManager';
 import { buildResponsiveImage } from '../utils/imageOptim';
@@ -32,13 +32,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <div className="absolute inset-0 pointer-events-none opacity-[0.035] bg-[radial-gradient(#181614_1px,transparent_1px)] [background-size:24px_24px]" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* items-start on desktop: the left (text) column is naturally
-            shorter than the right (image) column, so items-center was
-            vertically centering it and leaving a visible gap above the
-            headline. items-start pins both columns to the same top edge
-            instead. Mobile stacks into a single column, where align-items
-            only affects horizontal centering, so this has no effect there. */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center lg:items-start">
+        {/* items-stretch (the grid default): both columns are set to the
+            same height — the taller image column's height — and the left
+            column uses justify-between internally so its content sits at
+            the top and the new address/hours card below is pushed to the
+            bottom, filling the space that used to sit empty under the
+            headline block on desktop. Mobile stacks into a single column,
+            where align-items has no visible effect. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-stretch">
 
           {/*
             Right Column: photo showcase.
@@ -102,96 +103,146 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             </div>
           </div>
 
-          {/* Left Column: Headline, Narrative & Actions */}
-          <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
-            
-            {/* Main Editorial Headline — centered on mobile */}
-            <h1 className="animate-fade-slide-up-delay-1 font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[#181614] leading-[1.25] mb-4 text-center sm:text-left">
-              Ladies & Kids Wear,<br className="hidden sm:inline" />{' '}
-              <span className="inline">Tailored to the <em className="italic font-normal text-[#C28E46]">Style You Love.</em></span>
-            </h1>
+          {/* Left Column: Headline, Narrative & Actions.
+              justify-between splits this column into two groups: the
+              existing content block (top) and the new studio info card
+              (bottom) — so the info card absorbs whatever extra height
+              this column has versus the image column, instead of that
+              height sitting empty below the highlights row. */}
+          <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col justify-between items-center sm:items-start text-center sm:text-left">
 
-            {/* Subtitle — centered on mobile */}
-            <p className="animate-fade-slide-up-delay-1 text-sm sm:text-base text-[#524B43] leading-relaxed max-w-2xl mb-6 font-normal text-center sm:text-left mx-auto sm:mx-0">
-              Show us any design or photo you have in mind. Saree blouses, dresses, skirts, trousers and kids' outfits are all tailored to fit you perfectly, finished to a clean, premium standard.
-            </p>
+            <div className="flex flex-col items-center sm:items-start w-full">
+              {/* Main Editorial Headline — centered on mobile */}
+              <h1 className="animate-fade-slide-up-delay-1 font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[#181614] leading-[1.25] mb-4 text-center sm:text-left">
+                Ladies & Kids Wear,<br className="hidden sm:inline" />{' '}
+                <span className="inline">Tailored to the <em className="italic font-normal text-[#C28E46]">Style You Love.</em></span>
+              </h1>
 
-            {/* CTAs + Call Numbers — one row (wraps on narrow/tablet widths).
-                The two buttons use a fixed width (sm:w-72), not just a
-                min-width — a min-width still lets the longer "Send a
-                WhatsApp Message" label grow its own box bigger than the
-                shorter "Explore Our Services" box, which is why they never
-                actually matched before. A fixed width forces both to the
-                exact same box regardless of label length. The phone chips
-                sit in this same flex row with items-center, so they're
-                vertically centered against the buttons rather than living
-                in a separate, disconnected row below. */}
-            <div className="animate-fade-slide-up-delay-2 flex flex-col sm:flex-row sm:flex-wrap items-center gap-3 mb-8 w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={onExploreClick}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 w-full sm:w-72 shrink-0 rounded-lg border border-transparent bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
-              >
-                <span>Explore Our Services</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
-              </button>
+              {/* Subtitle — centered on mobile */}
+              <p className="animate-fade-slide-up-delay-1 text-sm sm:text-base text-[#524B43] leading-relaxed max-w-2xl mb-6 font-normal text-center sm:text-left mx-auto sm:mx-0">
+                Show us any design or photo you have in mind. Saree blouses, dresses, skirts, trousers and kids' outfits are all tailored to fit you perfectly, finished to a clean, premium standard.
+              </p>
 
-              <a
-                href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                  "Hello S.P. Garment! I'd like to know more about tailoring Ladies / Kids wear."
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 w-full sm:w-72 shrink-0 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs whitespace-nowrap"
-              >
-                <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
-                <span>Send a WhatsApp Message</span>
-              </a>
-
-              {/* Phone chips — grouped together so they wrap as a pair, and
-                  vertically centered against the two buttons via the
-                  parent's items-center. */}
-              <div className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-[#70665A]">
-                <a
-                  href={`tel:${STUDIO_INFO.mobileClean}`}
-                  className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+              {/* CTAs + Call Numbers — one row (wraps on narrow/tablet widths).
+                  The two buttons use a fixed width (sm:w-72), not just a
+                  min-width — a min-width still lets the longer "Send a
+                  WhatsApp Message" label grow its own box bigger than the
+                  shorter "Explore Our Services" box, which is why they never
+                  actually matched before. A fixed width forces both to the
+                  exact same box regardless of label length. The phone chips
+                  sit in this same flex row with items-center, so they're
+                  vertically centered against the buttons rather than living
+                  in a separate, disconnected row below. */}
+              <div className="animate-fade-slide-up-delay-2 flex flex-col sm:flex-row sm:flex-wrap items-center gap-3 mb-8 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={onExploreClick}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 w-full sm:w-72 shrink-0 rounded-lg border border-transparent bg-[#181614] text-[#FAF8F5] hover:bg-[#C28E46] text-sm sm:text-base font-medium transition-all shadow-md group cursor-pointer whitespace-nowrap"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
-                  <span>077-8778317</span>
-                </a>
+                  <span>Explore Our Services</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
+                </button>
+
                 <a
-                  href={`tel:${STUDIO_INFO.phoneClean}`}
-                  className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+                  href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
+                    "Hello S.P. Garment! I'd like to know more about tailoring Ladies / Kids wear."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 w-full sm:w-72 shrink-0 rounded-lg border border-[#D9D0C3] hover:border-[#181614] bg-[#FFFFFF] hover:bg-[#F4EFEA] text-[#181614] text-sm sm:text-base font-medium transition-all shadow-xs whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
-                  <span>011-2283254</span>
+                  <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
+                  <span>Send a WhatsApp Message</span>
                 </a>
+
+                {/* Phone chips — grouped together so they wrap as a pair, and
+                    vertically centered against the two buttons via the
+                    parent's items-center. */}
+                <div className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-[#70665A]">
+                  <a
+                    href={`tel:${STUDIO_INFO.mobileClean}`}
+                    className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+                  >
+                    <Smartphone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
+                    <span>077-8778317</span>
+                  </a>
+                  <a
+                    href={`tel:${STUDIO_INFO.phoneClean}`}
+                    className="inline-flex items-center gap-1.5 hover:text-[#181614] font-medium bg-white/80 px-2.5 py-1.5 rounded-md border border-[#E0D5C5] whitespace-nowrap"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#C28E46] shrink-0" />
+                    <span>011-2283254</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Key Highlights Grid */}
+              <div className="animate-fade-slide-up-delay-2 pt-6 border-t border-[#EAE3D6] grid grid-cols-3 gap-2 sm:gap-4 w-full">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                  <Ruler className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Custom Fit</h4>
+                    <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Fits your body perfectly</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                  <Sparkles className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Ladies & Kids</h4>
+                    <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Every age, every style</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                  <ShieldCheck className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Neat Finish</h4>
+                    <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Clean, premium stitching</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Key Highlights Grid */}
-            <div className="animate-fade-slide-up-delay-2 pt-6 border-t border-[#EAE3D6] grid grid-cols-3 gap-2 sm:gap-4 w-full">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
-                <Ruler className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Custom Fit</h4>
-                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Fits your body perfectly</p>
+            {/* Studio Info Card — pinned to the bottom of this column by the
+                parent's justify-between. Fills the vertical space that used
+                to sit empty next to the bottom of the hero photo on desktop,
+                with genuinely useful info (real address + hours from
+                STUDIO_INFO, plus a directions link) rather than decorative
+                filler. Only appears "extra" on desktop where the column has
+                spare height; on mobile it simply sits after the highlights
+                as the next natural block. */}
+            <div className="animate-fade-slide-up-delay-2 w-full mt-8 lg:mt-6">
+              <div className="rounded-2xl bg-[#181614] text-[#FAF8F5] border border-white/10 shadow-md p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <div className="flex items-start gap-3 text-left flex-1 min-w-0">
+                  <MapPin className="w-5 h-5 text-[#C28E46] shrink-0 mt-0.5" />
+                  <div className="min-w-0">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#C28E46] font-semibold block mb-1">
+                      Visit The Studio
+                    </span>
+                    <p className="text-sm text-[#EAE3D6] leading-snug">
+                      {STUDIO_INFO.address}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
-                <Sparkles className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Ladies & Kids</h4>
-                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Every age, every style</p>
-                </div>
-              </div>
+                <div className="hidden sm:block w-px self-stretch bg-white/10 shrink-0" />
 
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-2.5 text-center sm:text-left">
-                <ShieldCheck className="w-4 h-4 text-[#C28E46] shrink-0 sm:mt-0.5" />
-                <div>
-                  <h4 className="text-xs font-semibold text-[#181614] uppercase tracking-wider font-mono whitespace-nowrap">Neat Finish</h4>
-                  <p className="text-[11px] sm:text-xs text-[#70665A] leading-tight">Clean, premium stitching</p>
+                <div className="flex items-center gap-4 sm:gap-5 shrink-0 w-full sm:w-auto justify-between sm:justify-start">
+                  <div className="text-xs text-[#A89E92] font-mono leading-relaxed text-left">
+                    <span className="block">Mon – Sat: 08:30 – 17:30</span>
+                    <span className="block">Sunday: 09:30 – 17:30</span>
+                  </div>
+
+                  <a
+                    href={STUDIO_INFO.mapsDirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] text-xs font-semibold whitespace-nowrap transition-colors shrink-0"
+                  >
+                    <span>Get Directions</span>
+                    <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                  </a>
                 </div>
               </div>
             </div>
