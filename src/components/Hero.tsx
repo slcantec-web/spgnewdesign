@@ -32,7 +32,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <div className="absolute inset-0 pointer-events-none opacity-[0.035] bg-[radial-gradient(#181614_1px,transparent_1px)] [background-size:24px_24px]" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+        {/* items-start on desktop: the left (text) column is naturally
+            shorter than the right (image) column, so items-center was
+            vertically centering it and leaving a visible gap above the
+            headline. items-start pins both columns to the same top edge
+            instead. Mobile stacks into a single column, where align-items
+            only affects horizontal centering, so this has no effect there. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center lg:items-start">
 
           {/*
             Right Column: photo showcase.
@@ -99,13 +105,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           {/* Left Column: Headline, Narrative & Actions */}
           <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
             
-            {/* Atelier Badge */}
-            <div className="animate-fade-slide-up inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F4EFEA] border border-[#E2D9CC] text-[#70665A] text-xs font-mono tracking-wider uppercase mb-5 shadow-xs whitespace-nowrap mx-auto sm:mx-0">
-              <span className="w-2 h-2 rounded-full bg-[#C28E46] animate-pulse shrink-0" />
-              <span className="hidden sm:inline">Horampalla, Minuwangoda · Western Province, LK</span>
-              <span className="sm:hidden">Horampalla, Minuwangoda</span>
-            </div>
-
             {/* Main Editorial Headline — centered on mobile */}
             <h1 className="animate-fade-slide-up-delay-1 font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[#181614] leading-[1.25] mb-4 text-center sm:text-left">
               Ladies & Kids Wear,<br className="hidden sm:inline" />{' '}
