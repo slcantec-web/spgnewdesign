@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://spg-web.pages.dev/sitemap.xml
+Sitemap: https://spgarment.cc.cd/sitemap.xml
