@@ -212,27 +212,35 @@ export const GallerySection: React.FC = () => {
                 <ChevronRight className="w-6 h-6" />
               </button>
 
-              {/* Modal Container — my-auto lets the backdrop's own scroll
-                  handle very short viewports instead of clipping content,
-                  matching the pattern already used in AdminModal. */}
+              {/* Modal Container — fixed height (h-[85vh], capped so it never
+                  gets absurdly tall on big desktop screens) instead of
+                  sizing itself off the image's intrinsic aspect ratio.
+                  Previously the box grew/shrank on every photo (portrait
+                  vs. landscape), causing a visible resize + re-center each
+                  time you clicked next/prev. Now the box is constant and
+                  only the image scales to fit inside it. my-auto still lets
+                  the backdrop's own scroll handle very short viewports. */}
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-4xl my-auto bg-[#181614] border border-white/15 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+                className="relative w-full max-w-4xl my-auto bg-[#181614] border border-white/15 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row h-[85vh] max-h-[640px]"
               >
-                {/* Image side */}
-                <div className="md:w-3/5 bg-black flex items-center justify-center overflow-hidden shrink-0">
+                {/* Image side — fixed-height container; the image just fits
+                    inside it via object-contain rather than dictating the
+                    container's own size. */}
+                <div className="md:w-3/5 h-[42%] md:h-full bg-black flex items-center justify-center overflow-hidden shrink-0">
                   <img
                     src={lightboxImg.src}
                     srcSet={lightboxImg.srcSet}
                     sizes={lightboxImg.sizes}
                     alt={selectedPhoto.title}
-                    className="max-h-[40vh] md:max-h-[80vh] w-full object-contain"
+                    className="max-h-full max-w-full w-auto h-auto object-contain"
                     decoding="async"
                   />
                 </div>
 
                 {/* Info side — its own scroll region so a long caption never
-                    forces the whole modal past max-h-[90vh]. */}
+                    forces the whole modal to resize; it scrolls internally
+                    within the fixed-height box instead. */}
                 <div className="md:w-2/5 p-6 flex flex-col justify-between text-white bg-[#201D1A] overflow-y-auto">
                   <div>
                     <div className="flex items-center gap-2 mb-2.5">
