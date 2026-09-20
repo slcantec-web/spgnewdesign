@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Eye, X, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_PHOTOS, STUDIO_INFO } from '../data/tailoringData';
 import { GalleryPhoto } from '../types';
@@ -146,117 +147,143 @@ export const GallerySection: React.FC = () => {
 
       </div>
 
-      {/* Lightbox Modal — fixed + blurred, but only while open (not during page scroll), so this is fine perf-wise */}
-      {selectedPhoto && (() => {
-        const lightboxImg = buildResponsiveImage(
-          getImage(selectedPhoto.id, selectedPhoto.url),
-          [480, 720, 960],
-          '(min-width: 768px) 60vw, 100vw'
-        );
-        return (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
-        >
-          {/* Close button */}
-          <button
-            type="button"
-            onClick={() => setSelectedPhoto(null)}
-            className="absolute top-4 right-4 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Close lightbox"
-          >
-            <X className="w-6 h-6" />
-          </button>
+      {/*
+        Lightbox Modal — rendered via a React portal directly into
+        document.body.
 
-          {/* Navigation buttons */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Previous photo"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
+        WHY THE PORTAL IS NECESSARY:
+        This <section> carries the `.cv-auto` class, which sets
+        `content-visibility: auto`. That property implicitly applies CSS
+        containment (`contain: layout paint` and friends) to the section.
+        Per the CSS spec, any ancestor with layout/paint containment becomes
+        the *containing block* for `position: fixed` descendants — so a
+        `fixed inset-0` modal nested inside this section is no longer fixed
+        to the viewport, it's fixed to the (very tall) section box instead.
+        That's exactly why the old inline lightbox wasn't centering and
+        required scrolling the page to reach the close button on both PC
+        and mobile: it was being positioned relative to the whole gallery
+        section, not the screen.
 
-          <button
-            type="button"
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Next photo"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+        Portaling the modal out to document.body removes it from that
+        containment context entirely, so `fixed inset-0` centers on the
+        real viewport again, regardless of where in the page the trigger
+        tile lives.
+      */}
+      {selectedPhoto && createPortal(
+        (() => {
+          const lightboxImg = buildResponsiveImage(
+            getImage(selectedPhoto.id, selectedPhoto.url),
+            [480, 720, 960],
+            '(min-width: 768px) 60vw, 100vw'
+          );
+          return (
+            <div
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setSelectedPhoto(null)}
+              className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+            >
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setSelectedPhoto(null)}
+                className="absolute top-4 right-4 z-[60] w-11 h-11 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close lightbox"
+              >
+                <X className="w-6 h-6" />
+              </button>
 
-          {/* Modal Container */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative max-w-4xl w-full bg-[#181614] border border-white/15 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
-          >
-            {/* Image side */}
-            <div className="md:w-3/5 bg-black flex items-center justify-center overflow-hidden">
-              <img
-                src={lightboxImg.src}
-                srcSet={lightboxImg.srcSet}
-                sizes={lightboxImg.sizes}
-                alt={selectedPhoto.title}
-                className="max-h-[55vh] md:max-h-[80vh] w-full object-contain"
-                decoding="async"
-              />
-            </div>
+              {/* Navigation buttons */}
+              <button
+                type="button"
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-[60] w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Previous photo"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
 
-            {/* Info side */}
-            <div className="md:w-2/5 p-6 flex flex-col justify-between text-white bg-[#201D1A]">
-              <div>
-                <div className="flex items-center gap-2 mb-2.5">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#C28E46]/20 text-[#C28E46] text-[10px] font-mono uppercase tracking-wider">
-                    {selectedPhoto.categoryName}
-                  </span>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-[60] w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Next photo"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              {/* Modal Container — my-auto lets the backdrop's own scroll
+                  handle very short viewports instead of clipping content,
+                  matching the pattern already used in AdminModal. */}
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-4xl my-auto bg-[#181614] border border-white/15 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+              >
+                {/* Image side */}
+                <div className="md:w-3/5 bg-black flex items-center justify-center overflow-hidden shrink-0">
+                  <img
+                    src={lightboxImg.src}
+                    srcSet={lightboxImg.srcSet}
+                    sizes={lightboxImg.sizes}
+                    alt={selectedPhoto.title}
+                    className="max-h-[40vh] md:max-h-[80vh] w-full object-contain"
+                    decoding="async"
+                  />
                 </div>
 
-                <h3 className="font-serif text-2xl font-bold text-[#FAF8F5] mb-2 leading-snug">
-                  {selectedPhoto.title}
-                </h3>
+                {/* Info side — its own scroll region so a long caption never
+                    forces the whole modal past max-h-[90vh]. */}
+                <div className="md:w-2/5 p-6 flex flex-col justify-between text-white bg-[#201D1A] overflow-y-auto">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#C28E46]/20 text-[#C28E46] text-[10px] font-mono uppercase tracking-wider">
+                        {selectedPhoto.categoryName}
+                      </span>
+                    </div>
 
-                <p className="text-xs sm:text-sm text-[#C4B9AC] leading-relaxed mb-5 font-light">
-                  {selectedPhoto.caption}
-                </p>
+                    <h3 className="font-serif text-2xl font-bold text-[#FAF8F5] mb-2 leading-snug">
+                      {selectedPhoto.title}
+                    </h3>
 
-                <div className="p-3.5 rounded-lg bg-[#2B2723] border border-white/10 mb-5">
-                  <span className="font-mono text-[10px] text-[#A89E92] uppercase tracking-wider block mb-1">
-                    Featured Fabric / Finishing:
-                  </span>
-                  <p className="text-xs font-medium text-[#FAF8F5]">
-                    {selectedPhoto.fabricType}
-                  </p>
+                    <p className="text-xs sm:text-sm text-[#C4B9AC] leading-relaxed mb-5 font-light">
+                      {selectedPhoto.caption}
+                    </p>
+
+                    <div className="p-3.5 rounded-lg bg-[#2B2723] border border-white/10 mb-5">
+                      <span className="font-mono text-[10px] text-[#A89E92] uppercase tracking-wider block mb-1">
+                        Featured Fabric / Finishing:
+                      </span>
+                      <p className="text-xs font-medium text-[#FAF8F5]">
+                        {selectedPhoto.fabricType}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
+                    <a
+                      href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
+                        `Hello S.P. Garment, I saw the "${selectedPhoto.title}" design in your gallery. I'd like to know more about getting a similar garment tailored.`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shadow-sm"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#181614]" />
+                      <span>Ask About This Design on WhatsApp</span>
+                    </a>
+
+                    <div className="text-center text-[11px] text-[#8C8275] space-y-0.5">
+                      <div>S.P. Garment · Horampalla, Minuwangoda</div>
+                      <div>Phone: 077-8778317 / 011-2283254</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
-                <a
-                  href={`https://wa.me/${STUDIO_INFO.whatsappRaw}?text=${encodeURIComponent(
-                    `Hello S.P. Garment, I saw the "${selectedPhoto.title}" design in your gallery. I'd like to know more about getting a similar garment tailored.`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#C28E46] hover:bg-[#D4A362] text-[#181614] font-semibold text-xs transition-colors shadow-sm"
-                >
-                  <MessageCircle className="w-4 h-4 text-[#181614]" />
-                  <span>Ask About This Design on WhatsApp</span>
-                </a>
-
-                <div className="text-center text-[11px] text-[#8C8275] space-y-0.5">
-                  <div>S.P. Garment · Horampalla, Minuwangoda</div>
-                  <div>Phone: 077-8778317 / 011-2283254</div>
-                </div>
-              </div>
-
             </div>
-          </div>
-        </div>
-        );
-      })()}
+          );
+        })(),
+        document.body
+      )}
     </section>
   );
 };
