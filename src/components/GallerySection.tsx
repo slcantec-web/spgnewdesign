@@ -193,23 +193,27 @@ export const GallerySection: React.FC = () => {
                 <X className="w-6 h-6" />
               </button>
 
-              {/* Navigation buttons */}
+              {/* Navigation buttons — visible on all screen sizes now (was
+                  hidden on mobile via `hidden sm:flex`, which is why
+                  forward/back didn't appear in the mobile browser even
+                  though it worked on PC). Slightly smaller on mobile so
+                  they don't crowd the narrower screen. */}
               <button
                 type="button"
                 onClick={handlePrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-[60] w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-[60] w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Previous photo"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
 
               <button
                 type="button"
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-[60] w-10 h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] hidden sm:flex items-center justify-center transition-colors cursor-pointer"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-[60] w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-[#C28E46] text-white hover:text-[#181614] flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Next photo"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
 
               {/* Modal Container — fixed height (h-[85vh], capped so it never
